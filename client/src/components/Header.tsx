@@ -9,6 +9,7 @@ export default function Header() {
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Portfolio", href: "/portfolio" },
+    { label: "Certificates", href: "/certificates" },
     { label: "Blog", href: "/blog" },
     { label: "Write", href: "/write-blog" },
     { label: "Agreement", href: "/customer-agreement" },
