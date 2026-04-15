@@ -46,10 +46,10 @@ export default function About() {
   ];
 
   const stats = [
-    { number: "150+", label: "Projects Completed" },
-    { number: "50+", label: "Happy Clients" },
+    { number: "2,200+", label: "Happy Clients Worldwide" },
+    { number: "2,140", label: "Satisfied & Analyzed Clients" },
     { number: "5+", label: "Years Experience" },
-    { number: "98%", label: "Client Satisfaction" },
+    { number: "98%", label: "Client Retention Rate" },
   ];
 
   const expertise = [
