@@ -9,7 +9,7 @@ export default function Header() {
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Blog", href: "/blog" },
-    { label: "Pay", href: "/payment-confirmation" },
+    { label: "Agreement", href: "/customer-agreement" },
     { label: "Contact", href: "/contact" },
   ];
 

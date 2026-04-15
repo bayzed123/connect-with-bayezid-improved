@@ -16,7 +16,7 @@ import WriteBlog from "./pages/WriteBlog";
 import About from "./pages/About";
 import LatestNews from "./pages/LatestNews";
 import CustomerAgreement from "./pages/CustomerAgreement";
-import PaymentConfirmation from "./pages/PaymentConfirmation";
+
 
 
 function Router() {
@@ -34,7 +34,6 @@ function Router() {
       <Route path={"/write-blog"} component={WriteBlog} />
       <Route path={"/latest-news"} component={LatestNews} />
       <Route path={"/customer-agreement"} component={CustomerAgreement} />
-      <Route path={"/payment-confirmation"} component={PaymentConfirmation} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
