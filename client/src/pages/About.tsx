@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "wouter";
-import { ChevronRight, Award, Target, Users, Zap, Shield, BookOpen } from "lucide-react";
+import { ChevronRight, Award, Target, Users, Zap, Shield, BookOpen, FileText, CheckCircle, ArrowRight } from "lucide-react";
 
 /**
  * Design Philosophy: About Us Page
@@ -46,10 +46,38 @@ export default function About() {
   ];
 
   const stats = [
-    { number: "2022", label: "Founded" },
-    { number: "100+", label: "Satisfied Clients" },
-    { number: "50+", label: "Successful Projects" },
-    { number: "24/7", label: "Support Available" },
+    { number: "150+", label: "Projects Completed" },
+    { number: "50+", label: "Happy Clients" },
+    { number: "5+", label: "Years Experience" },
+    { number: "98%", label: "Client Satisfaction" },
+  ];
+
+  const expertise = [
+    "SEO Specialist",
+    "Content Strategy",
+    "Social Media",
+    "Tech Support",
+    "Asset Management",
+    "Content Creation",
+  ];
+
+  const latestArticles = [
+    {
+      title: "Facebook Account Suspensions 2026: Root Causes & Legal Solutions",
+      icon: "📄",
+    },
+    {
+      title: "Facebook Unlock Code Explained: How to Get Back Your Account",
+      icon: "🔓",
+    },
+    {
+      title: "Digital Marketing 2026: When Data Saturates Humanity",
+      icon: "📊",
+    },
+    {
+      title: "Securing Digital Frontier: Vision & Mission as Meta Tech Provider",
+      icon: "🛡️",
+    },
   ];
 
   return (
@@ -70,73 +98,133 @@ export default function About() {
           {/* Hero Section */}
           <div className="mb-16">
             <h1 className="text-5xl md:text-6xl font-bold text-white mb-6">About Connect With Bayezid</h1>
-            <p className="text-xl text-slate-300 max-w-3xl">
-              Your Digital Growth Partner - A leading digital agency and technical consultancy based in Bangladesh, dedicated to solving complex technical issues and driving digital transformation.
-            </p>
+            <div className="space-y-4">
+              <p className="text-xl text-slate-300 max-w-3xl">
+                <strong className="text-indigo-300">Your Digital Growth Partner</strong>
+              </p>
+              <p className="text-lg text-slate-300 max-w-3xl leading-relaxed">
+                Connect With Bayezid is a leading digital agency and technical consultancy based in Bangladesh. We specialize in Digital Marketing, SEO, Content Strategy, and Social Media Management. As a verified Tech Provider, we're dedicated to solving complex technical issues within the Meta ecosystem through policy-following and transparent practices.
+              </p>
+            </div>
+          </div>
+
+          {/* Core Principles */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 flex items-start gap-4">
+              <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="font-bold text-white mb-2">Policy-following & Privacy-respecting</h3>
+                <p className="text-slate-400 text-sm">Strict adherence to all platform policies and regulations</p>
+              </div>
+            </div>
+            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 flex items-start gap-4">
+              <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="font-bold text-white mb-2">Permission-based Technical Solutions</h3>
+                <p className="text-slate-400 text-sm">Transparent and authorized technical support</p>
+              </div>
+            </div>
+            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 flex items-start gap-4">
+              <CheckCircle className="w-6 h-6 text-green-400 flex-shrink-0 mt-1" />
+              <div>
+                <h3 className="font-bold text-white mb-2">Educational Content & Tech Tips</h3>
+                <p className="text-slate-400 text-sm">Empowering users with knowledge and expertise</p>
+              </div>
+            </div>
           </div>
 
           {/* Stats Section */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16">
             {stats.map((stat, idx) => (
-              <div key={idx} className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 text-center">
+              <div key={idx} className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 text-center hover:border-indigo-500/50 transition-all">
                 <div className="text-3xl md:text-4xl font-bold text-indigo-400 mb-2">{stat.number}</div>
-                <div className="text-slate-300">{stat.label}</div>
+                <div className="text-slate-300 text-sm">{stat.label}</div>
               </div>
             ))}
           </div>
 
-          {/* Company Story Section */}
-          <div className="mb-16">
-            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 md:p-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Our Story</h2>
-              <div className="space-y-6 text-slate-300 leading-relaxed">
-                <p>
-                  <strong className="text-white">Connect With Bayezid</strong> is a leading digital agency and technical consultancy based in Bangladesh, founded and led by Sayad Md Bayezid Hosan. We specialize in Digital Marketing, SEO, Content Strategy, and Social Media Management, providing comprehensive solutions for businesses in the digital landscape.
-                </p>
-                <p>
-                  As a verified Tech Provider, we're dedicated to solving complex technical issues within the Meta ecosystem through policy-following and transparent practices. We provide permission-based technical support and business asset management, ensuring the highest standards of privacy and security for our clients.
-                </p>
-                <p>
-                  Founded in <strong className="text-white">January 2022</strong>, we've built a reputation for professional integrity and original production, bridging the gap between technical innovation and digital growth while empowering users with expert tech tips and educational content.
-                </p>
-              </div>
-            </div>
-          </div>
-
-          {/* Founder Section */}
+          {/* Meet the Founder Section */}
           <div className="mb-16">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               {/* Founder Image Placeholder */}
-              <div className="bg-gradient-to-br from-indigo-500/20 to-purple-600/20 rounded-2xl h-96 flex items-center justify-center border border-white/10">
+              <div className="bg-gradient-to-br from-indigo-500/20 to-purple-600/20 rounded-2xl h-96 flex items-center justify-center border border-white/10 order-2 md:order-1">
                 <div className="text-center">
                   <div className="w-32 h-32 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-4 shadow-lg">
                     <span className="text-5xl font-bold text-white">B</span>
                   </div>
-                  <p className="text-slate-300 text-sm">Sayad Md Bayezid Hosan</p>
+                  <p className="text-slate-300 text-sm font-semibold">Sayad Md Bayezid Hosan</p>
+                  <p className="text-slate-400 text-xs mt-2">Tech Provider | Digital Marketing Specialist | Content Creator</p>
                 </div>
               </div>
 
               {/* Founder Info */}
-              <div>
-                <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Meet Our Founder</h2>
-                <div className="space-y-6 text-slate-300 leading-relaxed">
-                  <p>
-                    <strong className="text-white">Sayad Md Bayezid Hosan</strong> is a Tech Provider and digital content creator based in Bangladesh. He is currently a final-year undergraduate student in the Department of English at <strong className="text-white">Northern University Bangladesh</strong> (Expected Graduation: June 2026).
+              <div className="order-1 md:order-2">
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Meet the Founder</h2>
+
+                {/* Professional Background */}
+                <div className="mb-8">
+                  <h3 className="text-xl font-bold text-indigo-300 mb-3">Professional Background</h3>
+                  <p className="text-slate-300 leading-relaxed">
+                    Tech Provider and digital content creator specializing in Meta ecosystem technical solutions. Final-year undergraduate student in English at <strong className="text-white">Northern University Bangladesh</strong> (Expected Graduation: June 2026).
                   </p>
-                  <p>
-                    As a professional within the Meta ecosystem, Bayezid operates as a Technical Expert with a core focus on being policy-following, privacy-respecting, and transparent. He specializes in providing permission-based technical solutions and managing digital business assets with high integrity.
-                  </p>
-                  <p>
-                    In addition to his technical services, he is a dedicated freelancer and content creator who produces educational videos on tech tips and tricks. His goal is to help his audience navigate digital platforms safely and efficiently by combining his academic background with practical technical expertise.
-                  </p>
-                  <div className="pt-4">
-                    <a href="https://www.linkedin.com/in/sayadbayezid" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-indigo-500/50 transition-all hover:scale-105">
-                      Connect on LinkedIn
-                    </a>
+                </div>
+
+                {/* Legal Details */}
+                <div className="mb-8 p-4 bg-white/5 border border-white/10 rounded-lg">
+                  <h3 className="text-lg font-bold text-white mb-3">Legal Details</h3>
+                  <ul className="space-y-2 text-slate-300 text-sm">
+                    <li><strong className="text-white">Legal Name:</strong> Sayad Md Bayezid Hosan</li>
+                    <li><strong className="text-white">Operating Status:</strong> <span className="text-green-400">Active</span></li>
+                    <li><strong className="text-white">Founded by:</strong> Sayad Md Bayezid Hosan</li>
+                  </ul>
+                </div>
+
+                {/* Core Values */}
+                <div className="mb-8">
+                  <h3 className="text-lg font-bold text-white mb-3">Core Values</h3>
+                  <ul className="space-y-2 text-slate-300 text-sm">
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      Policy-following & compliant
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      Privacy-respecting practices
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      Transparent operations
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-green-400" />
+                      High integrity standards
+                    </li>
+                  </ul>
+                </div>
+
+                {/* Expertise */}
+                <div>
+                  <h3 className="text-lg font-bold text-white mb-3">Expertise</h3>
+                  <div className="flex flex-wrap gap-2">
+                    {expertise.map((skill, idx) => (
+                      <span key={idx} className="px-3 py-1 bg-indigo-500/20 text-indigo-300 text-xs font-semibold rounded-full">
+                        {skill}
+                      </span>
+                    ))}
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+
+          {/* Founder Quote */}
+          <div className="bg-gradient-to-r from-indigo-500/10 to-purple-600/10 border border-indigo-500/30 rounded-2xl p-8 md:p-12 mb-16">
+            <blockquote className="text-center">
+              <p className="text-2xl md:text-3xl font-bold text-white mb-4 italic">
+                "My goal is to help individuals and businesses navigate digital platforms safely and efficiently by combining academic knowledge with practical technical expertise."
+              </p>
+              <p className="text-indigo-300 font-semibold">— Bayezid Hosan</p>
+            </blockquote>
           </div>
 
           {/* Services Section */}
@@ -160,74 +248,44 @@ export default function About() {
             </div>
           </div>
 
-          {/* Core Values Section */}
+          {/* Latest Articles Section */}
           <div className="mb-16">
-            <div className="bg-gradient-to-r from-indigo-500/10 to-purple-600/10 border border-indigo-500/20 rounded-2xl p-8 md:p-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-8">Our Core Values</h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div>
-                  <h3 className="text-xl font-bold text-indigo-300 mb-3">🔒 Privacy & Security</h3>
-                  <p className="text-slate-300">We prioritize the privacy and security of our clients' data with the highest standards of protection and integrity.</p>
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-indigo-300 mb-3">✅ Policy-Following</h3>
-                  <p className="text-slate-300">We strictly adhere to all platform policies and regulations, ensuring transparent and compliant operations.</p>
-                </div>
-                <div>
-                  <h3 className="text-xl font-bold text-indigo-300 mb-3">🤝 Transparency</h3>
-                  <p className="text-slate-300">We believe in open communication and honest practices in all our business relationships and operations.</p>
-                </div>
-              </div>
-            </div>
-          </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Latest Articles</h2>
+            <p className="text-slate-300 mb-8">Educational content and insights from our blog</p>
 
-          {/* Why Choose Us Section */}
-          <div className="mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-12">Why Choose Us?</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div className="flex gap-4">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center flex-shrink-0">
-                  <span className="text-xl font-bold text-white">✓</span>
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-2">Verified Tech Provider</h3>
-                  <p className="text-slate-300">Officially recognized within the Meta ecosystem for technical expertise and policy compliance.</p>
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center flex-shrink-0">
-                  <span className="text-xl font-bold text-white">✓</span>
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-2">Expert Team</h3>
-                  <p className="text-slate-300">Experienced professionals with deep knowledge in digital marketing, SEO, and technical solutions.</p>
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center flex-shrink-0">
-                  <span className="text-xl font-bold text-white">✓</span>
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-2">Proven Results</h3>
-                  <p className="text-slate-300">Consistent track record of delivering measurable business growth and digital transformation.</p>
-                </div>
-              </div>
-              <div className="flex gap-4">
-                <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center flex-shrink-0">
-                  <span className="text-xl font-bold text-white">✓</span>
-                </div>
-                <div>
-                  <h3 className="text-lg font-bold text-white mb-2">24/7 Support</h3>
-                  <p className="text-slate-300">Dedicated support team available round-the-clock to assist with your digital needs.</p>
-                </div>
-              </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {latestArticles.map((article, idx) => (
+                <Link key={idx} href="/blog" className="group">
+                  <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6 hover:border-indigo-500/50 transition-all hover:shadow-xl hover:shadow-indigo-500/20 h-full">
+                    <div className="flex items-start gap-4">
+                      <span className="text-3xl flex-shrink-0">{article.icon}</span>
+                      <div className="flex-1">
+                        <h3 className="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors line-clamp-2">
+                          {article.title}
+                        </h3>
+                        <div className="mt-4 flex items-center gap-2 text-indigo-400 group-hover:text-indigo-300 transition-colors">
+                          <span className="text-sm font-semibold">Read Article</span>
+                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+
+            <div className="text-center mt-8">
+              <Link href="/blog" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-indigo-500/50 transition-all hover:scale-105">
+                View All Articles
+                <ArrowRight className="w-5 h-5" />
+              </Link>
             </div>
           </div>
 
           {/* CTA Section */}
           <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 md:p-12 text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Ready to Grow Your Digital Presence?</h2>
-            <p className="text-indigo-100 mb-8 text-lg">Let's work together to bring your vision to life and achieve your business goals.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Get In Touch</h2>
+            <p className="text-indigo-100 mb-8 text-lg">Let's Work Together - Ready to take your digital presence to the next level? Reach out and let's discuss your project.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/contact" className="px-8 py-4 bg-white text-indigo-600 font-bold rounded-xl hover:bg-slate-100 transition-all hover:scale-105 text-center">
                 Get In Touch
