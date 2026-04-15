@@ -316,6 +316,66 @@ export default function Portfolio() {
           </div>
         </section>
 
+        {/* Professional Headshot Section */}
+        <section className="w-full px-4 py-16 md:py-24 bg-white/5 backdrop-blur-sm">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              {/* Content */}
+              <div className="space-y-6 order-2 md:order-1">
+                <div>
+                  <h2 className="text-4xl font-bold text-white mb-4">Professional Excellence</h2>
+                  <p className="text-lg text-slate-300 leading-relaxed">
+                    With a commitment to delivering exceptional results, I bring professionalism, integrity, and expertise to every project. My approach combines strategic thinking with hands-on execution to ensure your digital success.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex gap-4">
+                    <CheckCircle className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-white font-bold mb-1">Client-Centric Approach</h3>
+                      <p className="text-slate-300 text-sm">Your success is my priority. I work closely with clients to understand their goals and deliver tailored solutions.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <CheckCircle className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-white font-bold mb-1">Continuous Learning</h3>
+                      <p className="text-slate-300 text-sm">Staying updated with the latest trends and technologies to provide cutting-edge solutions.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <CheckCircle className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-white font-bold mb-1">Transparent Communication</h3>
+                      <p className="text-slate-300 text-sm">Clear, honest communication throughout the entire project lifecycle for complete transparency.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <CheckCircle className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-white font-bold mb-1">Results-Driven</h3>
+                      <p className="text-slate-300 text-sm">Focused on delivering measurable results that directly impact your business growth and ROI.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Professional Headshot */}
+              <div className="flex justify-center order-1 md:order-2">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl blur-2xl opacity-30" />
+                  <img
+                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663557681386/8DCdz46vKMnJXpqVqTsHd3/IMG_1078_4329269e.PNG"
+                    alt="Sayad Md Bayezid Hosan - Professional Headshot"
+                    className="relative w-full max-w-md rounded-2xl shadow-2xl object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Education Section */}
         <section className="w-full px-4 py-16 md:py-24">
           <div className="max-w-6xl mx-auto">
@@ -367,6 +427,66 @@ export default function Portfolio() {
                         Dedicated support and ongoing optimization for client success
                       </li>
                     </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Working Style Section */}
+        <section className="w-full px-4 py-16 md:py-24 bg-gradient-to-b from-transparent via-indigo-500/10 to-transparent">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              {/* Lifestyle Image */}
+              <div className="flex justify-center">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl blur-2xl opacity-30" />
+                  <img
+                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663557681386/8DCdz46vKMnJXpqVqTsHd3/IMG_1083_3995bfc6.PNG"
+                    alt="Working at a cafe - Creative workspace"
+                    className="relative w-full rounded-2xl shadow-2xl object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-4xl font-bold text-white mb-4">Work Style & Approach</h2>
+                  <p className="text-lg text-slate-300 leading-relaxed">
+                    I believe in flexible, creative work environments that foster innovation and productivity. Whether working from a modern office or a collaborative café, my focus remains on delivering exceptional results for every client.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex gap-4">
+                    <CheckCircle className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-white font-bold mb-1">Flexible & Adaptive</h3>
+                      <p className="text-slate-300 text-sm">Comfortable working across different environments and time zones to meet your project needs.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <CheckCircle className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-white font-bold mb-1">Creative Problem Solving</h3>
+                      <p className="text-slate-300 text-sm">Approaching challenges with fresh perspectives and innovative solutions that drive results.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <CheckCircle className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-white font-bold mb-1">Focused Execution</h3>
+                      <p className="text-slate-300 text-sm">Maintaining high productivity and attention to detail regardless of the work environment.</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <CheckCircle className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-white font-bold mb-1">Always Connected</h3>
+                      <p className="text-slate-300 text-sm">Staying responsive and available to support your project success at all times.</p>
+                    </div>
                   </div>
                 </div>
               </div>
