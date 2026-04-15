@@ -146,15 +146,9 @@ export default function About() {
           {/* Meet the Founder Section */}
           <div className="mb-16">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              {/* Founder Image Placeholder */}
-              <div className="bg-gradient-to-br from-indigo-500/20 to-purple-600/20 rounded-2xl h-96 flex items-center justify-center border border-white/10 order-2 md:order-1">
-                <div className="text-center">
-                  <div className="w-32 h-32 rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center mx-auto mb-4 shadow-lg">
-                    <span className="text-5xl font-bold text-white">B</span>
-                  </div>
-                  <p className="text-slate-300 text-sm font-semibold">Sayad Md Bayezid Hosan</p>
-                  <p className="text-slate-400 text-xs mt-2">Tech Provider | Digital Marketing Specialist | Content Creator</p>
-                </div>
+              {/* Founder Image */}
+              <div className="rounded-2xl overflow-hidden border border-white/10 order-2 md:order-1 shadow-2xl shadow-indigo-500/20">
+                <img src="https://drive.google.com/thumbnail?id=1eNVO8plAN-FW3fxGgG2hVfttb4DSdbfo&sz=w1000" alt="Sayad Md Bayezid Hosan" className="w-full h-full object-cover" />
               </div>
 
               {/* Founder Info */}
