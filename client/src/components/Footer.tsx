@@ -175,7 +175,7 @@ export default function Footer() {
               © {currentYear} Connect With Bayezid. All rights reserved.
             </p>
             <p className="text-slate-500 text-xs">
-              Designed & Developed with ❤️ for Digital Excellence
+              Concept & Development by Sayad Md Bayezid Hosan
             </p>
           </div>
         </div>
