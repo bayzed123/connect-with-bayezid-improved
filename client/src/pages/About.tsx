@@ -148,7 +148,7 @@ export default function About() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
               {/* Founder Image */}
               <div className="rounded-2xl overflow-hidden border border-white/10 order-2 md:order-1 shadow-2xl shadow-indigo-500/20">
-                <img src="https://drive.google.com/thumbnail?id=1eNVO8plAN-FW3fxGgG2hVfttb4DSdbfo&sz=w1000" alt="Sayad Md Bayezid Hosan" className="w-full h-full object-cover" />
+                <img src="https://drive.google.com/thumbnail?id=1RORP6FbYtWUjtw6QmA0TMKmsPwqEZnq2&sz=w1000" alt="Sayad Md Bayezid Hosan" className="w-full h-full object-cover" />
               </div>
 
               {/* Founder Info */}
