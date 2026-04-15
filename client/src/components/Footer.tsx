@@ -83,6 +83,11 @@ export default function Footer() {
                   Customer Agreement
                 </Link>
               </li>
+              <li>
+                <Link href="/payment-confirmation" className="text-slate-400 hover:text-white transition-colors text-sm">
+                  Payment Confirmation
+                </Link>
+              </li>
             </ul>
           </div>
 
