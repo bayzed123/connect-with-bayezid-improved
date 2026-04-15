@@ -79,6 +79,24 @@ export default function Home() {
       rating: 5,
       link: "https://www.facebook.com/share/1FzcGtKvag/?mibextid=wwXIfr",
     },
+    {
+      name: "Ariful",
+      feedback: "I'm getting excellent results from Facebook ad campaigns, and all the credit goes to Freelancer Bayezid's service. There's great consistency between what he says and what he delivers. Very friendly and supportive at every step!",
+      rating: 5,
+      link: "https://www.facebook.com/share/183BLLHRVP/?mibextid=wwXIfr",
+    },
+    {
+      name: "Coy Pixy",
+      feedback: "He is very professional and his attention to detail is amazing. The work was much better than I expected. He helped with design, post writing, page boost, etc. very efficiently. Always answered my questions and gave suggestions when needed.",
+      rating: 5,
+      link: "https://www.facebook.com/share/17uU7Gk3RQ/?mibextid=wwXIfr",
+    },
+    {
+      name: "Elias Mizi",
+      feedback: "After my ID was locked for 18 days, I couldn't recover it. With Bayezid bhai's skill, patience, and by following Facebook's guidelines, he fully assisted me in recovering my lost account. I'm truly grateful!",
+      rating: 5,
+      link: "https://www.facebook.com/share/1BpjBSmS51/?mibextid=wwXIfr",
+    },
   ];
 
   return (
