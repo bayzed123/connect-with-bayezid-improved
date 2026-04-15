@@ -5,6 +5,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const facebookServicePage = "https://www.facebook.com/share/1GYmMYYNXz/?mibextid=wwXIfr";
+  const genzFrontierLink = "https://www.genzfrontir.com";
 
   const socialLinks = [
     { icon: Facebook, href: "https://www.facebook.com/share/18GdrYu3LG/?mibextid=wwXIfr", label: "Facebook" },
@@ -98,6 +99,11 @@ export default function Footer() {
               <li>
                 <a href={facebookServicePage} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors text-sm">
                   Facebook Service Page
+                </a>
+              </li>
+              <li>
+                <a href={genzFrontierLink} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors text-sm">
+                  GenZ Frontier News
                 </a>
               </li>
 

@@ -251,6 +251,9 @@ export default function Home() {
               <a href="https://www.facebook.com/share/1GYmMYYNXz/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="px-8 py-4 border border-blue-500/30 text-white font-bold rounded-xl hover:bg-blue-500/10 transition-all">
                 Visit Facebook Page
               </a>
+              <a href="https://www.genzfrontir.com" target="_blank" rel="noopener noreferrer" className="px-8 py-4 border border-amber-500/30 text-white font-bold rounded-xl hover:bg-amber-500/10 transition-all">
+                GenZ Frontier News
+              </a>
             </div>
           </div>
         </section>
