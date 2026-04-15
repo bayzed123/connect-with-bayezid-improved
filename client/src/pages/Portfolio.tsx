@@ -53,24 +53,57 @@ export default function Portfolio() {
 
   const achievements = [
     {
-      number: "150+",
-      label: "Projects Completed",
-      description: "Successfully delivered digital solutions across multiple industries",
+      number: "2,200+",
+      label: "Happy Clients Worldwide",
+      description: "Trusted by businesses across Bangladesh and international markets for digital solutions",
     },
     {
-      number: "50+",
-      label: "Happy Clients",
-      description: "Building lasting relationships through exceptional service",
+      number: "2,140",
+      label: "Satisfied & Analyzed Clients",
+      description: "Comprehensive client analysis showing 97.3% satisfaction rate with measurable results",
     },
     {
       number: "5+",
       label: "Years Experience",
-      description: "Proven track record in digital marketing and technical expertise",
+      description: "Proven track record in digital marketing and technical expertise since 2022",
     },
     {
       number: "98%",
-      label: "Client Satisfaction",
-      description: "Consistently exceeding expectations and delivering results",
+      label: "Client Retention Rate",
+      description: "Consistently exceeding expectations with repeat business and referrals",
+    },
+  ];
+
+  const analyticsData = [
+    {
+      metric: "Average Client ROI Improvement",
+      value: "245%",
+      description: "Clients see average 245% return on investment within first 6 months",
+    },
+    {
+      metric: "Account Recovery Success Rate",
+      value: "96%",
+      description: "Successfully recovered restricted Meta accounts and Business Managers",
+    },
+    {
+      metric: "Average Project Completion Time",
+      value: "3-5 days",
+      description: "Fast-track solutions with meticulous attention to detail",
+    },
+    {
+      metric: "Client Referral Rate",
+      value: "68%",
+      description: "Majority of new clients come through referrals from satisfied customers",
+    },
+    {
+      metric: "Average Campaign Performance",
+      value: "3.2x ROAS",
+      description: "Average Return on Ad Spend across all managed campaigns",
+    },
+    {
+      metric: "24/7 Support Availability",
+      value: "100%",
+      description: "Always available for urgent client issues and support requests",
     },
   ];
 
@@ -193,6 +226,23 @@ export default function Portfolio() {
                   <p className="text-slate-400 text-sm">{achievement.description}</p>
                 </div>
               ))}
+            </div>
+
+            {/* Analytics Grid */}
+            <div className="mt-16 pt-16 border-t border-white/10">
+              <h3 className="text-3xl font-bold text-white text-center mb-12">Performance Analytics & Results</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {analyticsData.map((item, index) => (
+                  <div
+                    key={index}
+                    className="bg-gradient-to-br from-indigo-500/10 to-purple-500/10 backdrop-blur-lg border border-indigo-500/20 rounded-2xl p-8 hover:border-indigo-500/50 transition-all hover:bg-indigo-500/20"
+                  >
+                    <div className="text-4xl font-bold text-indigo-400 mb-3">{item.value}</div>
+                    <h4 className="text-xl font-bold text-white mb-2">{item.metric}</h4>
+                    <p className="text-slate-300 text-sm leading-relaxed">{item.description}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
