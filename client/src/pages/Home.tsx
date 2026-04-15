@@ -1,7 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "wouter";
-import { ArrowRight, Zap, Users, TrendingUp, Code } from "lucide-react";
+import { ArrowRight, Zap, Users, TrendingUp, Code, Star } from "lucide-react";
 
 /**
  * Design Philosophy: Modern Professional with Gradient Elegance
@@ -46,6 +46,39 @@ export default function Home() {
     "Mobile First Approach",
     "24/7 Support",
     "Scalable Solutions",
+  ];
+
+  const testimonials = [
+    {
+      name: "Abdullah Al Zamil",
+      feedback: "Brother is very sincere and hardworking. I had an issue with boosting on my page, and he took the time to resolve it. Thank you, Freelancer Bayezid bhai. ❤️",
+      rating: 5,
+      link: "https://www.facebook.com/share/1S2Y9HzGm5/?mibextid=wwXIfr",
+    },
+    {
+      name: "Golam Rabbi",
+      feedback: "I was really stressed about my page issue and had no idea what to do. Then I contacted Bayezid bhai, and he fixed everything within just 3 hours! 100% trusted, highly recommended.",
+      rating: 5,
+      link: "https://www.facebook.com/share/18bXXKZ6D5/?mibextid=wwXIfr",
+    },
+    {
+      name: "Md Imran Sarder",
+      feedback: "Professional Solution for Facebook Payout Issues! He set up the payout account correctly, successfully resolved earning complications, and fixed the entire issue with great efficiency.",
+      rating: 5,
+      link: "https://www.facebook.com/share/1Cp78j27sh/?mibextid=wwXIfr",
+    },
+    {
+      name: "Golam Kibria",
+      feedback: "My page's monetization was restricted due to 'Local Legal Requirements.' Bayezid bhai handled everything very professionally and resolved my issue very quickly. 100% trusted!",
+      rating: 5,
+      link: "https://www.facebook.com/share/1FpXKyAaQk/?mibextid=wwXIfr",
+    },
+    {
+      name: "Rashid Mahmud Babu",
+      feedback: "For quite some time, I was struggling with multiple issues on my ID—nothing seemed to work at all. But my dear brother, with his own skills, beautifully solved my problems. Thank you so much!",
+      rating: 5,
+      link: "https://www.facebook.com/share/1FzcGtKvag/?mibextid=wwXIfr",
+    },
   ];
 
   return (
@@ -143,6 +176,48 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Testimonials Section */}
+        <section className="w-full px-4 py-16 md:py-24 bg-gradient-to-b from-transparent via-indigo-500/10 to-transparent">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">Client Success Stories</h2>
+            <p className="text-center text-slate-300 mb-12 max-w-2xl mx-auto">Real feedback from satisfied clients who trusted us with their digital challenges</p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {testimonials.map((testimonial, index) => (
+                <a
+                  key={index}
+                  href={testimonial.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group bg-white/5 backdrop-blur-lg border border-white/20 rounded-2xl p-6 hover:bg-white/10 transition-all hover:shadow-xl hover:shadow-indigo-500/20 hover:-translate-y-2 hover:border-indigo-500/50"
+                >
+                  {/* Stars */}
+                  <div className="flex gap-1 mb-4">
+                    {Array.from({ length: testimonial.rating }).map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                    ))}
+                  </div>
+
+                  {/* Feedback */}
+                  <p className="text-slate-300 text-sm mb-4 line-clamp-4 group-hover:line-clamp-none transition-all">
+                    "{testimonial.feedback}"
+                  </p>
+
+                  {/* Name */}
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-white font-bold text-sm">{testimonial.name}</p>
+                      <p className="text-indigo-400 text-xs">Verified Client</p>
+                    </div>
+                    <div className="text-indigo-400 group-hover:translate-x-1 transition-transform">
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* CTA Section */}
         <section className="w-full px-4 py-16 md:py-24">
           <div className="max-w-4xl mx-auto text-center">
@@ -200,6 +275,18 @@ export default function Home() {
 
         .animate-float {
           animation: float 3s ease-in-out infinite;
+        }
+
+        .line-clamp-4 {
+          display: -webkit-box;
+          -webkit-line-clamp: 4;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .line-clamp-none {
+          display: block;
+          -webkit-line-clamp: unset;
         }
       `}</style>
     </div>
