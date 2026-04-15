@@ -11,6 +11,8 @@ import GoogleAdsPolicy from "./pages/GoogleAdsPolicy";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import Contact from "./pages/Contact";
+import News from "./pages/News";
+import WriteBlog from "./pages/WriteBlog";
 
 
 function Router() {
@@ -23,6 +25,8 @@ function Router() {
       <Route path={"/google-ads-policy"} component={GoogleAdsPolicy} />
       <Route path={"/blog"} component={Blog} />
       <Route path={"/blog/:slug"} component={BlogPost} />
+      <Route path={"/news"} component={News} />
+      <Route path={"/write-blog"} component={WriteBlog} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

@@ -8,8 +8,9 @@ export default function Header() {
   const navItems = [
     { label: "Home", href: "/" },
     { label: "Blog", href: "/blog" },
+    { label: "News", href: "/news" },
+    { label: "Write", href: "/write-blog" },
     { label: "Contact", href: "/contact" },
-    { label: "Privacy Policy", href: "/privacy-policy" },
   ];
 
   return (
