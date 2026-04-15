@@ -10,6 +10,7 @@ export default function Header() {
     { label: "About", href: "/about" },
     { label: "Blog", href: "/blog" },
     { label: "News", href: "/news" },
+    { label: "Latest", href: "/latest-news" },
     { label: "Contact", href: "/contact" },
   ];
 

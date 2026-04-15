@@ -74,9 +74,9 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <a href="#" className="text-slate-400 hover:text-white transition-colors text-sm">
-                  Portfolio
-                </a>
+                <Link href="/latest-news" className="text-slate-400 hover:text-white transition-colors text-sm">
+                  Latest News
+                </Link>
               </li>
             </ul>
           </div>
