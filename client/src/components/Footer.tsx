@@ -1,5 +1,5 @@
 import { Link } from "wouter";
-import { Mail, MapPin, Facebook, Linkedin, Instagram } from "lucide-react";
+import { Mail, MapPin, Facebook, Linkedin, Instagram, MessageCircle, Phone } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -8,6 +8,7 @@ export default function Footer() {
     { icon: Facebook, href: "https://www.facebook.com/share/18GdrYu3LG/?mibextid=wwXIfr", label: "Facebook" },
     { icon: Instagram, href: "https://www.instagram.com/freelancer_bayezid0?igsh=MTdrOWI5NTc2Zjhsag%3D%3D&utm_source=qr", label: "Instagram" },
     { icon: Linkedin, href: "https://www.linkedin.com/in/sayadbayezid?utm_source=share_via&utm_content=profile&utm_medium=member_ios", label: "LinkedIn" },
+    { icon: MessageCircle, href: "https://wa.me/message/TDYG575YENF6F1", label: "WhatsApp" },
   ];
 
   return (
@@ -108,8 +109,20 @@ export default function Footer() {
                 </a>
               </li>
               <li className="flex items-start gap-2">
+                <Phone className="w-4 h-4 text-indigo-400 mt-0.5 flex-shrink-0" />
+                <a href="https://wa.me/01519601517" target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors text-sm">
+                  +880 1519 601 517
+                </a>
+              </li>
+              <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-indigo-400 mt-0.5 flex-shrink-0" />
-                <span className="text-slate-400 text-sm">Digital Services</span>
+                <div className="text-slate-400 text-sm">
+                  <p>Auliabad, Kalihati</p>
+                  <p>Tangail, Dhaka</p>
+                  <a href="https://maps.app.goo.gl/PqG45pfvditVMPY79?g_st=ic" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 mt-1 inline-block text-xs">
+                    View on Map →
+                  </a>
+                </div>
               </li>
             </ul>
           </div>

@@ -86,11 +86,16 @@ export default function Home() {
               <span className="text-white font-bold text-sm md:text-base">Best Learn - Recommended</span>
             </div>
 
-            {/* CTA Button */}
-            <Link href="/blog" className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-indigo-500/50 transition-all hover:scale-105">
-              Explore Our Blog
-              <ArrowRight className="w-5 h-5" />
-            </Link>
+            {/* CTA Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/blog" className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-indigo-500/50 transition-all hover:scale-105">
+                Explore Our Blog
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <a href="https://wa.me/message/TDYG575YENF6F1" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 px-8 py-4 border border-white/30 text-white font-bold rounded-xl hover:bg-white/10 transition-all">
+                Chat on WhatsApp
+              </a>
+            </div>
           </div>
         </section>
 
@@ -147,8 +152,8 @@ export default function Home() {
               <Link href="/blog" className="px-8 py-4 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-indigo-500/50 transition-all hover:scale-105">
                 Explore Blog
               </Link>
-              <a href="#" className="px-8 py-4 border border-white/30 text-white font-bold rounded-xl hover:bg-white/10 transition-all">
-                Contact Us
+              <a href="https://wa.me/message/TDYG575YENF6F1" target="_blank" rel="noopener noreferrer" className="px-8 py-4 border border-white/30 text-white font-bold rounded-xl hover:bg-white/10 transition-all">
+                Chat on WhatsApp
               </a>
             </div>
           </div>

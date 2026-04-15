@@ -10,12 +10,14 @@ import TermsConditions from "./pages/TermsConditions";
 import GoogleAdsPolicy from "./pages/GoogleAdsPolicy";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
+import Contact from "./pages/Contact";
 
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/contact"} component={Contact} />
       <Route path={"/privacy-policy"} component={PrivacyPolicy} />
       <Route path={"/terms-conditions"} component={TermsConditions} />
       <Route path={"/google-ads-policy"} component={GoogleAdsPolicy} />
