@@ -13,12 +13,14 @@ import BlogPost from "./pages/BlogPost";
 import Contact from "./pages/Contact";
 import News from "./pages/News";
 import WriteBlog from "./pages/WriteBlog";
+import About from "./pages/About";
 
 
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
+      <Route path={"/about"} component={About} />
       <Route path={"/contact"} component={Contact} />
       <Route path={"/privacy-policy"} component={PrivacyPolicy} />
       <Route path={"/terms-conditions"} component={TermsConditions} />
