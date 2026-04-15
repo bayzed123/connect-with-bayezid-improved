@@ -78,6 +78,11 @@ export default function Footer() {
                   Latest News
                 </Link>
               </li>
+              <li>
+                <Link href="/customer-agreement" className="text-slate-400 hover:text-white transition-colors text-sm">
+                  Customer Agreement
+                </Link>
+              </li>
             </ul>
           </div>
 

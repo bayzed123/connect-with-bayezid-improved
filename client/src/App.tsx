@@ -15,6 +15,7 @@ import News from "./pages/News";
 import WriteBlog from "./pages/WriteBlog";
 import About from "./pages/About";
 import LatestNews from "./pages/LatestNews";
+import CustomerAgreement from "./pages/CustomerAgreement";
 
 
 function Router() {
@@ -31,6 +32,7 @@ function Router() {
       <Route path={"/news"} component={News} />
       <Route path={"/write-blog"} component={WriteBlog} />
       <Route path={"/latest-news"} component={LatestNews} />
+      <Route path={"/customer-agreement"} component={CustomerAgreement} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

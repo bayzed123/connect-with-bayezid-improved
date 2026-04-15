@@ -9,8 +9,7 @@ export default function Header() {
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
     { label: "Blog", href: "/blog" },
-    { label: "News", href: "/news" },
-    { label: "Latest", href: "/latest-news" },
+    { label: "Agreement", href: "/customer-agreement" },
     { label: "Contact", href: "/contact" },
   ];
 
