@@ -222,6 +222,66 @@ export default function Portfolio() {
           </div>
         </section>
 
+        {/* Presentation & Speaking Section */}
+        <section className="w-full px-4 py-16 md:py-24 bg-white/5 backdrop-blur-sm">
+          <div className="max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              {/* Image */}
+              <div className="flex justify-center">
+                <div className="relative">
+                  <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl blur-2xl opacity-30" />
+                  <img
+                    src="https://d2xsxph8kpxj0f.cloudfront.net/310519663557681386/8DCdz46vKMnJXpqVqTsHd3/IMG_1081_d105d305.PNG"
+                    alt="Digital Marketing Ecosystem Presentation"
+                    className="relative w-full rounded-2xl shadow-2xl object-cover"
+                  />
+                </div>
+              </div>
+
+              {/* Content */}
+              <div className="space-y-6">
+                <div>
+                  <h2 className="text-4xl font-bold text-white mb-4">Thought Leadership & Speaking</h2>
+                  <p className="text-lg text-slate-300 leading-relaxed">
+                    As a recognized expert in digital marketing and Meta technical solutions, I actively share knowledge through presentations, workshops, and educational content. My approach combines strategic insights with practical implementation guidance.
+                  </p>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex gap-4">
+                    <CheckCircle className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-white font-bold mb-1">Digital Marketing Ecosystem Mastery</h3>
+                      <p className="text-slate-300 text-sm">Comprehensive frameworks for understanding and optimizing the entire digital marketing funnel</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <CheckCircle className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-white font-bold mb-1">Meta Ecosystem Expertise</h3>
+                      <p className="text-slate-300 text-sm">In-depth knowledge of Facebook, Instagram, and Meta Business Suite technical implementation</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <CheckCircle className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-white font-bold mb-1">Data-Driven Strategy</h3>
+                      <p className="text-slate-300 text-sm">Practical methodologies for converting data insights into actionable marketing strategies</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-4">
+                    <CheckCircle className="w-6 h-6 text-indigo-400 flex-shrink-0 mt-1" />
+                    <div>
+                      <h3 className="text-white font-bold mb-1">Real-World Case Studies</h3>
+                      <p className="text-slate-300 text-sm">Proven success stories and lessons learned from 150+ completed projects</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Skills Grid */}
         <section className="w-full px-4 py-16 md:py-24 bg-gradient-to-b from-transparent via-indigo-500/10 to-transparent">
           <div className="max-w-6xl mx-auto">
