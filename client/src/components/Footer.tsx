@@ -1,14 +1,13 @@
 import { Link } from "wouter";
-import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin, Instagram } from "lucide-react";
+import { Mail, MapPin, Facebook, Linkedin, Instagram } from "lucide-react";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { icon: Facebook, href: "#", label: "Facebook" },
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Instagram, href: "#", label: "Instagram" },
+    { icon: Facebook, href: "https://www.facebook.com/share/18GdrYu3LG/?mibextid=wwXIfr", label: "Facebook" },
+    { icon: Instagram, href: "https://www.instagram.com/freelancer_bayezid0?igsh=MTdrOWI5NTc2Zjhsag%3D%3D&utm_source=qr", label: "Instagram" },
+    { icon: Linkedin, href: "https://www.linkedin.com/in/sayadbayezid?utm_source=share_via&utm_content=profile&utm_medium=member_ios", label: "LinkedIn" },
   ];
 
   return (
@@ -32,6 +31,8 @@ export default function Footer() {
                   <a
                     key={social.label}
                     href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-9 h-9 rounded-lg bg-white/10 hover:bg-indigo-500/20 flex items-center justify-center text-slate-300 hover:text-white transition-all"
                     title={social.label}
                   >
@@ -102,19 +103,13 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-2">
                 <Mail className="w-4 h-4 text-indigo-400 mt-0.5 flex-shrink-0" />
-                <a href="mailto:contact@connectwithbayezid.com" className="text-slate-400 hover:text-white transition-colors text-sm">
-                  contact@connectwithbayezid.com
-                </a>
-              </li>
-              <li className="flex items-start gap-2">
-                <Phone className="w-4 h-4 text-indigo-400 mt-0.5 flex-shrink-0" />
-                <a href="tel:+1234567890" className="text-slate-400 hover:text-white transition-colors text-sm">
-                  +1 (234) 567-890
+                <a href="mailto:cwb.agency@outlook.com" className="text-slate-400 hover:text-white transition-colors text-sm">
+                  cwb.agency@outlook.com
                 </a>
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="w-4 h-4 text-indigo-400 mt-0.5 flex-shrink-0" />
-                <span className="text-slate-400 text-sm">Your City, Country</span>
+                <span className="text-slate-400 text-sm">Digital Services</span>
               </li>
             </ul>
           </div>

@@ -115,8 +115,8 @@ export default function TermsConditions() {
               <div className="p-4 bg-white/5 border border-white/10 rounded-lg">
                 <p className="text-slate-300">
                   <strong className="text-white">Connect With Bayezid</strong><br />
-                  Email: support@connectwithbayezid.com<br />
-                  Phone: +1 (234) 567-890
+                  Email: <a href="mailto:cwb.agency@outlook.com" className="text-indigo-400 hover:text-indigo-300">cwb.agency@outlook.com</a><br />
+                  LinkedIn: <a href="https://www.linkedin.com/in/sayadbayezid" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300">Sayad Md Bayezid Hosan</a>
                 </p>
               </div>
             </section>

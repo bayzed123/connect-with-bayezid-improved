@@ -210,9 +210,20 @@ export default function BlogPost() {
               </div>
               <div>
                 <h3 className="text-xl font-bold text-white mb-2">About {post.author}</h3>
-                <p className="text-slate-300">
+                <p className="text-slate-300 mb-3">
                   Digital growth expert and web development enthusiast. Passionate about helping businesses succeed online through innovative solutions and strategic digital marketing.
                 </p>
+                <div className="flex gap-3">
+                  <a href="https://www.linkedin.com/in/sayadbayezid" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 text-sm font-medium">
+                    LinkedIn
+                  </a>
+                  <a href="https://www.instagram.com/freelancer_bayezid0" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 text-sm font-medium">
+                    Instagram
+                  </a>
+                  <a href="mailto:cwb.agency@outlook.com" className="text-indigo-400 hover:text-indigo-300 text-sm font-medium">
+                    Email
+                  </a>
+                </div>
               </div>
             </div>
           </div>
