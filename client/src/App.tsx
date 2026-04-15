@@ -18,10 +18,11 @@ import LatestNews from "./pages/LatestNews";
 import CustomerAgreement from "./pages/CustomerAgreement";
 import Portfolio from "./pages/Portfolio";
 import Certificates from "./pages/Certificates";
-
+import ContactForm from "./pages/ContactForm";
 
 
 function Router() {
+  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
       <Route path={"/"} component={Home} />
@@ -38,6 +39,7 @@ function Router() {
       <Route path={"/customer-agreement"} component={CustomerAgreement} />
       <Route path={"/portfolio"} component={Portfolio} />
       <Route path={"/certificates"} component={Certificates} />
+      <Route path={"/contact-form"} component={ContactForm} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

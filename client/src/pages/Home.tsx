@@ -12,6 +12,7 @@ import { ArrowRight, Zap, Users, TrendingUp, Code, Star } from "lucide-react";
  */
 
 export default function Home() {
+
   const services = [
     {
       icon: Code,

@@ -14,6 +14,7 @@ export default function Header() {
     { label: "Write", href: "/write-blog" },
     { label: "Agreement", href: "/customer-agreement" },
     { label: "Contact", href: "/contact" },
+    { label: "Contact Form", href: "/contact-form" },
   ];
 
   return (
