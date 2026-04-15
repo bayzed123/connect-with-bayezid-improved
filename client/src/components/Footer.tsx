@@ -4,6 +4,8 @@ import { Mail, MapPin, Facebook, Linkedin, Instagram, MessageCircle, Phone } fro
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
+  const facebookServicePage = "https://www.facebook.com/share/1GYmMYYNXz/?mibextid=wwXIfr";
+
   const socialLinks = [
     { icon: Facebook, href: "https://www.facebook.com/share/18GdrYu3LG/?mibextid=wwXIfr", label: "Facebook" },
     { icon: Instagram, href: "https://www.instagram.com/freelancer_bayezid0?igsh=MTdrOWI5NTc2Zjhsag%3D%3D&utm_source=qr", label: "Instagram" },
@@ -92,6 +94,11 @@ export default function Footer() {
                 <Link href="/customer-agreement" className="text-slate-400 hover:text-white transition-colors text-sm">
                   Customer Agreement
                 </Link>
+              </li>
+              <li>
+                <a href={facebookServicePage} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white transition-colors text-sm">
+                  Facebook Service Page
+                </a>
               </li>
 
             </ul>

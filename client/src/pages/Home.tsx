@@ -248,6 +248,9 @@ export default function Home() {
               <a href="https://wa.me/message/TDYG575YENF6F1" target="_blank" rel="noopener noreferrer" className="px-8 py-4 border border-white/30 text-white font-bold rounded-xl hover:bg-white/10 transition-all">
                 Chat on WhatsApp
               </a>
+              <a href="https://www.facebook.com/share/1GYmMYYNXz/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="px-8 py-4 border border-blue-500/30 text-white font-bold rounded-xl hover:bg-blue-500/10 transition-all">
+                Visit Facebook Page
+              </a>
             </div>
           </div>
         </section>
