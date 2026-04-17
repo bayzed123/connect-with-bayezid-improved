@@ -15,6 +15,13 @@
       "when": 1776225571059,
       "tag": "0001_flippant_professor_monster",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1776456619272,
+      "tag": "0002_narrow_mandarin",
+      "breakpoints": true
     }
   ]
 }
