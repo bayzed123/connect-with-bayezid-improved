@@ -12,6 +12,7 @@ import { trpc } from "@/lib/trpc";
  * - Uses smooth animations and hover effects
  * - Emphasizes clarity and visual hierarchy
  * - Displays approved client reviews dynamically from database
+ * - New reviews appear first, then old reviews
  */
 
 interface ClientReview {
@@ -30,14 +31,103 @@ export default function Home() {
   const [approvedReviews, setApprovedReviews] = useState<ClientReview[]>([]);
   const [isLoadingReviews, setIsLoadingReviews] = useState(true);
 
+  // Old reviews from initial data (will appear after new reviews)
+  const oldReviews: ClientReview[] = [
+    {
+      id: 100,
+      clientName: "Abdullah Al Zamil",
+      clientEmail: "example@example.com",
+      rating: 5,
+      review: "Brother is very sincere and hardworking. I had an issue with boosting on my page, and he took the time to resolve it. Thank you, Freelancer Bayezid bhai. ❤️",
+      company: "Verified Client",
+      status: "approved",
+      createdAt: new Date(),
+    },
+    {
+      id: 101,
+      clientName: "Golam Rabbi",
+      clientEmail: "example@example.com",
+      rating: 5,
+      review: "I was really stressed about my page issue and had no idea what to do. Then I contacted Bayezid bhai, and he fixed everything within just 3 hours! 100% trusted, highly recommended.",
+      company: "Verified Client",
+      status: "approved",
+      createdAt: new Date(),
+    },
+    {
+      id: 102,
+      clientName: "Md Imran Sarder",
+      clientEmail: "example@example.com",
+      rating: 5,
+      review: "Professional Solution for Facebook Payout Issues! He set up the payout account correctly, successfully resolved earning complications, and fixed the entire issue with great efficiency.",
+      company: "Verified Client",
+      status: "approved",
+      createdAt: new Date(),
+    },
+    {
+      id: 103,
+      clientName: "Golam Kibria",
+      clientEmail: "example@example.com",
+      rating: 5,
+      review: "My page's monetization was restricted due to 'Local Legal Requirements.' Bayezid bhai handled everything very professionally and resolved my issue very quickly. 100% trusted!",
+      company: "Verified Client",
+      status: "approved",
+      createdAt: new Date(),
+    },
+    {
+      id: 104,
+      clientName: "Rashid Mahmud Babu",
+      clientEmail: "example@example.com",
+      rating: 5,
+      review: "For quite some time, I was struggling with multiple issues on my ID—nothing seemed to work at all. But my dear brother, with his own skills, beautifully solved my problems. Thank you so much!",
+      company: "Verified Client",
+      status: "approved",
+      createdAt: new Date(),
+    },
+    {
+      id: 105,
+      clientName: "Ariful",
+      clientEmail: "example@example.com",
+      rating: 5,
+      review: "I'm getting excellent results from Facebook ad campaigns, and all the credit goes to Freelancer Bayezid's service. There's great consistency between what he says and what he delivers. Very friendly and supportive at every step!",
+      company: "Verified Client",
+      status: "approved",
+      createdAt: new Date(),
+    },
+    {
+      id: 106,
+      clientName: "Coy Pixy",
+      clientEmail: "example@example.com",
+      rating: 5,
+      review: "He is very professional and his attention to detail is amazing. The work was much better than I expected. He helped with design, post writing, page boost, etc. very efficiently. Always answered my questions and gave suggestions when needed.",
+      company: "Verified Client",
+      status: "approved",
+      createdAt: new Date(),
+    },
+    {
+      id: 107,
+      clientName: "Elias Mizi",
+      clientEmail: "example@example.com",
+      rating: 5,
+      review: "After my ID was locked for 18 days, I couldn't recover it. With Bayezid bhai's skill, patience, and by following Facebook's guidelines, he fully assisted me in recovering my lost account. I'm truly grateful!",
+      company: "Verified Client",
+      status: "approved",
+      createdAt: new Date(),
+    },
+  ];
+
   // Fetch approved reviews from database
   const { data: reviewsData } = trpc.reviews.getApproved.useQuery();
 
   useEffect(() => {
-    if (reviewsData) {
-      setApprovedReviews(reviewsData as ClientReview[]);
-      setIsLoadingReviews(false);
+    if (reviewsData && reviewsData.length > 0) {
+      // NEW REVIEWS FIRST (from database), then OLD REVIEWS (hardcoded)
+      const combined = [...(reviewsData as ClientReview[]), ...oldReviews];
+      setApprovedReviews(combined);
+    } else {
+      // If no new reviews, show old ones
+      setApprovedReviews(oldReviews);
     }
+    setIsLoadingReviews(false);
   }, [reviewsData]);
 
   const services = [
@@ -181,47 +271,55 @@ export default function Home() {
               <div className="flex justify-center items-center py-12">
                 <Loader className="w-8 h-8 text-indigo-400 animate-spin" />
               </div>
-            ) : approvedReviews.length > 0 ? (
+            ) : approvedReviews && approvedReviews.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {approvedReviews.map((review, index) => (
-                  <div
-                    key={review.id}
-                    className="group bg-white/5 backdrop-blur-lg border border-white/20 rounded-2xl p-6 hover:bg-white/10 transition-all hover:shadow-xl hover:shadow-indigo-500/20 hover:-translate-y-2 hover:border-indigo-500/50"
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    {/* Stars */}
-                    <div className="flex gap-1 mb-4">
-                      {Array.from({ length: review.rating }).map((_, i) => (
-                        <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                      ))}
-                    </div>
+                {approvedReviews.map((review, index) => {
+                  // Check if this is a NEW review (from database, not in oldReviews)
+                  const isNewReview = !oldReviews.some(old => old.id === review.id);
+                  
+                  return (
+                    <div
+                      key={`${review.id}-${index}`}
+                      className="group bg-white/5 backdrop-blur-lg border border-white/20 rounded-2xl p-6 hover:bg-white/10 transition-all hover:shadow-xl hover:shadow-indigo-500/20 hover:-translate-y-2 hover:border-indigo-500/50"
+                      style={{ animationDelay: `${(index % 6) * 0.1}s` }}
+                    >
+                      {/* Badge for NEW reviews */}
+                      {isNewReview && (
+                        <div className="mb-3 inline-block px-3 py-1 bg-green-500/20 border border-green-500/50 rounded-full text-green-300 text-xs font-semibold">
+                          ✨ New
+                        </div>
+                      )}
 
-                    {/* Review Text */}
-                    <p className="text-slate-300 text-sm mb-4 line-clamp-4 group-hover:line-clamp-none transition-all">
-                      "{review.review}"
-                    </p>
-
-                    {/* Client Info */}
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <p className="text-white font-bold text-sm">{review.clientName}</p>
-                        {review.company && <p className="text-indigo-400 text-xs">{review.company}</p>}
-                        <p className="text-slate-400 text-xs">Verified Client</p>
+                      {/* Stars */}
+                      <div className="flex gap-1 mb-4">
+                        {Array.from({ length: review.rating }).map((_, i) => (
+                          <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                        ))}
                       </div>
-                      <div className="text-indigo-400 group-hover:translate-x-1 transition-transform">
-                        <ArrowRight className="w-4 h-4" />
+
+                      {/* Review Text */}
+                      <p className="text-slate-300 text-sm mb-4 line-clamp-4 group-hover:line-clamp-none transition-all">
+                        "{review.review}"
+                      </p>
+
+                      {/* Client Info */}
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-white font-bold text-sm">{review.clientName}</p>
+                          {review.company && review.company !== "Verified Client" && <p className="text-indigo-400 text-xs">{review.company}</p>}
+                          <p className="text-slate-400 text-xs">Verified Client</p>
+                        </div>
+                        <div className="text-indigo-400 group-hover:translate-x-1 transition-transform">
+                          <ArrowRight className="w-4 h-4" />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             ) : (
               <div className="text-center py-12">
-                <p className="text-slate-400 mb-4">No reviews yet. Be the first to share your experience!</p>
-                <Link href="/client-reviews" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-lg hover:shadow-lg transition-all">
-                  Submit Your Review
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
+                <p className="text-slate-400 mb-4">Loading reviews...</p>
               </div>
             )}
           </div>
