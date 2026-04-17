@@ -100,3 +100,19 @@ export type Notification = typeof notifications.$inferSelect;
 export type InsertNotification = typeof notifications.$inferInsert;
 
 // TODO: Add your tables here
+export const visitorAnalytics = mysqlTable("visitorAnalytics", {
+  id: int("id").autoincrement().primaryKey(),
+  sessionId: varchar("sessionId", { length: 255 }).notNull(),
+  page: varchar("page", { length: 255 }).notNull(), // /about, /portfolio, etc
+  timeSpent: int("timeSpent").notNull(), // in seconds
+  scrollDepth: int("scrollDepth").default(0).notNull(), // 0-100 percentage
+  referrer: text("referrer"), // where visitor came from
+  userAgent: text("userAgent"), // browser info
+  ipAddress: varchar("ipAddress", { length: 45 }), // IPv4 or IPv6
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type VisitorAnalytics = typeof visitorAnalytics.$inferSelect;
+export type InsertVisitorAnalytics = typeof visitorAnalytics.$inferInsert;
+
+// TODO: Add your tables here

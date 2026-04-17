@@ -1,6 +1,6 @@
 import { eq, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, contactSubmissions, InsertContactSubmission, ContactSubmission, newsItems, InsertNewsItem, NewsItem, blogPosts, InsertBlogPost, BlogPost, clientReviews, InsertClientReview, ClientReview, notifications, InsertNotification, Notification } from "../drizzle/schema";
+import { InsertUser, users, contactSubmissions, InsertContactSubmission, ContactSubmission, newsItems, InsertNewsItem, NewsItem, blogPosts, InsertBlogPost, BlogPost, clientReviews, InsertClientReview, ClientReview, notifications, InsertNotification, Notification, visitorAnalytics, InsertVisitorAnalytics, VisitorAnalytics } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -433,3 +433,121 @@ export async function deleteNotification(id: number): Promise<boolean> {
 }
 
 // TODO: add feature queries here as your schema grows.
+
+// Visitor Analytics
+export async function trackVisitor(data: InsertVisitorAnalytics): Promise<VisitorAnalytics | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot track visitor: database not available");
+    return null;
+  }
+
+  try {
+    const result = await db.insert(visitorAnalytics).values(data);
+    const id = result[0].insertId as number;
+    const analytics = await db.select().from(visitorAnalytics).where(eq(visitorAnalytics.id, id)).limit(1);
+    return analytics.length > 0 ? analytics[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to track visitor:", error);
+    throw error;
+  }
+}
+
+export async function getVisitorAnalytics(): Promise<VisitorAnalytics[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get visitor analytics: database not available");
+    return [];
+  }
+
+  try {
+    return await db.select().from(visitorAnalytics).orderBy(desc(visitorAnalytics.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get visitor analytics:", error);
+    return [];
+  }
+}
+
+export async function getPageAnalytics(page: string): Promise<VisitorAnalytics[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get page analytics: database not available");
+    return [];
+  }
+
+  try {
+    return await db.select().from(visitorAnalytics).where(eq(visitorAnalytics.page, page)).orderBy(desc(visitorAnalytics.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get page analytics:", error);
+    return [];
+  }
+}
+
+export async function getAnalyticsSummary(): Promise<{
+  totalVisitors: number;
+  totalPageViews: number;
+  averageTimeSpent: number;
+  averageScrollDepth: number;
+  topPages: Array<{ page: string; views: number; avgTime: number }>;
+}> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get analytics summary: database not available");
+    return {
+      totalVisitors: 0,
+      totalPageViews: 0,
+      averageTimeSpent: 0,
+      averageScrollDepth: 0,
+      topPages: [],
+    };
+  }
+
+  try {
+    const allAnalytics = await db.select().from(visitorAnalytics);
+    
+    const uniqueSessions = new Set(allAnalytics.map(a => a.sessionId)).size;
+    const totalPageViews = allAnalytics.length;
+    const avgTimeSpent = allAnalytics.length > 0 
+      ? Math.round(allAnalytics.reduce((sum, a) => sum + a.timeSpent, 0) / allAnalytics.length)
+      : 0;
+    const avgScrollDepth = allAnalytics.length > 0
+      ? Math.round(allAnalytics.reduce((sum, a) => sum + a.scrollDepth, 0) / allAnalytics.length)
+      : 0;
+
+    // Get top pages
+    const pageMap = new Map<string, { views: number; totalTime: number }>();
+    allAnalytics.forEach(a => {
+      const existing = pageMap.get(a.page) || { views: 0, totalTime: 0 };
+      pageMap.set(a.page, {
+        views: existing.views + 1,
+        totalTime: existing.totalTime + a.timeSpent,
+      });
+    });
+
+    const topPages = Array.from(pageMap.entries())
+      .map(([page, data]) => ({
+        page,
+        views: data.views,
+        avgTime: Math.round(data.totalTime / data.views),
+      }))
+      .sort((a, b) => b.views - a.views)
+      .slice(0, 10);
+
+    return {
+      totalVisitors: uniqueSessions,
+      totalPageViews,
+      averageTimeSpent: avgTimeSpent,
+      averageScrollDepth: avgScrollDepth,
+      topPages,
+    };
+  } catch (error) {
+    console.error("[Database] Failed to get analytics summary:", error);
+    return {
+      totalVisitors: 0,
+      totalPageViews: 0,
+      averageTimeSpent: 0,
+      averageScrollDepth: 0,
+      topPages: [],
+    };
+  }
+}

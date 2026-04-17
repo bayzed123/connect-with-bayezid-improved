@@ -23,7 +23,11 @@ import {
   createNotification,
   getNotifications,
   markNotificationAsRead,
-  deleteNotification
+  deleteNotification,
+  trackVisitor,
+  getVisitorAnalytics,
+  getPageAnalytics,
+  getAnalyticsSummary
 } from "./db";
 import { notifyOwner } from "./_core/notification";
 
@@ -261,6 +265,35 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         return await deleteNotification(input.id);
       }),
+  }),
+
+  analytics: router({
+    track: publicProcedure
+      .input(
+        z.object({
+          sessionId: z.string(),
+          page: z.string(),
+          timeSpent: z.number(),
+          scrollDepth: z.number().optional().default(0),
+          referrer: z.string().optional(),
+          userAgent: z.string().optional(),
+          ipAddress: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return await trackVisitor(input);
+      }),
+    getAll: publicProcedure.query(async () => {
+      return await getVisitorAnalytics();
+    }),
+    getByPage: publicProcedure
+      .input(z.object({ page: z.string() }))
+      .query(async ({ input }) => {
+        return await getPageAnalytics(input.page);
+      }),
+    getSummary: publicProcedure.query(async () => {
+      return await getAnalyticsSummary();
+    }),
   }),
 });
 
