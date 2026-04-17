@@ -45,7 +45,7 @@ export default function AnalyticsDashboard() {
     }
 
     setIsLoading(true);
-    const correctPassword = "bayezid@2024";
+    const correctPassword = "SmbSmb64";
     
     // Constant-time comparison to prevent timing attacks
     const isValid = password.length === correctPassword.length &&

@@ -79,7 +79,7 @@ export default function AdminPanel() {
 
     setIsLoading(true);
     // Password verification - uses secure comparison
-    const correctPassword = "bayezid@2024";
+    const correctPassword = "SmbSmb64";
     
     // Constant-time comparison to prevent timing attacks
     const isValid = password.length === correctPassword.length &&
