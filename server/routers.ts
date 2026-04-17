@@ -3,7 +3,20 @@ import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
 import { z } from "zod";
-import { createContactSubmission, getContactSubmissions, updateContactSubmissionStatus } from "./db";
+import { 
+  createContactSubmission, 
+  getContactSubmissions, 
+  updateContactSubmissionStatus,
+  createNewsItem,
+  getNewsItems,
+  updateNewsItem,
+  deleteNewsItem,
+  createBlogPost,
+  getBlogPosts,
+  getBlogPostBySlug,
+  updateBlogPost,
+  deleteBlogPost
+} from "./db";
 import { notifyOwner } from "./_core/notification";
 
 export const appRouter = router({
@@ -63,6 +76,93 @@ export const appRouter = router({
       )
       .mutation(async ({ input }) => {
         return await updateContactSubmissionStatus(input.id, input.status);
+      }),
+  }),
+
+  news: router({
+    create: publicProcedure
+      .input(
+        z.object({
+          title: z.string().min(1, "Title is required"),
+          link: z.string().url("Invalid URL"),
+          emoji: z.string().optional().default("📰"),
+          description: z.string().optional(),
+          isExternal: z.number().optional().default(0),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return await createNewsItem(input);
+      }),
+    getAll: publicProcedure.query(async () => {
+      return await getNewsItems();
+    }),
+    update: publicProcedure
+      .input(
+        z.object({
+          id: z.number(),
+          title: z.string().optional(),
+          link: z.string().url().optional(),
+          emoji: z.string().optional(),
+          description: z.string().optional(),
+          isExternal: z.number().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await updateNewsItem(id, data);
+      }),
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await deleteNewsItem(input.id);
+      }),
+  }),
+
+  blog: router({
+    create: publicProcedure
+      .input(
+        z.object({
+          slug: z.string().min(1, "Slug is required"),
+          title: z.string().min(1, "Title is required"),
+          content: z.string().min(10, "Content must be at least 10 characters"),
+          category: z.string().optional(),
+          author: z.string().optional(),
+          excerpt: z.string().optional(),
+          featuredImage: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return await createBlogPost(input);
+      }),
+    getAll: publicProcedure.query(async () => {
+      return await getBlogPosts();
+    }),
+    getBySlug: publicProcedure
+      .input(z.object({ slug: z.string() }))
+      .query(async ({ input }) => {
+        return await getBlogPostBySlug(input.slug);
+      }),
+    update: publicProcedure
+      .input(
+        z.object({
+          id: z.number(),
+          slug: z.string().optional(),
+          title: z.string().optional(),
+          content: z.string().optional(),
+          category: z.string().optional(),
+          author: z.string().optional(),
+          excerpt: z.string().optional(),
+          featuredImage: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await updateBlogPost(id, data);
+      }),
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await deleteBlogPost(input.id);
       }),
   }),
 });

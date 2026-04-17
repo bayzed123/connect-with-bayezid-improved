@@ -1,91 +1,113 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "wouter";
-import { ChevronRight, Plus, Trash2, ExternalLink, Copy, Check } from "lucide-react";
-import { useState } from "react";
+import { ChevronRight, Plus, Trash2, ExternalLink, Copy, Check, Loader } from "lucide-react";
+import { useState, useEffect } from "react";
+import { trpc } from "@/lib/trpc";
+import { toast } from "sonner";
 
 /**
- * Design Philosophy: Latest News with Link Embedding
+ * Design Philosophy: Latest News with Link Embedding & Database Persistence
  * - Easy link management interface
- * - Embedded preview display
+ * - Embedded preview display with iframe
  * - Add/remove links functionality
+ * - Permanent database storage
  * - Professional layout
  */
 
 interface NewsLink {
-  id: string;
+  id: number;
   title: string;
-  url: string;
-  description: string;
-  image?: string;
+  link: string;
+  emoji: string;
+  description?: string;
+  isExternal: number;
+  createdAt: Date;
 }
 
 export default function LatestNews() {
-  const [newsLinks, setNewsLinks] = useState<NewsLink[]>([
-    {
-      id: "1",
-      title: "Facebook Account Suspensions 2026: Root Causes & Legal Solutions",
-      url: "https://example.com/facebook-suspensions",
-      description: "Learn about the common reasons for Facebook account suspensions and how to legally resolve them.",
-      image: "📄",
-    },
-    {
-      id: "2",
-      title: "Facebook Unlock Code Explained: How to Get Back Your Account",
-      url: "https://example.com/facebook-unlock",
-      description: "Complete guide to understanding Facebook unlock codes and recovering your account.",
-      image: "🔓",
-    },
-    {
-      id: "3",
-      title: "Digital Marketing 2026: When Data Saturates Humanity",
-      url: "https://example.com/digital-marketing-2026",
-      description: "Exploring the future of digital marketing in an increasingly data-driven world.",
-      image: "📊",
-    },
-    {
-      id: "4",
-      title: "Securing Digital Frontier: Vision & Mission as Meta Tech Provider",
-      url: "https://example.com/meta-tech-provider",
-      description: "Our vision and mission as a verified Meta Tech Provider focused on security and compliance.",
-      image: "🛡️",
-    },
-  ]);
-
+  const [newsLinks, setNewsLinks] = useState<NewsLink[]>([]);
   const [showForm, setShowForm] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     title: "",
-    url: "",
+    link: "",
     description: "",
-    image: "📰",
+    emoji: "📰",
+    isExternal: 1,
   });
-  const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [copiedId, setCopiedId] = useState<number | null>(null);
 
-  const handleAddLink = () => {
-    if (formData.title && formData.url && formData.description) {
-      const newLink: NewsLink = {
-        id: Date.now().toString(),
-        ...formData,
-      };
-      setNewsLinks([newLink, ...newsLinks]);
-      setFormData({ title: "", url: "", description: "", image: "📰" });
+  // Fetch news from database
+  const { data: newsData, refetch } = trpc.news.getAll.useQuery();
+  const createMutation = trpc.news.create.useMutation();
+  const deleteMutation = trpc.news.delete.useMutation();
+
+  useEffect(() => {
+    if (newsData) {
+      setNewsLinks(newsData as NewsLink[]);
+      setIsLoading(false);
+    }
+  }, [newsData]);
+
+  const handleAddLink = async () => {
+    if (!formData.title || !formData.link || !formData.description) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await createMutation.mutateAsync({
+        title: formData.title,
+        link: formData.link,
+        description: formData.description,
+        emoji: formData.emoji,
+        isExternal: formData.isExternal,
+      });
+
+      toast.success("News link added successfully!");
+      setFormData({ title: "", link: "", description: "", emoji: "📰", isExternal: 1 });
       setShowForm(false);
+      refetch();
+    } catch (error) {
+      toast.error("Failed to add news link");
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
-  const handleDeleteLink = (id: string) => {
+  const handleDeleteLink = async (id: number) => {
     if (window.confirm("Are you sure you want to delete this link?")) {
-      setNewsLinks(newsLinks.filter((link) => link.id !== id));
+      try {
+        await deleteMutation.mutateAsync({ id });
+        toast.success("News link deleted successfully!");
+        refetch();
+      } catch (error) {
+        toast.error("Failed to delete news link");
+        console.error(error);
+      }
     }
   };
 
   const handleCopyLink = (url: string) => {
     navigator.clipboard.writeText(url);
-    setCopiedId(url);
+    setCopiedId(Date.now());
     setTimeout(() => setCopiedId(null), 2000);
   };
 
   const emojis = ["📰", "📄", "🔓", "📊", "🛡️", "📱", "💻", "🌐", "✨", "🚀"];
+
+  const isValidUrl = (url: string) => {
+    try {
+      new URL(url);
+      return true;
+    } catch {
+      return false;
+    }
+  };
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 flex flex-col">
@@ -129,9 +151,9 @@ export default function LatestNews() {
                     {emojis.map((emoji) => (
                       <button
                         key={emoji}
-                        onClick={() => setFormData({ ...formData, image: emoji })}
+                        onClick={() => setFormData({ ...formData, emoji })}
                         className={`w-12 h-12 rounded-lg flex items-center justify-center text-2xl transition-all ${
-                          formData.image === emoji
+                          formData.emoji === emoji
                             ? "bg-indigo-500 border-2 border-indigo-300 scale-110"
                             : "bg-white/10 border border-white/20 hover:bg-white/20"
                         }`}
@@ -159,11 +181,14 @@ export default function LatestNews() {
                   <label className="block text-white font-bold mb-3">URL/Link *</label>
                   <input
                     type="url"
-                    value={formData.url}
-                    onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+                    value={formData.link}
+                    onChange={(e) => setFormData({ ...formData, link: e.target.value })}
                     placeholder="https://example.com"
                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition-colors"
                   />
+                  {formData.link && !isValidUrl(formData.link) && (
+                    <p className="text-red-400 text-sm mt-2">Please enter a valid URL</p>
+                  )}
                 </div>
 
                 {/* Description */}
@@ -182,14 +207,16 @@ export default function LatestNews() {
                 <div className="flex gap-4 pt-4">
                   <button
                     onClick={handleAddLink}
-                    className="flex-1 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-green-500/50 transition-all hover:scale-105"
+                    disabled={isSubmitting}
+                    className="flex-1 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-green-500/50 transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                   >
+                    {isSubmitting && <Loader className="w-4 h-4 animate-spin" />}
                     Add Link
                   </button>
                   <button
                     onClick={() => {
                       setShowForm(false);
-                      setFormData({ title: "", url: "", description: "", image: "📰" });
+                      setFormData({ title: "", link: "", description: "", emoji: "📰", isExternal: 1 });
                     }}
                     className="flex-1 px-6 py-3 border border-white/30 text-white font-bold rounded-xl hover:bg-white/10 transition-all"
                   >
@@ -202,7 +229,12 @@ export default function LatestNews() {
 
           {/* News Links Display */}
           <div className="space-y-6">
-            {newsLinks.length === 0 ? (
+            {isLoading ? (
+              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-12 text-center">
+                <Loader className="w-8 h-8 animate-spin mx-auto text-indigo-400" />
+                <p className="text-slate-400 text-lg mt-4">Loading news...</p>
+              </div>
+            ) : newsLinks.length === 0 ? (
               <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-12 text-center">
                 <p className="text-slate-400 text-lg">No news links added yet. Click "Add Link" to get started!</p>
               </div>
@@ -212,7 +244,7 @@ export default function LatestNews() {
                   <div className="p-6 md:p-8">
                     <div className="flex items-start gap-6">
                       {/* Icon */}
-                      <div className="text-4xl flex-shrink-0">{link.image}</div>
+                      <div className="text-4xl flex-shrink-0">{link.emoji}</div>
 
                       {/* Content */}
                       <div className="flex-1 min-w-0">
@@ -224,13 +256,25 @@ export default function LatestNews() {
                         {/* Link Preview */}
                         <div className="mb-4 p-3 bg-white/5 border border-white/10 rounded-lg">
                           <p className="text-xs text-slate-400 mb-1">Link:</p>
-                          <p className="text-indigo-400 text-xs md:text-sm break-all font-mono">{link.url}</p>
+                          <p className="text-indigo-400 text-xs md:text-sm break-all font-mono">{link.link}</p>
                         </div>
+
+                        {/* Embedded Preview (if valid URL) */}
+                        {isValidUrl(link.link) && (
+                          <div className="mb-4 bg-white/5 border border-white/10 rounded-lg overflow-hidden">
+                            <iframe
+                              src={link.link}
+                              title={link.title}
+                              className="w-full h-64 border-0"
+                              sandbox="allow-same-origin allow-scripts allow-popups"
+                            />
+                          </div>
+                        )}
 
                         {/* Action Buttons */}
                         <div className="flex flex-wrap gap-3">
                           <a
-                            href={link.url}
+                            href={link.link}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-bold rounded-lg hover:shadow-lg hover:shadow-indigo-500/50 transition-all hover:scale-105"
@@ -239,10 +283,10 @@ export default function LatestNews() {
                             Open Link
                           </a>
                           <button
-                            onClick={() => handleCopyLink(link.url)}
+                            onClick={() => handleCopyLink(link.link)}
                             className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/20 text-white text-sm font-bold rounded-lg hover:bg-white/20 transition-all"
                           >
-                            {copiedId === link.url ? (
+                            {copiedId === link.id ? (
                               <>
                                 <Check className="w-4 h-4 text-green-400" />
                                 Copied
@@ -274,7 +318,7 @@ export default function LatestNews() {
           <div className="mt-12 p-6 bg-indigo-500/20 border border-indigo-500/50 rounded-2xl">
             <h3 className="text-lg font-bold text-indigo-300 mb-2">💡 Tip</h3>
             <p className="text-indigo-200 text-sm">
-              You can add links to external articles, news, resources, or any content you want to share. Each link will display with an icon, title, description, and a direct link button. Links are saved locally and will appear in your Latest News section.
+              Add links to external articles, news, resources, or any content you want to share. Each link will display with an icon, title, description, and a direct link button. All links are permanently saved in the database and will always appear in your Latest News section.
             </p>
           </div>
 
