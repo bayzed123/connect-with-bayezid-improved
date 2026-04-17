@@ -7,12 +7,12 @@ import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 
 /**
- * Design Philosophy: Latest News with Link Embedding & Database Persistence
- * - Easy link management interface
- * - Embedded preview display with iframe
- * - Add/remove links functionality
+ * Design Philosophy: Clean Card-Based News Display
+ * - Title and description cards only (no embedded iframe)
+ * - Click to open link in new tab
+ * - User-friendly grid layout
+ * - Easy link management
  * - Permanent database storage
- * - Professional layout
  */
 
 interface NewsLink {
@@ -128,7 +128,7 @@ export default function LatestNews() {
           <div className="mb-12 flex items-center justify-between">
             <div>
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Latest News & Updates</h1>
-              <p className="text-lg text-slate-300">Manage and share your latest news, articles, and resources</p>
+              <p className="text-lg text-slate-300">Discover the latest articles and resources</p>
             </div>
             <button
               onClick={() => setShowForm(!showForm)}
@@ -227,8 +227,8 @@ export default function LatestNews() {
             </div>
           )}
 
-          {/* News Links Display */}
-          <div className="space-y-6">
+          {/* News Links Grid Display */}
+          <div>
             {isLoading ? (
               <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-12 text-center">
                 <Loader className="w-8 h-8 animate-spin mx-auto text-indigo-400" />
@@ -239,86 +239,74 @@ export default function LatestNews() {
                 <p className="text-slate-400 text-lg">No news links added yet. Click "Add Link" to get started!</p>
               </div>
             ) : (
-              newsLinks.map((link) => (
-                <div key={link.id} className="group bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/50 transition-all hover:shadow-xl hover:shadow-indigo-500/20">
-                  <div className="p-6 md:p-8">
-                    <div className="flex items-start gap-6">
-                      {/* Icon */}
-                      <div className="text-4xl flex-shrink-0">{link.emoji}</div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {newsLinks.map((link) => (
+                  <div
+                    key={link.id}
+                    className="group bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden hover:border-indigo-500/50 transition-all hover:shadow-xl hover:shadow-indigo-500/20 hover:-translate-y-2 cursor-pointer flex flex-col"
+                    onClick={() => window.open(link.link, "_blank")}
+                  >
+                    {/* Card Header with Emoji */}
+                    <div className="bg-gradient-to-r from-indigo-600/20 to-purple-600/20 p-6 border-b border-white/10">
+                      <div className="text-5xl mb-3">{link.emoji}</div>
+                      <h3 className="text-xl font-bold text-white group-hover:text-indigo-300 transition-colors line-clamp-2">
+                        {link.title}
+                      </h3>
+                    </div>
 
-                      {/* Content */}
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-xl md:text-2xl font-bold text-white mb-2 group-hover:text-indigo-300 transition-colors line-clamp-2">
-                          {link.title}
-                        </h3>
-                        <p className="text-slate-300 text-sm md:text-base mb-4 line-clamp-2">{link.description}</p>
+                    {/* Card Body */}
+                    <div className="p-6 flex-1 flex flex-col">
+                      <p className="text-slate-300 text-sm mb-4 line-clamp-3 flex-1">
+                        {link.description}
+                      </p>
 
-                        {/* Link Preview */}
-                        <div className="mb-4 p-3 bg-white/5 border border-white/10 rounded-lg">
-                          <p className="text-xs text-slate-400 mb-1">Link:</p>
-                          <p className="text-indigo-400 text-xs md:text-sm break-all font-mono">{link.link}</p>
-                        </div>
-
-                        {/* Embedded Preview (if valid URL) */}
-                        {isValidUrl(link.link) && (
-                          <div className="mb-4 bg-white/5 border border-white/10 rounded-lg overflow-hidden">
-                            <iframe
-                              src={link.link}
-                              title={link.title}
-                              className="w-full h-64 border-0"
-                              sandbox="allow-same-origin allow-scripts allow-popups"
-                            />
-                          </div>
-                        )}
-
-                        {/* Action Buttons */}
-                        <div className="flex flex-wrap gap-3">
-                          <a
-                            href={link.link}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-bold rounded-lg hover:shadow-lg hover:shadow-indigo-500/50 transition-all hover:scale-105"
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                            Open Link
-                          </a>
-                          <button
-                            onClick={() => handleCopyLink(link.link)}
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 border border-white/20 text-white text-sm font-bold rounded-lg hover:bg-white/20 transition-all"
-                          >
-                            {copiedId === link.id ? (
-                              <>
-                                <Check className="w-4 h-4 text-green-400" />
-                                Copied
-                              </>
-                            ) : (
-                              <>
-                                <Copy className="w-4 h-4" />
-                                Copy
-                              </>
-                            )}
-                          </button>
-                          <button
-                            onClick={() => handleDeleteLink(link.id)}
-                            className="inline-flex items-center gap-2 px-4 py-2 bg-red-500/20 border border-red-500/50 text-red-300 text-sm font-bold rounded-lg hover:bg-red-500/30 transition-all"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                            Delete
-                          </button>
-                        </div>
+                      {/* Action Buttons */}
+                      <div className="flex gap-2 pt-4 border-t border-white/10">
+                        <a
+                          href={link.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="flex-1 inline-flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white text-sm font-bold rounded-lg hover:shadow-lg hover:shadow-indigo-500/50 transition-all hover:scale-105"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          Open
+                        </a>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleCopyLink(link.link);
+                          }}
+                          className="inline-flex items-center gap-2 px-3 py-2 bg-white/10 border border-white/20 text-white text-sm font-bold rounded-lg hover:bg-white/20 transition-all"
+                        >
+                          {copiedId === link.id ? (
+                            <Check className="w-4 h-4 text-green-400" />
+                          ) : (
+                            <Copy className="w-4 h-4" />
+                          )}
+                        </button>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteLink(link.id);
+                          }}
+                          className="inline-flex items-center gap-2 px-3 py-2 bg-red-500/20 border border-red-500/50 text-red-300 text-sm font-bold rounded-lg hover:bg-red-500/30 transition-all"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))
+                ))}
+              </div>
             )}
           </div>
 
           {/* Info Box */}
           <div className="mt-12 p-6 bg-indigo-500/20 border border-indigo-500/50 rounded-2xl">
-            <h3 className="text-lg font-bold text-indigo-300 mb-2">💡 Tip</h3>
+            <h3 className="text-lg font-bold text-indigo-300 mb-2">💡 How It Works</h3>
             <p className="text-indigo-200 text-sm">
-              Add links to external articles, news, resources, or any content you want to share. Each link will display with an icon, title, description, and a direct link button. All links are permanently saved in the database and will always appear in your Latest News section.
+              Click on any card to open the link directly. Use the "Open" button to open in a new tab, "Copy" to copy the link, or "Delete" to remove it. All links are permanently saved in the database.
             </p>
           </div>
 
