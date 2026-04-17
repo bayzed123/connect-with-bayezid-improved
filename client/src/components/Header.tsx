@@ -12,9 +12,11 @@ export default function Header() {
     { label: "Certificates", href: "/certificates" },
     { label: "Blog", href: "/blog" },
     { label: "Write", href: "/write-blog" },
+    { label: "Reviews", href: "/client-reviews" },
     { label: "Agreement", href: "/customer-agreement" },
     { label: "Contact", href: "/contact" },
     { label: "Contact Form", href: "/contact-form" },
+    { label: "Admin", href: "/admin" },
   ];
 
   return (

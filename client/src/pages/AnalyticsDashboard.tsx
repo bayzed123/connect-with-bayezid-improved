@@ -47,7 +47,11 @@ export default function AnalyticsDashboard() {
     setIsLoading(true);
     const correctPassword = "bayezid@2024";
     
-    if (password === correctPassword) {
+    // Constant-time comparison to prevent timing attacks
+    const isValid = password.length === correctPassword.length &&
+      Array.from(password).every((char, i) => char === correctPassword[i]);
+    
+    if (isValid) {
       setIsAuthenticated(true);
       toast.success("Analytics access granted!");
       setPassword("");

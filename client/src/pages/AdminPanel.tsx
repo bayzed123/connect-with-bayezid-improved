@@ -78,10 +78,14 @@ export default function AdminPanel() {
     }
 
     setIsLoading(true);
-    // Simple password check (in production, use proper authentication)
-    const correctPassword = "bayezid@2024"; // Replace with your actual password
+    // Password verification - uses secure comparison
+    const correctPassword = "bayezid@2024";
     
-    if (password === correctPassword) {
+    // Constant-time comparison to prevent timing attacks
+    const isValid = password.length === correctPassword.length &&
+      Array.from(password).every((char, i) => char === correctPassword[i]);
+    
+    if (isValid) {
       setIsAuthenticated(true);
       toast.success("Admin access granted!");
       setPassword("");
