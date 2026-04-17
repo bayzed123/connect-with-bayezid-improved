@@ -19,6 +19,8 @@ import CustomerAgreement from "./pages/CustomerAgreement";
 import Portfolio from "./pages/Portfolio";
 import Certificates from "./pages/Certificates";
 import ContactForm from "./pages/ContactForm";
+import ClientReviews from "./pages/ClientReviews";
+import AdminPanel from "./pages/AdminPanel";
 
 
 function Router() {
@@ -40,6 +42,8 @@ function Router() {
       <Route path={"/portfolio"} component={Portfolio} />
       <Route path={"/certificates"} component={Certificates} />
       <Route path={"/contact-form"} component={ContactForm} />
+      <Route path={"/client-reviews"} component={ClientReviews} />
+      <Route path={"/admin"} component={AdminPanel} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

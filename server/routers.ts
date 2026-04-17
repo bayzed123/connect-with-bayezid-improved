@@ -211,9 +211,22 @@ export const appRouter = router({
     getApproved: publicProcedure.query(async () => {
       return await getClientReviews("approved");
     }),
+    getPending: publicProcedure.query(async () => {
+      return await getClientReviews("pending");
+    }),
     getAll: publicProcedure.query(async () => {
       return await getClientReviews();
     }),
+    approve: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await updateClientReviewStatus(input.id, "approved");
+      }),
+    reject: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await updateClientReviewStatus(input.id, "rejected");
+      }),
     updateStatus: publicProcedure
       .input(
         z.object({
