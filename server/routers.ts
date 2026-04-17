@@ -15,7 +15,15 @@ import {
   getBlogPosts,
   getBlogPostBySlug,
   updateBlogPost,
-  deleteBlogPost
+  deleteBlogPost,
+  createClientReview,
+  getClientReviews,
+  updateClientReviewStatus,
+  deleteClientReview,
+  createNotification,
+  getNotifications,
+  markNotificationAsRead,
+  deleteNotification
 } from "./db";
 import { notifyOwner } from "./_core/notification";
 
@@ -163,6 +171,82 @@ export const appRouter = router({
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {
         return await deleteBlogPost(input.id);
+      }),
+  }),
+
+  reviews: router({
+    create: publicProcedure
+      .input(
+        z.object({
+          clientName: z.string().min(2, "Name is required"),
+          clientEmail: z.string().email("Invalid email"),
+          rating: z.number().min(1).max(5),
+          review: z.string().min(10, "Review must be at least 10 characters"),
+          company: z.string().optional(),
+          image: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const review = await createClientReview({
+          ...input,
+          status: "pending",
+        });
+        
+        if (review) {
+          await createNotification({
+            title: `New Review from ${input.clientName}`,
+            message: `A new client review has been submitted and is pending approval.`,
+            type: "review",
+            relatedId: review.id,
+          });
+          
+          await notifyOwner({
+            title: `New Client Review Pending Approval`,
+            content: `${input.clientName} submitted a ${input.rating}-star review. Please approve or reject it in the admin panel.`,
+          });
+        }
+        
+        return review;
+      }),
+    getApproved: publicProcedure.query(async () => {
+      return await getClientReviews("approved");
+    }),
+    getAll: publicProcedure.query(async () => {
+      return await getClientReviews();
+    }),
+    updateStatus: publicProcedure
+      .input(
+        z.object({
+          id: z.number(),
+          status: z.enum(["pending", "approved", "rejected"]),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return await updateClientReviewStatus(input.id, input.status);
+      }),
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await deleteClientReview(input.id);
+      }),
+  }),
+
+  notifications: router({
+    getAll: publicProcedure.query(async () => {
+      return await getNotifications();
+    }),
+    getUnread: publicProcedure.query(async () => {
+      return await getNotifications(true);
+    }),
+    markAsRead: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await markNotificationAsRead(input.id);
+      }),
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await deleteNotification(input.id);
       }),
   }),
 });

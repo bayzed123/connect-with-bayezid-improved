@@ -36,6 +36,13 @@
       "when": 1776457503630,
       "tag": "0004_ambiguous_luke_cage",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1776458076314,
+      "tag": "0005_gifted_lady_mastermind",
+      "breakpoints": true
     }
   ]
 }

@@ -1,6 +1,6 @@
 import { eq, desc } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, contactSubmissions, InsertContactSubmission, ContactSubmission, newsItems, InsertNewsItem, NewsItem, blogPosts, InsertBlogPost, BlogPost } from "../drizzle/schema";
+import { InsertUser, users, contactSubmissions, InsertContactSubmission, ContactSubmission, newsItems, InsertNewsItem, NewsItem, blogPosts, InsertBlogPost, BlogPost, clientReviews, InsertClientReview, ClientReview, notifications, InsertNotification, Notification } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -285,6 +285,149 @@ export async function deleteBlogPost(id: number): Promise<boolean> {
     return true;
   } catch (error) {
     console.error("[Database] Failed to delete blog post:", error);
+    throw error;
+  }
+}
+
+// TODO: add feature queries here as your schema grows.
+
+
+// Client Reviews
+export async function createClientReview(data: InsertClientReview): Promise<ClientReview | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot create client review: database not available");
+    return null;
+  }
+
+  try {
+    const result = await db.insert(clientReviews).values(data);
+    const id = result[0].insertId as number;
+    const reviews = await db.select().from(clientReviews).where(eq(clientReviews.id, id)).limit(1);
+    return reviews.length > 0 ? reviews[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to create client review:", error);
+    throw error;
+  }
+}
+
+export async function getClientReviews(status?: string): Promise<ClientReview[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get client reviews: database not available");
+    return [];
+  }
+
+  try {
+    if (status) {
+      return await db.select().from(clientReviews).where(eq(clientReviews.status, status as any)).orderBy(desc(clientReviews.createdAt));
+    }
+    return await db.select().from(clientReviews).orderBy(desc(clientReviews.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get client reviews:", error);
+    return [];
+  }
+}
+
+export async function updateClientReviewStatus(id: number, status: "pending" | "approved" | "rejected"): Promise<ClientReview | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot update client review: database not available");
+    return null;
+  }
+
+  try {
+    await db.update(clientReviews).set({ status }).where(eq(clientReviews.id, id));
+    const result = await db.select().from(clientReviews).where(eq(clientReviews.id, id)).limit(1);
+    return result.length > 0 ? result[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to update client review:", error);
+    throw error;
+  }
+}
+
+export async function deleteClientReview(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot delete client review: database not available");
+    return false;
+  }
+
+  try {
+    await db.delete(clientReviews).where(eq(clientReviews.id, id));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to delete client review:", error);
+    throw error;
+  }
+}
+
+// Notifications
+export async function createNotification(data: InsertNotification): Promise<Notification | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot create notification: database not available");
+    return null;
+  }
+
+  try {
+    const result = await db.insert(notifications).values(data);
+    const id = result[0].insertId as number;
+    const notifs = await db.select().from(notifications).where(eq(notifications.id, id)).limit(1);
+    return notifs.length > 0 ? notifs[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to create notification:", error);
+    throw error;
+  }
+}
+
+export async function getNotifications(unreadOnly?: boolean): Promise<Notification[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get notifications: database not available");
+    return [];
+  }
+
+  try {
+    if (unreadOnly) {
+      return await db.select().from(notifications).where(eq(notifications.isRead, 0)).orderBy(desc(notifications.createdAt));
+    }
+    return await db.select().from(notifications).orderBy(desc(notifications.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get notifications:", error);
+    return [];
+  }
+}
+
+export async function markNotificationAsRead(id: number): Promise<Notification | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot update notification: database not available");
+    return null;
+  }
+
+  try {
+    await db.update(notifications).set({ isRead: 1 }).where(eq(notifications.id, id));
+    const result = await db.select().from(notifications).where(eq(notifications.id, id)).limit(1);
+    return result.length > 0 ? result[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to update notification:", error);
+    throw error;
+  }
+}
+
+export async function deleteNotification(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot delete notification: database not available");
+    return false;
+  }
+
+  try {
+    await db.delete(notifications).where(eq(notifications.id, id));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to delete notification:", error);
     throw error;
   }
 }

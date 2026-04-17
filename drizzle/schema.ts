@@ -70,4 +70,33 @@ export const blogPosts = mysqlTable("blogPosts", {
 export type BlogPost = typeof blogPosts.$inferSelect;
 export type InsertBlogPost = typeof blogPosts.$inferInsert;
 
+export const clientReviews = mysqlTable("clientReviews", {
+  id: int("id").autoincrement().primaryKey(),
+  clientName: varchar("clientName", { length: 255 }).notNull(),
+  clientEmail: varchar("clientEmail", { length: 320 }).notNull(),
+  rating: int("rating").notNull(), // 1-5 stars
+  review: text("review").notNull(),
+  company: varchar("company", { length: 255 }),
+  image: text("image"), // URL to client image
+  status: mysqlEnum("status", ["pending", "approved", "rejected"]).default("pending").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type ClientReview = typeof clientReviews.$inferSelect;
+export type InsertClientReview = typeof clientReviews.$inferInsert;
+
+export const notifications = mysqlTable("notifications", {
+  id: int("id").autoincrement().primaryKey(),
+  title: varchar("title", { length: 255 }).notNull(),
+  message: text("message").notNull(),
+  type: mysqlEnum("type", ["review", "news", "contact", "system"]).notNull(),
+  relatedId: int("relatedId"), // ID of related record (review, news, etc)
+  isRead: int("isRead").default(0).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type Notification = typeof notifications.$inferSelect;
+export type InsertNotification = typeof notifications.$inferInsert;
+
 // TODO: Add your tables here
