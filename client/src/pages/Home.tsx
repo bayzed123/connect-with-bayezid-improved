@@ -1,7 +1,9 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "wouter";
-import { ArrowRight, Zap, Users, TrendingUp, Code, Star } from "lucide-react";
+import { ArrowRight, Zap, Users, TrendingUp, Code, Star, Loader } from "lucide-react";
+import { useState, useEffect } from "react";
+import { trpc } from "@/lib/trpc";
 
 /**
  * Design Philosophy: Modern Professional with Gradient Elegance
@@ -9,9 +11,34 @@ import { ArrowRight, Zap, Users, TrendingUp, Code, Star } from "lucide-react";
  * - Adds professional navigation and footer
  * - Uses smooth animations and hover effects
  * - Emphasizes clarity and visual hierarchy
+ * - Displays approved client reviews dynamically from database
  */
 
+interface ClientReview {
+  id: number;
+  clientName: string;
+  clientEmail: string;
+  rating: number;
+  review: string;
+  company?: string;
+  image?: string;
+  status: "pending" | "approved" | "rejected";
+  createdAt: Date;
+}
+
 export default function Home() {
+  const [approvedReviews, setApprovedReviews] = useState<ClientReview[]>([]);
+  const [isLoadingReviews, setIsLoadingReviews] = useState(true);
+
+  // Fetch approved reviews from database
+  const { data: reviewsData } = trpc.reviews.getApproved.useQuery();
+
+  useEffect(() => {
+    if (reviewsData) {
+      setApprovedReviews(reviewsData as ClientReview[]);
+      setIsLoadingReviews(false);
+    }
+  }, [reviewsData]);
 
   const services = [
     {
@@ -47,57 +74,6 @@ export default function Home() {
     "Mobile First Approach",
     "24/7 Support",
     "Scalable Solutions",
-  ];
-
-  const testimonials = [
-    {
-      name: "Abdullah Al Zamil",
-      feedback: "Brother is very sincere and hardworking. I had an issue with boosting on my page, and he took the time to resolve it. Thank you, Freelancer Bayezid bhai. ❤️",
-      rating: 5,
-      link: "https://www.facebook.com/share/1S2Y9HzGm5/?mibextid=wwXIfr",
-    },
-    {
-      name: "Golam Rabbi",
-      feedback: "I was really stressed about my page issue and had no idea what to do. Then I contacted Bayezid bhai, and he fixed everything within just 3 hours! 100% trusted, highly recommended.",
-      rating: 5,
-      link: "https://www.facebook.com/share/18bXXKZ6D5/?mibextid=wwXIfr",
-    },
-    {
-      name: "Md Imran Sarder",
-      feedback: "Professional Solution for Facebook Payout Issues! He set up the payout account correctly, successfully resolved earning complications, and fixed the entire issue with great efficiency.",
-      rating: 5,
-      link: "https://www.facebook.com/share/1Cp78j27sh/?mibextid=wwXIfr",
-    },
-    {
-      name: "Golam Kibria",
-      feedback: "My page's monetization was restricted due to 'Local Legal Requirements.' Bayezid bhai handled everything very professionally and resolved my issue very quickly. 100% trusted!",
-      rating: 5,
-      link: "https://www.facebook.com/share/1FpXKyAaQk/?mibextid=wwXIfr",
-    },
-    {
-      name: "Rashid Mahmud Babu",
-      feedback: "For quite some time, I was struggling with multiple issues on my ID—nothing seemed to work at all. But my dear brother, with his own skills, beautifully solved my problems. Thank you so much!",
-      rating: 5,
-      link: "https://www.facebook.com/share/1FzcGtKvag/?mibextid=wwXIfr",
-    },
-    {
-      name: "Ariful",
-      feedback: "I'm getting excellent results from Facebook ad campaigns, and all the credit goes to Freelancer Bayezid's service. There's great consistency between what he says and what he delivers. Very friendly and supportive at every step!",
-      rating: 5,
-      link: "https://www.facebook.com/share/183BLLHRVP/?mibextid=wwXIfr",
-    },
-    {
-      name: "Coy Pixy",
-      feedback: "He is very professional and his attention to detail is amazing. The work was much better than I expected. He helped with design, post writing, page boost, etc. very efficiently. Always answered my questions and gave suggestions when needed.",
-      rating: 5,
-      link: "https://www.facebook.com/share/17uU7Gk3RQ/?mibextid=wwXIfr",
-    },
-    {
-      name: "Elias Mizi",
-      feedback: "After my ID was locked for 18 days, I couldn't recover it. With Bayezid bhai's skill, patience, and by following Facebook's guidelines, he fully assisted me in recovering my lost account. I'm truly grateful!",
-      rating: 5,
-      link: "https://www.facebook.com/share/1BpjBSmS51/?mibextid=wwXIfr",
-    },
   ];
 
   return (
@@ -195,45 +171,59 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Testimonials Section */}
+        {/* Client Success Stories - Dynamic from Database */}
         <section className="w-full px-4 py-16 md:py-24 bg-gradient-to-b from-transparent via-indigo-500/10 to-transparent">
           <div className="max-w-6xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-4">Client Success Stories</h2>
             <p className="text-center text-slate-300 mb-12 max-w-2xl mx-auto">Real feedback from satisfied clients who trusted us with their digital challenges</p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {testimonials.map((testimonial, index) => (
-                <a
-                  key={index}
-                  href={testimonial.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group bg-white/5 backdrop-blur-lg border border-white/20 rounded-2xl p-6 hover:bg-white/10 transition-all hover:shadow-xl hover:shadow-indigo-500/20 hover:-translate-y-2 hover:border-indigo-500/50"
-                >
-                  {/* Stars */}
-                  <div className="flex gap-1 mb-4">
-                    {Array.from({ length: testimonial.rating }).map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
-                    ))}
-                  </div>
-
-                  {/* Feedback */}
-                  <p className="text-slate-300 text-sm mb-4 line-clamp-4 group-hover:line-clamp-none transition-all">
-                    "{testimonial.feedback}"
-                  </p>
-
-                  {/* Name */}
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-white font-bold text-sm">{testimonial.name}</p>
-                      <p className="text-indigo-400 text-xs">Verified Client</p>
+            
+            {isLoadingReviews ? (
+              <div className="flex justify-center items-center py-12">
+                <Loader className="w-8 h-8 text-indigo-400 animate-spin" />
+              </div>
+            ) : approvedReviews.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {approvedReviews.map((review, index) => (
+                  <div
+                    key={review.id}
+                    className="group bg-white/5 backdrop-blur-lg border border-white/20 rounded-2xl p-6 hover:bg-white/10 transition-all hover:shadow-xl hover:shadow-indigo-500/20 hover:-translate-y-2 hover:border-indigo-500/50"
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    {/* Stars */}
+                    <div className="flex gap-1 mb-4">
+                      {Array.from({ length: review.rating }).map((_, i) => (
+                        <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                      ))}
                     </div>
-                    <div className="text-indigo-400 group-hover:translate-x-1 transition-transform">
-                      <ArrowRight className="w-4 h-4" />
+
+                    {/* Review Text */}
+                    <p className="text-slate-300 text-sm mb-4 line-clamp-4 group-hover:line-clamp-none transition-all">
+                      "{review.review}"
+                    </p>
+
+                    {/* Client Info */}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-white font-bold text-sm">{review.clientName}</p>
+                        {review.company && <p className="text-indigo-400 text-xs">{review.company}</p>}
+                        <p className="text-slate-400 text-xs">Verified Client</p>
+                      </div>
+                      <div className="text-indigo-400 group-hover:translate-x-1 transition-transform">
+                        <ArrowRight className="w-4 h-4" />
+                      </div>
                     </div>
                   </div>
-                </a>
-              ))}
-            </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12">
+                <p className="text-slate-400 mb-4">No reviews yet. Be the first to share your experience!</p>
+                <Link href="/client-reviews" className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-lg hover:shadow-lg transition-all">
+                  Submit Your Review
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            )}
           </div>
         </section>
 
@@ -249,12 +239,9 @@ export default function Home() {
               <a href="https://wa.me/message/TDYG575YENF6F1" target="_blank" rel="noopener noreferrer" className="px-8 py-4 border border-white/30 text-white font-bold rounded-xl hover:bg-white/10 transition-all">
                 Chat on WhatsApp
               </a>
-              <a href="https://www.facebook.com/share/1GYmMYYNXz/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" className="px-8 py-4 border border-blue-500/30 text-white font-bold rounded-xl hover:bg-blue-500/10 transition-all">
-                Visit Facebook Page
-              </a>
-              <a href="https://www.genzfrontir.com" target="_blank" rel="noopener noreferrer" className="px-8 py-4 border border-amber-500/30 text-white font-bold rounded-xl hover:bg-amber-500/10 transition-all">
-                GenZ Frontier News
-              </a>
+              <Link href="/client-reviews" className="px-8 py-4 border border-indigo-500/30 text-white font-bold rounded-xl hover:bg-indigo-500/10 transition-all">
+                View All Reviews
+              </Link>
             </div>
           </div>
         </section>
