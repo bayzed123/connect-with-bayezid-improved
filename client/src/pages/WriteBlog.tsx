@@ -1,8 +1,9 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "wouter";
-import { ChevronRight, FileText, Save, Eye, Send, Image as ImageIcon, X } from "lucide-react";
+import { ChevronRight, FileText, Save, Eye, Send, Image as ImageIcon, X, Loader } from "lucide-react";
 import { useState } from "react";
+import { trpc } from "@/lib/trpc";
 
 /**
  * Design Philosophy: Blog Writing Interface
@@ -11,6 +12,7 @@ import { useState } from "react";
  * - Image upload functionality
  * - Preview functionality
  * - Professional layout
+ * - Database integration for permanent storage
  */
 
 interface BlogFormData {
@@ -35,6 +37,7 @@ export default function WriteBlog() {
   const [isPreview, setIsPreview] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
   const [imagePreview, setImagePreview] = useState<string>("");
+  const [isPublishing, setIsPublishing] = useState(false);
 
   const categories = [
     "Web Development",
@@ -47,6 +50,17 @@ export default function WriteBlog() {
     "Meta Support",
     "Other",
   ];
+
+  // tRPC mutation for creating blog posts
+  const createBlogMutation = trpc.blog.create.useMutation({
+    onSuccess: () => {
+      setIsSaved(true);
+      setTimeout(() => setIsSaved(false), 3000);
+    },
+    onError: (error) => {
+      alert("Error saving blog: " + error.message);
+    },
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -80,27 +94,50 @@ export default function WriteBlog() {
     }));
   };
 
-  const handleSave = () => {
-    // Save to localStorage for demonstration
-    const blogs = JSON.parse(localStorage.getItem("userBlogs") || "[]");
-    const newBlog = {
-      id: Date.now(),
-      ...formData,
-      date: new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" }),
-    };
-    blogs.push(newBlog);
-    localStorage.setItem("userBlogs", JSON.stringify(blogs));
-    setIsSaved(true);
-    setTimeout(() => setIsSaved(false), 3000);
-  };
-
-  const handlePublish = () => {
+  const handleSave = async () => {
+    // Save to database via tRPC
     if (!formData.title || !formData.excerpt || !formData.content) {
       alert("Please fill in all required fields (Title, Excerpt, and Content)");
       return;
     }
-    handleSave();
-    alert("Blog post published! You can view it in the News & Articles section.");
+
+    setIsPublishing(true);
+    try {
+      // Generate slug from title
+      const slug = formData.title
+        .toLowerCase()
+        .replace(/[^\w\s-]/g, "")
+        .replace(/\s+/g, "-")
+        .substring(0, 50);
+
+      await createBlogMutation.mutateAsync({
+        title: formData.title,
+        excerpt: formData.excerpt,
+        content: formData.content,
+        category: formData.category,
+        author: formData.author,
+        slug: slug,
+        featuredImage: imagePreview || undefined,
+      });
+
+      setIsSaved(true);
+      setTimeout(() => setIsSaved(false), 3000);
+    } catch (error) {
+      console.error("Error saving blog:", error);
+    } finally {
+      setIsPublishing(false);
+    }
+  };
+
+  const handlePublish = async () => {
+    if (!formData.title || !formData.excerpt || !formData.content) {
+      alert("Please fill in all required fields (Title, Excerpt, and Content)");
+      return;
+    }
+
+    await handleSave();
+    alert("Blog post published! You can view it in the Blog section.");
+
     // Reset form
     setFormData({
       title: "",
@@ -148,7 +185,7 @@ export default function WriteBlog() {
               <FileText className="w-8 h-8 text-indigo-400" />
               <h1 className="text-4xl md:text-5xl font-bold text-white">Write Your Blog Post</h1>
             </div>
-            <p className="text-lg text-slate-300">Create and publish your own blog articles with images to share your expertise with the world</p>
+            <p className="text-lg text-slate-300">Create and publish your own blog articles with images to share your expertise with the world. All posts are saved permanently to the database.</p>
           </div>
 
           {/* Main Content */}
@@ -262,6 +299,13 @@ export default function WriteBlog() {
                 <p className="text-slate-400 text-sm mt-2">Character count: {formData.content.length}</p>
               </div>
 
+              {/* Save Status */}
+              {isSaved && (
+                <div className="p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300">
+                  ✅ Blog post saved successfully! It's now permanently stored in the database.
+                </div>
+              )}
+
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-white/10">
                 <button
@@ -273,81 +317,68 @@ export default function WriteBlog() {
                 </button>
                 <button
                   onClick={handleSave}
-                  className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-amber-500/50 transition-all hover:scale-105"
+                  disabled={isPublishing}
+                  className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-amber-500/50 transition-all hover:scale-105 disabled:opacity-50"
                 >
-                  <Save className="w-5 h-5" />
+                  {isPublishing ? <Loader className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
                   Save Draft
                 </button>
                 <button
                   onClick={handlePublish}
-                  className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-indigo-500/50 transition-all hover:scale-105"
+                  disabled={isPublishing}
+                  className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-indigo-500/50 transition-all hover:scale-105 disabled:opacity-50"
                 >
-                  <Send className="w-5 h-5" />
+                  {isPublishing ? <Loader className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
                   Publish
                 </button>
                 <button
                   onClick={handleClear}
-                  className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-red-600 to-pink-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-red-500/50 transition-all hover:scale-105"
+                  className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-700 text-white font-bold rounded-xl hover:bg-slate-600 transition-all"
                 >
-                  Clear All
+                  <X className="w-5 h-5" />
+                  Clear
                 </button>
               </div>
-
-              {isSaved && (
-                <div className="p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300 text-center">
-                  ✓ Blog saved successfully!
-                </div>
-              )}
             </div>
           ) : (
+            // Preview Mode
             <div className="space-y-6">
-              {/* Preview Card */}
-              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden">
+              <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8">
                 {/* Featured Image */}
                 {imagePreview && (
-                  <div className="w-full h-96 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 overflow-hidden">
-                    <img src={imagePreview} alt={formData.title} className="w-full h-full object-cover" />
+                  <div className="mb-8">
+                    <img src={imagePreview} alt={formData.title} className="w-full h-96 object-cover rounded-lg" />
                   </div>
                 )}
 
+                {/* Title */}
+                <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">{formData.title || "Blog Title"}</h1>
+
+                {/* Meta Info */}
+                <div className="flex flex-wrap gap-4 mb-8 text-slate-400">
+                  <span>By {formData.author}</span>
+                  <span>•</span>
+                  <span>{formData.category}</span>
+                  <span>•</span>
+                  <span>{new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
+                </div>
+
+                {/* Excerpt */}
+                <p className="text-lg text-slate-300 mb-8 italic border-l-4 border-indigo-500 pl-4">{formData.excerpt}</p>
+
                 {/* Content */}
-                <div className="p-8">
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="px-3 py-1 bg-indigo-500/30 text-indigo-300 rounded-full text-sm font-medium">
-                      {formData.category}
-                    </span>
-                  </div>
-
-                  <h1 className="text-4xl font-bold text-white mb-4">{formData.title || "Blog Title"}</h1>
-
-                  <div className="flex items-center gap-4 text-slate-400 mb-8 pb-8 border-b border-white/10">
-                    <span>By {formData.author}</span>
-                    <span>•</span>
-                    <span>{new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}</span>
-                  </div>
-
-                  <p className="text-lg text-slate-300 mb-8 leading-relaxed">{formData.excerpt || "Excerpt will appear here"}</p>
-
-                  <div className="prose prose-invert max-w-none">
-                    <p className="text-slate-300 whitespace-pre-wrap leading-relaxed">{formData.content || "Content will appear here"}</p>
-                  </div>
+                <div className="prose prose-invert max-w-none text-slate-300 whitespace-pre-wrap">
+                  {formData.content}
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4">
+              {/* Back Button */}
+              <div className="flex gap-4">
                 <button
                   onClick={() => setIsPreview(false)}
-                  className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-slate-600 to-slate-700 text-white font-bold rounded-xl hover:shadow-2xl transition-all hover:scale-105"
+                  className="flex items-center justify-center gap-2 px-6 py-3 bg-slate-700 text-white font-bold rounded-xl hover:bg-slate-600 transition-all"
                 >
-                  Back to Edit
-                </button>
-                <button
-                  onClick={handlePublish}
-                  className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-indigo-500/50 transition-all hover:scale-105"
-                >
-                  <Send className="w-5 h-5" />
-                  Publish Blog
+                  ← Back to Edit
                 </button>
               </div>
             </div>
