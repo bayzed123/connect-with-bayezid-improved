@@ -29,7 +29,7 @@ import {
   getPageAnalytics,
   getAnalyticsSummary
 } from "./db";
-import { notifyOwner } from "./_core/notification";
+import { notifyOwner, sendContactFormEmail } from "./_core/notification";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
@@ -67,11 +67,14 @@ export const appRouter = router({
         });
 
         if (submission) {
-          // Send notification to owner
+          // Send notification to owner via Manus notification service
           await notifyOwner({
             title: `New Contact Form Submission from ${input.name}`,
             content: `Email: ${input.email}\nPhone: ${input.phone || "Not provided"}\nSubject: ${input.subject}\n\nMessage:\n${input.message}`,
           });
+          
+          // Also send email notification to admin
+          await sendContactFormEmail(input);
         }
 
         return submission;

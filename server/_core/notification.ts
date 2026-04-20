@@ -112,3 +112,75 @@ export async function notifyOwner(
     return false;
   }
 }
+
+
+/**
+ * Sends an email notification for contact form submissions
+ * Email is sent to the admin/owner email address
+ */
+export async function sendContactFormEmail(
+  contactData: {
+    name: string;
+    email: string;
+    phone?: string;
+    subject: string;
+    message: string;
+  }
+): Promise<boolean> {
+  try {
+    // Send email via Manus Email Service (using Forge API)
+    const emailContent = `
+New Contact Form Submission
+
+From: ${contactData.name}
+Email: ${contactData.email}
+Phone: ${contactData.phone || "Not provided"}
+Subject: ${contactData.subject}
+
+Message:
+${contactData.message}
+
+---
+This is an automated message from Connect With Bayezid website.
+    `.trim();
+
+    const response = await fetch(
+      `${ENV.forgeApiUrl}/email/send`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${ENV.forgeApiKey}`,
+        },
+        body: JSON.stringify({
+          to: "cwb.agency@outlook.com", // Admin email
+          subject: `New Contact: ${contactData.subject}`,
+          html: `
+            <h2>New Contact Form Submission</h2>
+            <p><strong>From:</strong> ${contactData.name}</p>
+            <p><strong>Email:</strong> <a href="mailto:${contactData.email}">${contactData.email}</a></p>
+            <p><strong>Phone:</strong> ${contactData.phone || "Not provided"}</p>
+            <p><strong>Subject:</strong> ${contactData.subject}</p>
+            <hr />
+            <p><strong>Message:</strong></p>
+            <p>${contactData.message.replace(/\n/g, "<br />")}</p>
+          `,
+          text: emailContent,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      console.warn(
+        `[Email] Failed to send contact form email (${response.status})`
+      );
+      return false;
+    }
+
+    console.log("[Email] Contact form email sent successfully");
+    return true;
+  } catch (error) {
+    console.warn("[Email] Error sending contact form email:", error);
+    return false;
+  }
+}
