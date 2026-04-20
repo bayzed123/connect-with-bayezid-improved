@@ -22,6 +22,7 @@ interface BlogFormData {
   category: string;
   author: string;
   image?: string;
+  isPublished?: number;
 }
 
 export default function WriteBlog() {
@@ -38,6 +39,7 @@ export default function WriteBlog() {
   const [isSaved, setIsSaved] = useState(false);
   const [imagePreview, setImagePreview] = useState<string>("");
   const [isPublishing, setIsPublishing] = useState(false);
+  const [isDraft, setIsDraft] = useState(false);
 
   const categories = [
     "Web Development",
@@ -118,6 +120,7 @@ export default function WriteBlog() {
         author: formData.author,
         slug: slug,
         featuredImage: imagePreview || undefined,
+        isPublished: isDraft ? 0 : 1, // 0 for draft, 1 for published
       });
 
       setIsSaved(true);
@@ -306,6 +309,21 @@ export default function WriteBlog() {
                 </div>
               )}
 
+              {/* Draft/Publish Toggle */}
+              <div className="flex items-center gap-3 p-4 bg-white/5 border border-white/10 rounded-lg">
+                <label className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="checkbox"
+                    checked={isDraft}
+                    onChange={(e) => setIsDraft(e.target.checked)}
+                    className="w-4 h-4 rounded"
+                  />
+                  <span className="text-white font-medium">
+                    {isDraft ? "Save as Draft (Private)" : "Publish Immediately (Public)"}
+                  </span>
+                </label>
+              </div>
+
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 pt-6 border-t border-white/10">
                 <button
@@ -321,7 +339,7 @@ export default function WriteBlog() {
                   className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-amber-600 to-orange-600 text-white font-bold rounded-xl hover:shadow-2xl hover:shadow-amber-500/50 transition-all hover:scale-105 disabled:opacity-50"
                 >
                   {isPublishing ? <Loader className="w-5 h-5 animate-spin" /> : <Save className="w-5 h-5" />}
-                  Save Draft
+                  {isDraft ? "Save as Draft" : "Save & Publish"}
                 </button>
                 <button
                   onClick={handlePublish}

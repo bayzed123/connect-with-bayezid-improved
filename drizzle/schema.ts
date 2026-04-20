@@ -63,6 +63,7 @@ export const blogPosts = mysqlTable("blogPosts", {
   excerpt: text("excerpt"),
   content: text("content").notNull(),
   featuredImage: text("featuredImage"),
+  isPublished: int("isPublished").default(0).notNull(), // 0 = draft/private, 1 = published/public
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

@@ -153,18 +153,27 @@ export const appRouter = router({
           author: z.string().optional(),
           excerpt: z.string().optional(),
           featuredImage: z.string().optional(),
+          isPublished: z.number().optional(),
         })
       )
       .mutation(async ({ input }) => {
         return await createBlogPost(input);
       }),
     getAll: publicProcedure.query(async () => {
+      const allBlogs = await getBlogPosts();
+      return allBlogs.filter(blog => blog.isPublished === 1);
+    }),
+    getAllAdmin: publicProcedure.query(async () => {
       return await getBlogPosts();
     }),
     getBySlug: publicProcedure
       .input(z.object({ slug: z.string() }))
       .query(async ({ input }) => {
-        return await getBlogPostBySlug(input.slug);
+        const blog = await getBlogPostBySlug(input.slug);
+        if (blog && blog.isPublished === 1) {
+          return blog;
+        }
+        return null;
       }),
     update: publicProcedure
       .input(
@@ -177,6 +186,7 @@ export const appRouter = router({
           author: z.string().optional(),
           excerpt: z.string().optional(),
           featuredImage: z.string().optional(),
+          isPublished: z.number().optional(),
         })
       )
       .mutation(async ({ input }) => {
