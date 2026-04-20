@@ -50,6 +50,13 @@
       "when": 1776458942403,
       "tag": "0006_peaceful_veda",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1776646056472,
+      "tag": "0007_powerful_firebird",
+      "breakpoints": true
     }
   ]
 }

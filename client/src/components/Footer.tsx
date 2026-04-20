@@ -1,8 +1,22 @@
 import { Link } from "wouter";
-import { Mail, MapPin, Facebook, Linkedin, Instagram, MessageCircle, Phone } from "lucide-react";
+import { Mail, MapPin, Facebook, Linkedin, Instagram, MessageCircle, Phone, Send, CheckCircle } from "lucide-react";
+import { useState } from "react";
+import { trpc } from "@/lib/trpc";
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [newsletterName, setNewsletterName] = useState("");
+  const [newsletterSuccess, setNewsletterSuccess] = useState(false);
+
+  const subscribeNewsletter = trpc.newsletter.subscribe.useMutation({
+    onSuccess: () => {
+      setNewsletterEmail("");
+      setNewsletterName("");
+      setNewsletterSuccess(true);
+      setTimeout(() => setNewsletterSuccess(false), 4000);
+    },
+  });
 
   const facebookServicePage = "https://www.facebook.com/share/1GYmMYYNXz/?mibextid=wwXIfr";
   const genzFrontierLink = "https://www.genzfrontir.com";
@@ -164,6 +178,73 @@ export default function Footer() {
                 </div>
               </li>
             </ul>
+          </div>
+        </div>
+
+        {/* Newsletter Section */}
+        <div className="border-t border-white/10 py-8 mb-8">
+          <div className="max-w-2xl mx-auto bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-500/20 rounded-2xl p-8">
+            <div className="text-center mb-6">
+              <h3 className="text-2xl font-bold text-white mb-2">Subscribe to Our Newsletter</h3>
+              <p className="text-slate-300">Get the latest updates, insights, and digital tips delivered to your inbox.</p>
+            </div>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (newsletterEmail) {
+                  subscribeNewsletter.mutate({
+                    email: newsletterEmail,
+                    name: newsletterName,
+                  });
+                }
+              }}
+              className="space-y-3"
+            >
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <input
+                  type="text"
+                  placeholder="Your Name (optional)"
+                  value={newsletterName}
+                  onChange={(e) => setNewsletterName(e.target.value)}
+                  className="px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition-colors"
+                />
+                <input
+                  type="email"
+                  placeholder="Your Email"
+                  value={newsletterEmail}
+                  onChange={(e) => setNewsletterEmail(e.target.value)}
+                  className="px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition-colors"
+                  required
+                />
+                <button
+                  type="submit"
+                  disabled={subscribeNewsletter.isPending}
+                  className="flex items-center justify-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                >
+                  {subscribeNewsletter.isPending ? (
+                    <span>Subscribing...</span>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      <span>Subscribe</span>
+                    </>
+                  )}
+                </button>
+              </div>
+            </form>
+
+            {newsletterSuccess && (
+              <div className="mt-4 flex items-center justify-center gap-2 p-3 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300">
+                <CheckCircle className="w-5 h-5" />
+                <span>Thank you for subscribing! Check your email for confirmation.</span>
+              </div>
+            )}
+
+            {subscribeNewsletter.error && (
+              <div className="mt-4 p-3 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300 text-center">
+                <span>{subscribeNewsletter.error.message}</span>
+              </div>
+            )}
           </div>
         </div>
 

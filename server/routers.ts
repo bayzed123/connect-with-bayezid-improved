@@ -27,7 +27,16 @@ import {
   trackVisitor,
   getVisitorAnalytics,
   getPageAnalytics,
-  getAnalyticsSummary
+  getAnalyticsSummary,
+  createBlogComment,
+  getBlogCommentsByPostId,
+  getApprovedBlogCommentsByPostId,
+  updateBlogCommentStatus,
+  deleteBlogComment,
+  createNewsletterSubscriber,
+  getNewsletterSubscribers,
+  updateNewsletterSubscriberStatus,
+  deleteNewsletterSubscriber
 } from "./db";
 import { notifyOwner, sendContactFormEmail } from "./_core/notification";
 
@@ -267,6 +276,114 @@ export const appRouter = router({
       .input(z.object({ id: z.number() }))
       .mutation(async ({ input }) => {
         return await deleteNotification(input.id);
+      }),
+  }),
+
+  comments: router({
+    create: publicProcedure
+      .input(
+        z.object({
+          blogPostId: z.number(),
+          authorName: z.string().min(2, "Name must be at least 2 characters"),
+          authorEmail: z.string().email("Invalid email address"),
+          content: z.string().min(5, "Comment must be at least 5 characters"),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const comment = await createBlogComment({
+          blogPostId: input.blogPostId,
+          authorName: input.authorName,
+          authorEmail: input.authorEmail,
+          content: input.content,
+          status: "pending",
+        });
+
+        if (comment) {
+          await createNotification({
+            title: `New Comment on Blog Post`,
+            message: `${input.authorName} left a comment. Please approve or reject it in the admin panel.`,
+            type: "system",
+            relatedId: comment.id,
+          });
+          
+          await notifyOwner({
+            title: `New Blog Comment Pending Approval`,
+            content: `${input.authorName} commented: "${input.content.substring(0, 100)}..."`,
+          });
+        }
+
+        return comment;
+      }),
+    getApproved: publicProcedure
+      .input(z.object({ blogPostId: z.number() }))
+      .query(async ({ input }) => {
+        return await getApprovedBlogCommentsByPostId(input.blogPostId);
+      }),
+    getAll: publicProcedure
+      .input(z.object({ blogPostId: z.number() }))
+      .query(async ({ input }) => {
+        return await getBlogCommentsByPostId(input.blogPostId);
+      }),
+    approve: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await updateBlogCommentStatus(input.id, "approved");
+      }),
+    reject: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await updateBlogCommentStatus(input.id, "rejected");
+      }),
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await deleteBlogComment(input.id);
+      }),
+  }),
+
+  newsletter: router({
+    subscribe: publicProcedure
+      .input(
+        z.object({
+          email: z.string().email("Invalid email address"),
+          name: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        try {
+          const subscriber = await createNewsletterSubscriber({
+            email: input.email,
+            name: input.name,
+            status: "subscribed",
+          });
+
+          if (subscriber) {
+            await notifyOwner({
+              title: `New Newsletter Subscriber`,
+              content: `${input.name || input.email} has subscribed to the newsletter.`,
+            });
+          }
+
+          return subscriber;
+        } catch (error: any) {
+          if (error.message && error.message.includes("Duplicate entry")) {
+            throw new Error("This email is already subscribed to our newsletter.");
+          }
+          throw error;
+        }
+      }),
+    getAll: publicProcedure.query(async () => {
+      return await getNewsletterSubscribers();
+    }),
+    unsubscribe: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await updateNewsletterSubscriberStatus(input.id, "unsubscribed");
+      }),
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await deleteNewsletterSubscriber(input.id);
       }),
   }),
 

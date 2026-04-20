@@ -1,9 +1,10 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { useRoute, Link } from "wouter";
-import { Calendar, User, Share2, ArrowLeft, Loader2, ChevronRight } from "lucide-react";
+import { Calendar, User, Share2, ArrowLeft, Loader2, ChevronRight, Send, CheckCircle } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { Streamdown } from "streamdown";
+import { useState } from "react";
 
 /**
  * Blog Post Detail Page
@@ -11,6 +12,7 @@ import { Streamdown } from "streamdown";
  * - Shows author, date, category information
  * - Includes related posts
  * - Share functionality
+ * - Blog comments section
  */
 
 export default function BlogDetail() {
@@ -24,6 +26,26 @@ export default function BlogDetail() {
 
   // Fetch all blogs for related posts
   const { data: allBlogs = [] } = trpc.blog.getAll.useQuery();
+
+  // Fetch approved comments
+  const { data: comments = [], refetch: refetchComments } = trpc.comments.getApproved.useQuery(
+    { blogPostId: blog?.id || 0 },
+    { enabled: !!blog?.id }
+  );
+
+  // Create comment mutation
+  const createCommentMutation = trpc.comments.create.useMutation({
+    onSuccess: () => {
+      refetchComments();
+      setCommentForm({ name: "", email: "", content: "" });
+      setCommentSuccess(true);
+      setTimeout(() => setCommentSuccess(false), 3000);
+    },
+  });
+
+  // Comment form state
+  const [commentForm, setCommentForm] = useState({ name: "", email: "", content: "" });
+  const [commentSuccess, setCommentSuccess] = useState(false);
 
   // Get related posts (same category, exclude current)
   const relatedPosts = allBlogs
@@ -170,6 +192,109 @@ export default function BlogDetail() {
                 </p>
               </div>
             </div>
+          </div>
+
+          {/* Comments Section */}
+          <div className="mb-12">
+            <h2 className="text-3xl font-bold text-white mb-8">Comments</h2>
+
+            {/* Comment Form */}
+            <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 mb-8">
+              <h3 className="text-xl font-bold text-white mb-6">Leave a Comment</h3>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (blog?.id && commentForm.name && commentForm.email && commentForm.content) {
+                    createCommentMutation.mutate({
+                      blogPostId: blog.id,
+                      authorName: commentForm.name,
+                      authorEmail: commentForm.email,
+                      content: commentForm.content,
+                    });
+                  }
+                }}
+                className="space-y-4"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    value={commentForm.name}
+                    onChange={(e) => setCommentForm({ ...commentForm, name: e.target.value })}
+                    className="px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition-colors"
+                    required
+                  />
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    value={commentForm.email}
+                    onChange={(e) => setCommentForm({ ...commentForm, email: e.target.value })}
+                    className="px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition-colors"
+                    required
+                  />
+                </div>
+                <textarea
+                  placeholder="Your Comment"
+                  value={commentForm.content}
+                  onChange={(e) => setCommentForm({ ...commentForm, content: e.target.value })}
+                  rows={4}
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-indigo-500 transition-colors resize-none"
+                  required
+                />
+                <button
+                  type="submit"
+                  disabled={createCommentMutation.isPending}
+                  className="flex items-center gap-2 px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {createCommentMutation.isPending ? (
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                  ) : (
+                    <Send className="w-5 h-5" />
+                  )}
+                  <span>{createCommentMutation.isPending ? "Posting..." : "Post Comment"}</span>
+                </button>
+              </form>
+
+              {commentSuccess && (
+                <div className="mt-4 flex items-center gap-2 p-4 bg-green-500/20 border border-green-500/50 rounded-lg text-green-300">
+                  <CheckCircle className="w-5 h-5" />
+                  <span>Comment submitted! It will appear after admin approval.</span>
+                </div>
+              )}
+
+              {createCommentMutation.error && (
+                <div className="mt-4 p-4 bg-red-500/20 border border-red-500/50 rounded-lg text-red-300">
+                  <span>{createCommentMutation.error.message}</span>
+                </div>
+              )}
+            </div>
+
+            {/* Comments List */}
+            {comments.length > 0 ? (
+              <div className="space-y-6">
+                {comments.map((comment) => (
+                  <div key={comment.id} className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-6">
+                    <div className="flex items-start justify-between mb-3">
+                      <div>
+                        <h4 className="font-bold text-white">{comment.authorName}</h4>
+                        <p className="text-sm text-slate-400">
+                          {new Date(comment.createdAt).toLocaleDateString("en-US", {
+                            year: "numeric",
+                            month: "short",
+                            day: "numeric",
+                          })}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="text-slate-300">{comment.content}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 text-slate-400">
+                <p>No comments yet. Be the first to comment!</p>
+              </div>
+            )}
           </div>
 
           {/* Related Posts */}

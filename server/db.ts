@@ -1,6 +1,6 @@
-import { eq, desc } from "drizzle-orm";
+import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, contactSubmissions, InsertContactSubmission, ContactSubmission, newsItems, InsertNewsItem, NewsItem, blogPosts, InsertBlogPost, BlogPost, clientReviews, InsertClientReview, ClientReview, notifications, InsertNotification, Notification, visitorAnalytics, InsertVisitorAnalytics, VisitorAnalytics } from "../drizzle/schema";
+import { InsertUser, users, contactSubmissions, InsertContactSubmission, ContactSubmission, newsItems, InsertNewsItem, NewsItem, blogPosts, InsertBlogPost, BlogPost, clientReviews, InsertClientReview, ClientReview, notifications, InsertNotification, Notification, visitorAnalytics, InsertVisitorAnalytics, VisitorAnalytics, blogComments, InsertBlogComment, BlogComment, newsletterSubscribers, InsertNewsletterSubscriber, NewsletterSubscriber } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -549,5 +549,168 @@ export async function getAnalyticsSummary(): Promise<{
       averageScrollDepth: 0,
       topPages: [],
     };
+  }
+}
+
+// Blog Comments
+export async function createBlogComment(data: InsertBlogComment): Promise<BlogComment | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot create blog comment: database not available");
+    return null;
+  }
+
+  try {
+    const result = await db.insert(blogComments).values(data);
+    const id = result[0].insertId as number;
+    const comments = await db.select().from(blogComments).where(eq(blogComments.id, id)).limit(1);
+    return comments.length > 0 ? comments[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to create blog comment:", error);
+    throw error;
+  }
+}
+
+export async function getBlogCommentsByPostId(blogPostId: number, status?: string): Promise<BlogComment[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get blog comments: database not available");
+    return [];
+  }
+
+  try {
+    if (status) {
+      return await db.select().from(blogComments)
+        .where(eq(blogComments.blogPostId, blogPostId))
+        .orderBy(desc(blogComments.createdAt));
+    }
+    return await db.select().from(blogComments)
+      .where(eq(blogComments.blogPostId, blogPostId))
+      .orderBy(desc(blogComments.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get blog comments:", error);
+    return [];
+  }
+}
+
+export async function getApprovedBlogCommentsByPostId(blogPostId: number): Promise<BlogComment[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get approved blog comments: database not available");
+    return [];
+  }
+
+  try {
+    return await db.select().from(blogComments)
+      .where(and(eq(blogComments.blogPostId, blogPostId), eq(blogComments.status, "approved")))
+      .orderBy(desc(blogComments.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get approved blog comments:", error);
+    return [];
+  }
+}
+
+export async function updateBlogCommentStatus(id: number, status: "pending" | "approved" | "rejected"): Promise<BlogComment | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot update blog comment: database not available");
+    return null;
+  }
+
+  try {
+    await db.update(blogComments).set({ status }).where(eq(blogComments.id, id));
+    const result = await db.select().from(blogComments).where(eq(blogComments.id, id)).limit(1);
+    return result.length > 0 ? result[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to update blog comment:", error);
+    throw error;
+  }
+}
+
+export async function deleteBlogComment(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot delete blog comment: database not available");
+    return false;
+  }
+
+  try {
+    await db.delete(blogComments).where(eq(blogComments.id, id));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to delete blog comment:", error);
+    throw error;
+  }
+}
+
+// Newsletter Subscribers
+export async function createNewsletterSubscriber(data: InsertNewsletterSubscriber): Promise<NewsletterSubscriber | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot create newsletter subscriber: database not available");
+    return null;
+  }
+
+  try {
+    const result = await db.insert(newsletterSubscribers).values(data);
+    const id = result[0].insertId as number;
+    const subscribers = await db.select().from(newsletterSubscribers).where(eq(newsletterSubscribers.id, id)).limit(1);
+    return subscribers.length > 0 ? subscribers[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to create newsletter subscriber:", error);
+    throw error;
+  }
+}
+
+export async function getNewsletterSubscribers(status?: string): Promise<NewsletterSubscriber[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get newsletter subscribers: database not available");
+    return [];
+  }
+
+  try {
+    if (status) {
+      return await db.select().from(newsletterSubscribers)
+        .orderBy(desc(newsletterSubscribers.createdAt));
+    }
+    return await db.select().from(newsletterSubscribers)
+      .orderBy(desc(newsletterSubscribers.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get newsletter subscribers:", error);
+    return [];
+  }
+}
+
+export async function updateNewsletterSubscriberStatus(id: number, status: "subscribed" | "unsubscribed" | "bounced"): Promise<NewsletterSubscriber | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot update newsletter subscriber: database not available");
+    return null;
+  }
+
+  try {
+    await db.update(newsletterSubscribers).set({ status }).where(eq(newsletterSubscribers.id, id));
+    const result = await db.select().from(newsletterSubscribers).where(eq(newsletterSubscribers.id, id)).limit(1);
+    return result.length > 0 ? result[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to update newsletter subscriber:", error);
+    throw error;
+  }
+}
+
+export async function deleteNewsletterSubscriber(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot delete newsletter subscriber: database not available");
+    return false;
+  }
+
+  try {
+    await db.delete(newsletterSubscribers).where(eq(newsletterSubscribers.id, id));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to delete newsletter subscriber:", error);
+    throw error;
   }
 }

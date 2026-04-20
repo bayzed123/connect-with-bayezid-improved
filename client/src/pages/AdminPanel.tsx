@@ -38,7 +38,9 @@ export default function AdminPanel() {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"reviews" | "news">("reviews");
+  const [activeTab, setActiveTab] = useState<"reviews" | "news" | "comments">("reviews");
+  const [pendingComments, setPendingComments] = useState<any[]>([]);
+  const [commentsLoading, setCommentsLoading] = useState(true);
   const [pendingReviews, setPendingReviews] = useState<PendingReview[]>([]);
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [reviewsLoading, setReviewsLoading] = useState(true);
