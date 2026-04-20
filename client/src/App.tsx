@@ -9,9 +9,9 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsConditions from "./pages/TermsConditions";
 import GoogleAdsPolicy from "./pages/GoogleAdsPolicy";
 import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
 import BlogPost from "./pages/BlogPost";
 import Contact from "./pages/Contact";
-import News from "./pages/News";
 import WriteBlog from "./pages/WriteBlog";
 import About from "./pages/About";
 import LatestNews from "./pages/LatestNews";
@@ -34,9 +34,9 @@ function Router() {
       <Route path={"/privacy-policy"} component={PrivacyPolicy} />
       <Route path={"/terms-conditions"} component={TermsConditions} />
       <Route path={"/google-ads-policy"} component={GoogleAdsPolicy} />
-      <Route path={"/blog"} component={Blog} />
-      <Route path={"/blog/:slug"} component={BlogPost} />
-      <Route path={"/news"} component={News} />
+      <Route path="/blog" component={Blog} />
+      <Route path="/blog/:slug" component={BlogDetail} />
+      <Route path="/write" component={WriteBlog} />
       <Route path={"/write-blog"} component={WriteBlog} />
       <Route path={"/latest-news"} component={LatestNews} />
       <Route path={"/customer-agreement"} component={CustomerAgreement} />
