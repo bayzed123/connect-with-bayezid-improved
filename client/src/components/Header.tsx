@@ -10,6 +10,7 @@ export default function Header() {
     { label: "About", href: "/about" },
     { label: "Portfolio", href: "/portfolio" },
     { label: "Certificates", href: "/certificates" },
+    { label: "Products", href: "/products" },
     { label: "Blog", href: "/blog" },
     { label: "Write", href: "/write-blog" },
     { label: "Reviews", href: "/client-reviews" },

@@ -16,8 +16,19 @@
 - [x] Blog comments system - Allow readers to leave comments on blog posts
 - [x] Newsletter signup form - Add email subscription in footer to build mailing list
 
+## In Progress - Products/Services System
+- [x] Products page with listing and filtering
+- [x] Product detail page with purchase form
+- [x] Products management in Admin Dashboard
+- [x] Orders management in Admin Dashboard
+- [x] Navigation menu for Products
+- [x] Database schema for products, orders, and promotions
+- [x] Backend API endpoints for all operations
+- [x] Unit tests for products and orders
+
 ## Future Enhancements
 - [ ] Stripe payment integration for services/products
 - [ ] Custom domain binding (Connectwithbayezid.it.com)
 - [ ] Blog comment moderation system
 - [ ] Newsletter email campaign features
+- [ ] WhatsApp order notifications

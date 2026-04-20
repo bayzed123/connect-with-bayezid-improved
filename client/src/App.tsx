@@ -22,6 +22,8 @@ import ContactForm from "./pages/ContactForm";
 import ClientReviews from "./pages/ClientReviews";
 import AdminPanel from "./pages/AdminPanel";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
+import Products from "./pages/Products";
+import ProductDetail from "./pages/ProductDetail";
 
 
 function Router() {
@@ -46,6 +48,8 @@ function Router() {
       <Route path={"/client-reviews"} component={ClientReviews} />
       <Route path={"/admin"} component={AdminPanel} />
       <Route path={"/analytics"} component={AnalyticsDashboard} />
+      <Route path={"/products"} component={Products} />
+      <Route path={"/product/:id"} component={ProductDetail} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
