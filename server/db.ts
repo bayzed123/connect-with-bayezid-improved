@@ -1,6 +1,6 @@
 import { eq, desc, and } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, contactSubmissions, InsertContactSubmission, ContactSubmission, newsItems, InsertNewsItem, NewsItem, blogPosts, InsertBlogPost, BlogPost, clientReviews, InsertClientReview, ClientReview, notifications, InsertNotification, Notification, visitorAnalytics, InsertVisitorAnalytics, VisitorAnalytics, blogComments, InsertBlogComment, BlogComment, newsletterSubscribers, InsertNewsletterSubscriber, NewsletterSubscriber } from "../drizzle/schema";
+import { InsertUser, users, contactSubmissions, InsertContactSubmission, ContactSubmission, newsItems, InsertNewsItem, NewsItem, blogPosts, InsertBlogPost, BlogPost, clientReviews, InsertClientReview, ClientReview, notifications, InsertNotification, Notification, visitorAnalytics, InsertVisitorAnalytics, VisitorAnalytics, blogComments, InsertBlogComment, BlogComment, newsletterSubscribers, InsertNewsletterSubscriber, NewsletterSubscriber, products, InsertProduct, Product, orders, InsertOrder, Order, promotions, InsertPromotion, Promotion } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -711,6 +711,253 @@ export async function deleteNewsletterSubscriber(id: number): Promise<boolean> {
     return true;
   } catch (error) {
     console.error("[Database] Failed to delete newsletter subscriber:", error);
+    throw error;
+  }
+}
+
+// ============ PRODUCTS ============
+
+export async function createProduct(data: InsertProduct): Promise<Product> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("[Database] Cannot create product: database not available");
+  }
+
+  try {
+    await db.insert(products).values(data);
+    const result = await db.select().from(products).orderBy(desc(products.createdAt)).limit(1);
+    if (!result || result.length === 0) throw new Error("Product not found after creation");
+    return result[0];
+  } catch (error) {
+    console.error("[Database] Failed to create product:", error);
+    throw error;
+  }
+}
+
+export async function getProducts(): Promise<Product[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get products: database not available");
+    return [];
+  }
+
+  try {
+    return await db.select().from(products).orderBy(desc(products.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get products:", error);
+    throw error;
+  }
+}
+
+export async function getActiveProducts(): Promise<Product[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get active products: database not available");
+    return [];
+  }
+
+  try {
+    return await db.select().from(products).where(eq(products.isActive, 1)).orderBy(desc(products.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get active products:", error);
+    throw error;
+  }
+}
+
+export async function getProductById(id: number): Promise<Product | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get product: database not available");
+    return null;
+  }
+
+  try {
+    const result = await db.select().from(products).where(eq(products.id, id)).limit(1);
+    return result.length > 0 ? result[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to get product:", error);
+    throw error;
+  }
+}
+
+export async function updateProduct(id: number, data: Partial<InsertProduct>): Promise<Product> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("[Database] Cannot update product: database not available");
+  }
+
+  try {
+    await db.update(products).set(data).where(eq(products.id, id));
+    const updated = await db.select().from(products).where(eq(products.id, id)).limit(1);
+    if (!updated || updated.length === 0) throw new Error("Product not found after update");
+    return updated[0];
+  } catch (error) {
+    console.error("[Database] Failed to update product:", error);
+    throw error;
+  }
+}
+
+export async function deleteProduct(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot delete product: database not available");
+    return false;
+  }
+
+  try {
+    await db.delete(products).where(eq(products.id, id));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to delete product:", error);
+    throw error;
+  }
+}
+
+// ============ ORDERS ============
+
+export async function createOrder(data: InsertOrder): Promise<Order> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("[Database] Cannot create order: database not available");
+  }
+
+  try {
+    await db.insert(orders).values(data);
+    const result = await db.select().from(orders).orderBy(desc(orders.createdAt)).limit(1);
+    if (!result || result.length === 0) throw new Error("Order not found after creation");
+    return result[0];
+  } catch (error) {
+    console.error("[Database] Failed to create order:", error);
+    throw error;
+  }
+}
+
+export async function getOrders(): Promise<Order[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get orders: database not available");
+    return [];
+  }
+
+  try {
+    return await db.select().from(orders).orderBy(desc(orders.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get orders:", error);
+    throw error;
+  }
+}
+
+export async function getOrderById(id: number): Promise<Order | null> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get order: database not available");
+    return null;
+  }
+
+  try {
+    const result = await db.select().from(orders).where(eq(orders.id, id)).limit(1);
+    return result.length > 0 ? result[0] : null;
+  } catch (error) {
+    console.error("[Database] Failed to get order:", error);
+    throw error;
+  }
+}
+
+export async function updateOrder(id: number, data: Partial<InsertOrder>): Promise<Order> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("[Database] Cannot update order: database not available");
+  }
+
+  try {
+    await db.update(orders).set(data).where(eq(orders.id, id));
+    const updated = await db.select().from(orders).where(eq(orders.id, id)).limit(1);
+    if (!updated || updated.length === 0) throw new Error("Order not found after update");
+    return updated[0];
+  } catch (error) {
+    console.error("[Database] Failed to update order:", error);
+    throw error;
+  }
+}
+
+// ============ PROMOTIONS ============
+
+export async function createPromotion(data: InsertPromotion): Promise<Promotion> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("[Database] Cannot create promotion: database not available");
+  }
+
+  try {
+    await db.insert(promotions).values(data);
+    const result = await db.select().from(promotions).orderBy(desc(promotions.createdAt)).limit(1);
+    if (!result || result.length === 0) throw new Error("Promotion not found after creation");
+    return result[0];
+  } catch (error) {
+    console.error("[Database] Failed to create promotion:", error);
+    throw error;
+  }
+}
+
+export async function getPromotions(): Promise<Promotion[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get promotions: database not available");
+    return [];
+  }
+
+  try {
+    return await db.select().from(promotions).orderBy(desc(promotions.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get promotions:", error);
+    throw error;
+  }
+}
+
+export async function getActivePromotions(): Promise<Promotion[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get active promotions: database not available");
+    return [];
+  }
+
+  try {
+    return await db.select().from(promotions).where(eq(promotions.isActive, 1)).orderBy(desc(promotions.createdAt));
+  } catch (error) {
+    console.error("[Database] Failed to get active promotions:", error);
+    throw error;
+  }
+}
+
+export async function updatePromotion(id: number, data: Partial<InsertPromotion>): Promise<Promotion> {
+  const db = await getDb();
+  if (!db) {
+    throw new Error("[Database] Cannot update promotion: database not available");
+  }
+
+  try {
+    await db.update(promotions).set(data).where(eq(promotions.id, id));
+    const updated = await db.select().from(promotions).where(eq(promotions.id, id)).limit(1);
+    if (!updated || updated.length === 0) throw new Error("Promotion not found after update");
+    return updated[0];
+  } catch (error) {
+    console.error("[Database] Failed to update promotion:", error);
+    throw error;
+  }
+}
+
+export async function deletePromotion(id: number): Promise<boolean> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot delete promotion: database not available");
+    return false;
+  }
+
+  try {
+    await db.delete(promotions).where(eq(promotions.id, id));
+    return true;
+  } catch (error) {
+    console.error("[Database] Failed to delete promotion:", error);
     throw error;
   }
 }

@@ -64,6 +64,13 @@
       "when": 1776647494035,
       "tag": "0008_dizzy_puff_adder",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1776720056300,
+      "tag": "0009_secret_microchip",
+      "breakpoints": true
     }
   ]
 }

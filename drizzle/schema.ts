@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -141,4 +141,56 @@ export const visitorAnalytics = mysqlTable("visitorAnalytics", {
 export type VisitorAnalytics = typeof visitorAnalytics.$inferSelect;
 export type InsertVisitorAnalytics = typeof visitorAnalytics.$inferInsert;
 
-// TODO: Add your tables here
+// Products/Services Table
+export const products = mysqlTable("products", {
+  id: int("id").autoincrement().primaryKey(),
+  name: varchar("name", { length: 255 }).notNull(),
+  description: text("description"),
+  category: varchar("category", { length: 100 }),
+  price: decimal("price", { precision: 10, scale: 2 }),
+  discountPrice: decimal("discountPrice", { precision: 10, scale: 2 }),
+  image: text("image"),
+  isActive: int("isActive").default(1).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Product = typeof products.$inferSelect;
+export type InsertProduct = typeof products.$inferInsert;
+
+// Orders Table
+export const orders = mysqlTable("orders", {
+  id: int("id").autoincrement().primaryKey(),
+  productId: int("productId").notNull(),
+  customerName: varchar("customerName", { length: 255 }).notNull(),
+  customerEmail: varchar("customerEmail", { length: 320 }).notNull(),
+  customerPhone: varchar("customerPhone", { length: 20 }),
+  quantity: int("quantity").default(1).notNull(),
+  totalPrice: decimal("totalPrice", { precision: 10, scale: 2 }).notNull(),
+  status: mysqlEnum("status", ["pending", "confirmed", "processing", "completed", "cancelled"]).default("pending").notNull(),
+  paymentMethod: varchar("paymentMethod", { length: 50 }),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Order = typeof orders.$inferSelect;
+export type InsertOrder = typeof orders.$inferInsert;
+
+// Promotions/Offers Table
+export const promotions = mysqlTable("promotions", {
+  id: int("id").autoincrement().primaryKey(),
+  productId: int("productId"),
+  title: varchar("title", { length: 255 }).notNull(),
+  description: text("description"),
+  discountPercent: int("discountPercent"),
+  discountAmount: decimal("discountAmount", { precision: 10, scale: 2 }),
+  startDate: timestamp("startDate"),
+  endDate: timestamp("endDate"),
+  isActive: int("isActive").default(1).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type Promotion = typeof promotions.$inferSelect;
+export type InsertPromotion = typeof promotions.$inferInsert;

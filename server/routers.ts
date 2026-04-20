@@ -36,7 +36,22 @@ import {
   createNewsletterSubscriber,
   getNewsletterSubscribers,
   updateNewsletterSubscriberStatus,
-  deleteNewsletterSubscriber
+  deleteNewsletterSubscriber,
+  createProduct,
+  getProducts,
+  getActiveProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct,
+  createOrder,
+  getOrders,
+  getOrderById,
+  updateOrder,
+  createPromotion,
+  getPromotions,
+  getActivePromotions,
+  updatePromotion,
+  deletePromotion
 } from "./db";
 import { notifyOwner, sendContactFormEmail } from "./_core/notification";
 
@@ -441,6 +456,143 @@ export const appRouter = router({
     getSummary: publicProcedure.query(async () => {
       return await getAnalyticsSummary();
     }),
+  }),
+
+  products: router({
+    create: publicProcedure
+      .input(
+        z.object({
+          name: z.string().min(1, "Product name is required"),
+          description: z.string().optional(),
+          category: z.string().optional(),
+          price: z.string().optional(),
+          discountPrice: z.string().optional(),
+          image: z.string().optional(),
+          isActive: z.number().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return await createProduct(input as any);
+      }),
+    getAll: publicProcedure.query(async () => {
+      return await getProducts();
+    }),
+    getActive: publicProcedure.query(async () => {
+      return await getActiveProducts();
+    }),
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await getProductById(input.id);
+      }),
+    update: publicProcedure
+      .input(
+        z.object({
+          id: z.number(),
+          name: z.string().optional(),
+          description: z.string().optional(),
+          category: z.string().optional(),
+          price: z.string().optional(),
+          discountPrice: z.string().optional(),
+          image: z.string().optional(),
+          isActive: z.number().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await updateProduct(id, data as any);
+      }),
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await deleteProduct(input.id);
+      }),
+  }),
+
+  orders: router({
+    create: publicProcedure
+      .input(
+        z.object({
+          productId: z.number(),
+          customerName: z.string().min(1, "Customer name is required"),
+          customerEmail: z.string().email(),
+          customerPhone: z.string().optional(),
+          quantity: z.number().optional(),
+          totalPrice: z.string(),
+          status: z.string().optional(),
+          paymentMethod: z.string().optional(),
+          notes: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return await createOrder(input as any);
+      }),
+    getAll: publicProcedure.query(async () => {
+      return await getOrders();
+    }),
+    getById: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .query(async ({ input }) => {
+        return await getOrderById(input.id);
+      }),
+    update: publicProcedure
+      .input(
+        z.object({
+          id: z.number(),
+          status: z.string().optional(),
+          paymentMethod: z.string().optional(),
+          notes: z.string().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await updateOrder(id, data as any);
+      }),
+  }),
+
+  promotions: router({
+    create: publicProcedure
+      .input(
+        z.object({
+          productId: z.number().optional(),
+          title: z.string().min(1, "Promo title is required"),
+          description: z.string().optional(),
+          discountPercent: z.number().optional(),
+          discountAmount: z.string().optional(),
+          startDate: z.date().optional(),
+          endDate: z.date().optional(),
+          isActive: z.number().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return await createPromotion(input as any);
+      }),
+    getAll: publicProcedure.query(async () => {
+      return await getPromotions();
+    }),
+    getActive: publicProcedure.query(async () => {
+      return await getActivePromotions();
+    }),
+    update: publicProcedure
+      .input(
+        z.object({
+          id: z.number(),
+          title: z.string().optional(),
+          description: z.string().optional(),
+          discountPercent: z.number().optional(),
+          discountAmount: z.string().optional(),
+          isActive: z.number().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const { id, ...data } = input;
+        return await updatePromotion(id, data as any);
+      }),
+    delete: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await deletePromotion(input.id);
+      }),
   }),
 });
 
