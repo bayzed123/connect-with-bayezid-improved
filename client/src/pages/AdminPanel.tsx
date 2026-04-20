@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import { Lock, LogOut, CheckCircle, XCircle, Trash2, Eye, EyeOff, Loader } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
+import BlogManagement from "@/components/BlogManagement";
 
 /**
  * Design Philosophy: Admin Control Panel
@@ -38,7 +39,7 @@ export default function AdminPanel() {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"reviews" | "news" | "comments">("reviews");
+  const [activeTab, setActiveTab] = useState<"reviews" | "news" | "comments" | "blogs">("reviews");
   const [pendingComments, setPendingComments] = useState<any[]>([]);
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [pendingReviews, setPendingReviews] = useState<PendingReview[]>([]);
@@ -227,6 +228,16 @@ export default function AdminPanel() {
           >
             All News Items ({newsItems.length})
           </button>
+          <button
+            onClick={() => setActiveTab("blogs")}
+            className={`px-6 py-3 font-bold rounded-lg transition-all ${
+              activeTab === "blogs"
+                ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/50"
+                : "bg-white/10 border border-white/20 text-slate-300 hover:bg-white/20"
+            }`}
+          >
+            Manage Blogs
+          </button>
         </div>
 
         {/* Reviews Tab */}
@@ -329,6 +340,11 @@ export default function AdminPanel() {
               ))
             )}
           </div>
+        )}
+
+        {/* Blogs Tab */}
+        {activeTab === "blogs" && (
+          <BlogManagement />
         )}
       </div>
     </div>

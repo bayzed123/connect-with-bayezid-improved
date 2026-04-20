@@ -198,6 +198,23 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         return await deleteBlogPost(input.id);
       }),
+    togglePublish: publicProcedure
+      .input(
+        z.object({
+          id: z.number(),
+          isPublished: z.number(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return await updateBlogPost(input.id, {
+          isPublished: input.isPublished,
+        });
+      }),
+    deleteAdmin: publicProcedure
+      .input(z.object({ id: z.number() }))
+      .mutation(async ({ input }) => {
+        return await deleteBlogPost(input.id);
+      }),
   }),
 
   reviews: router({
