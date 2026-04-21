@@ -29,7 +29,7 @@
 ## In Progress - Blog Moderation & Visitor Submissions
 - [x] Blog comment moderation UI in admin dashboard
 - [x] Visitor blog submission page
-- [ ] Blog status indicators (Published/Private/Pending)
+- [x] Blog status indicators (Published/Private/Pending)
 - [ ] Blog submission approval workflow
 - [ ] Admin dashboard blog status filtering
 - [ ] Admin auto-publish feature for admin-authored blogs
@@ -38,6 +38,8 @@
   - Proper ad unit configuration with unique slots
   - Shared AdSense loader utility to prevent duplicate scripts
   - Ad rendering initialization with adsbygoogle.push()
+- [x] Fix News page routing (added /news route and navigation link)
+- [x] Add Write Blog option to admin dashboard
 
 ## Future Enhancements
 - [ ] Stripe payment integration for services/products

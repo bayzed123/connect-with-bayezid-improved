@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import BlogManagement from "@/components/BlogManagement";
 import ProductsManagement from "@/components/ProductsManagement";
 import OrdersManagement from "@/components/OrdersManagement";
+import WriteBlog from "./WriteBlog";
 
 /**
  * Design Philosophy: Admin Control Panel
@@ -41,7 +42,7 @@ export default function AdminPanel() {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"reviews" | "news" | "comments" | "blogs" | "products" | "orders">("reviews");
+  const [activeTab, setActiveTab] = useState<"reviews" | "news" | "comments" | "blogs" | "write" | "products" | "orders">("reviews");
   const [pendingComments, setPendingComments] = useState<any[]>([]);
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [pendingReviews, setPendingReviews] = useState<PendingReview[]>([]);
@@ -241,6 +242,16 @@ export default function AdminPanel() {
             Manage Blogs
           </button>
           <button
+            onClick={() => setActiveTab("write")}
+            className={`px-6 py-3 font-bold rounded-lg transition-all ${
+              activeTab === "write"
+                ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/50"
+                : "bg-white/10 border border-white/20 text-slate-300 hover:bg-white/20"
+            }`}
+          >
+            Write Blog
+          </button>
+          <button
             onClick={() => setActiveTab("products")}
             className={`px-6 py-3 font-bold rounded-lg transition-all ${
               activeTab === "products"
@@ -367,6 +378,11 @@ export default function AdminPanel() {
         {/* Blogs Tab */}
         {activeTab === "blogs" && (
           <BlogManagement />
+        )}
+
+        {/* Write Blog Tab */}
+        {activeTab === "write" && (
+          <WriteBlog />
         )}
 
         {/* Products Tab */}

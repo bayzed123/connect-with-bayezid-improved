@@ -12,6 +12,7 @@ export default function Header() {
     { label: "Certificates", href: "/certificates" },
     { label: "Products", href: "/products" },
     { label: "Blog", href: "/blog" },
+    { label: "News", href: "/news" },
     { label: "Write", href: "/write-blog" },
     { label: "Reviews", href: "/client-reviews" },
     { label: "Agreement", href: "/customer-agreement" },

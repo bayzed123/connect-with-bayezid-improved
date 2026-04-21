@@ -15,6 +15,7 @@ import Contact from "./pages/Contact";
 import WriteBlog from "./pages/WriteBlog";
 import About from "./pages/About";
 import LatestNews from "./pages/LatestNews";
+import News from "./pages/News";
 import CustomerAgreement from "./pages/CustomerAgreement";
 import Portfolio from "./pages/Portfolio";
 import Certificates from "./pages/Certificates";
@@ -40,7 +41,8 @@ function Router() {
       <Route path="/blog/:slug" component={BlogDetail} />
       <Route path="/write" component={WriteBlog} />
       <Route path={"/write-blog"} component={WriteBlog} />
-      <Route path={"/latest-news"} component={LatestNews} />
+      <Route path={"latest-news"} component={LatestNews} />
+      <Route path="/news" component={News} />
       <Route path={"/customer-agreement"} component={CustomerAgreement} />
       <Route path={"/portfolio"} component={Portfolio} />
       <Route path={"/certificates"} component={Certificates} />
