@@ -71,6 +71,13 @@
       "when": 1776720056300,
       "tag": "0009_secret_microchip",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1776800450317,
+      "tag": "0010_natural_scalphunter",
+      "breakpoints": true
     }
   ]
 }

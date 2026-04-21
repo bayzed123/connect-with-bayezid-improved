@@ -230,6 +230,42 @@ export const appRouter = router({
       .mutation(async ({ input }) => {
         return await deleteBlogPost(input.id);
       }),
+    createComment: publicProcedure
+      .input(
+        z.object({
+          blogPostId: z.number(),
+          authorName: z.string().min(1),
+          authorEmail: z.string().email(),
+          content: z.string().min(5),
+        })
+      )
+      .mutation(async ({ input }) => {
+        return await createBlogComment(input);
+      }),
+    getCommentsByPost: publicProcedure
+      .input(z.object({ blogPostId: z.number() }))
+      .query(async ({ input }) => {
+        return await getApprovedBlogCommentsByPostId(input.blogPostId);
+      }),
+    getAllComments: publicProcedure.query(async () => {
+      const comments = await getBlogCommentsByPostId(0);
+      return comments || [];
+    }),
+    approveComment: publicProcedure
+      .input(z.object({ commentId: z.number() }))
+      .mutation(async ({ input }) => {
+        return await updateBlogCommentStatus(input.commentId, "approved");
+      }),
+    rejectComment: publicProcedure
+      .input(z.object({ commentId: z.number() }))
+      .mutation(async ({ input }) => {
+        return await updateBlogCommentStatus(input.commentId, "rejected");
+      }),
+    deleteComment: publicProcedure
+      .input(z.object({ commentId: z.number() }))
+      .mutation(async ({ input }) => {
+        return await deleteBlogComment(input.commentId);
+      }),
   }),
 
   reviews: router({

@@ -64,6 +64,8 @@ export const blogPosts = mysqlTable("blogPosts", {
   content: text("content").notNull(),
   featuredImage: text("featuredImage"),
   isPublished: int("isPublished").default(0).notNull(), // 0 = draft/private, 1 = published/public
+  submissionStatus: mysqlEnum("submissionStatus", ["admin", "pending", "approved", "rejected"]).default("admin").notNull(), // admin = created by admin, pending = visitor submission, approved = approved by admin, rejected = rejected
+  submittedBy: varchar("submittedBy", { length: 255 }), // email of visitor who submitted
   createdAt: timestamp("createdAt").defaultNow().notNull(),
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });

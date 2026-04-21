@@ -26,9 +26,15 @@
 - [x] Backend API endpoints for all operations
 - [x] Unit tests for products and orders
 
+## In Progress - Blog Moderation & Visitor Submissions
+- [ ] Blog comment moderation UI in admin dashboard
+- [ ] Visitor blog submission page
+- [ ] Blog status indicators (Published/Private/Pending)
+- [ ] Blog submission approval workflow
+- [ ] Admin dashboard blog status filtering
+
 ## Future Enhancements
 - [ ] Stripe payment integration for services/products
 - [ ] Custom domain binding (Connectwithbayezid.it.com)
-- [ ] Blog comment moderation system
 - [ ] Newsletter email campaign features
 - [ ] WhatsApp order notifications
