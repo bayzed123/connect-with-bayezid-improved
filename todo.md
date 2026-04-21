@@ -27,11 +27,17 @@
 - [x] Unit tests for products and orders
 
 ## In Progress - Blog Moderation & Visitor Submissions
-- [ ] Blog comment moderation UI in admin dashboard
-- [ ] Visitor blog submission page
+- [x] Blog comment moderation UI in admin dashboard
+- [x] Visitor blog submission page
 - [ ] Blog status indicators (Published/Private/Pending)
 - [ ] Blog submission approval workflow
 - [ ] Admin dashboard blog status filtering
+- [ ] Admin auto-publish feature for admin-authored blogs
+- [ ] Fix blog title truncation in admin dashboard
+- [x] Add AdSense monetization code to blog pages (ca-pub-9789336661158068)
+  - Proper ad unit configuration with unique slots
+  - Shared AdSense loader utility to prevent duplicate scripts
+  - Ad rendering initialization with adsbygoogle.push()
 
 ## Future Enhancements
 - [ ] Stripe payment integration for services/products

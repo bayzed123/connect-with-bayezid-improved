@@ -4,7 +4,8 @@ import { useRoute, Link } from "wouter";
 import { Calendar, User, Share2, ArrowLeft, Loader2, ChevronRight, Send, CheckCircle } from "lucide-react";
 import { trpc } from "@/lib/trpc";
 import { Streamdown } from "streamdown";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { initializeAdSense, ADSENSE_CLIENT } from "@/lib/adsense";
 
 /**
  * Blog Post Detail Page
@@ -17,6 +18,11 @@ import { useState } from "react";
 
 export default function BlogDetail() {
   const [match, params] = useRoute("/blog/:slug");
+
+  // Initialize AdSense on component mount
+  useEffect(() => {
+    initializeAdSense();
+  }, []);
 
   // Fetch blog post by slug
   const { data: blog, isLoading, error } = trpc.blog.getBySlug.useQuery(
@@ -295,6 +301,18 @@ export default function BlogDetail() {
                 <p>No comments yet. Be the first to comment!</p>
               </div>
             )}
+          </div>
+
+          {/* AdSense Ad Space - Between Content and Related Posts */}
+          <div className="my-12 text-center">
+            <ins
+              className="adsbygoogle"
+              style={{ display: "block" }}
+              data-ad-client={ADSENSE_CLIENT}
+              data-ad-slot="9876543210"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            />
           </div>
 
           {/* Related Posts */}

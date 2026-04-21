@@ -2,8 +2,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Link } from "wouter";
 import { Calendar, User, ArrowRight, Search, Loader2 } from "lucide-react";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
+import { initializeAdSense, ADSENSE_CLIENT } from "@/lib/adsense";
 
 /**
  * Design Philosophy: Modern Blog Listing
@@ -11,11 +12,17 @@ import { trpc } from "@/lib/trpc";
  * - Fetches blog posts from database
  * - Search and filter capabilities
  * - Responsive grid layout
+ * - AdSense monetization integrated
  */
 
 export default function Blog() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+
+  // Initialize AdSense on component mount
+  useEffect(() => {
+    initializeAdSense();
+  }, []);
 
   // Fetch blog posts from database
   const { data: blogPosts = [], isLoading } = trpc.blog.getAll.useQuery();
@@ -169,6 +176,18 @@ export default function Blog() {
               ))}
             </div>
           )}
+
+          {/* AdSense Ad Space */}
+          <div className="my-12 text-center">
+            <ins
+              className="adsbygoogle"
+              style={{ display: "block" }}
+              data-ad-client={ADSENSE_CLIENT}
+              data-ad-slot="1234567890"
+              data-ad-format="auto"
+              data-full-width-responsive="true"
+            />
+          </div>
 
           {/* CTA Section */}
           {filteredPosts.length > 0 && (
