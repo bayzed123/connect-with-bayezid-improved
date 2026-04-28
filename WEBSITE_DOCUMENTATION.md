@@ -109,7 +109,7 @@
       - Sort Code: 231486
       - Account: 15937397
 - Payment confirmation form
-- Admin panel (Password: **smbsmb64**)
+- Admin panel (Password: ****)
 - Dashboard with payment tracking
 
 ### 10. **Contact Page** (`/contact`)
@@ -216,7 +216,7 @@
 ## 🔐 Admin Access
 
 **Admin Panel Location:** Customer Agreement Page (`/agreement`)  
-**Admin Password:** smbsmb64
+**Admin Password:** [your ]
 
 ### Admin Functions
 - View pending payments
