@@ -1,0 +1,209 @@
+PROPRIETARY COMMERCIAL LICENSE AGREEMENT
+
+Version 1.0 | Effective Date: May 2026
+
+IMPORTANT: READ THIS LICENSE CAREFULLY BEFORE USING THIS SOFTWARE
+
+This Proprietary Commercial License Agreement ("License") is a binding legal agreement between the licensor ("Licensor") and the person or entity acquiring this software ("Licensee").
+
+By downloading, installing, copying, or using this software, you agree to be bound by the terms and conditions of this License. If you do not agree to these terms, do not use this software.
+
+---
+
+## 1. DEFINITIONS
+
+1.1 "Software" means the source code, object code, documentation, and all materials provided with this product.
+
+1.2 "Client" means any third party for whom Licensee develops or deploys solutions using the Software.
+
+1.3 "Derivative Work" means any modification, adaptation, translation, or any other alteration of the Software.
+
+1.4 "Intellectual Property Rights" means all patents, copyrights, trademarks, trade secrets, and other intellectual property rights.
+
+---
+
+## 2. GRANT OF LICENSE
+
+2.1 LIMITED LICENSE: Licensor grants Licensee a non-exclusive, non-transferable, revocable license to use the Software solely for the purpose of developing and deploying solutions for Licensee's Clients.
+
+2.2 PERMITTED USE: Licensee may:
+   - Use the Software to develop custom solutions for Clients
+   - Modify the Software for Client-specific requirements
+   - Deploy the Software on behalf of Clients
+   - Use the Software for internal business purposes
+
+2.3 RESTRICTIONS: Licensee shall NOT:
+   - Redistribute, resell, or transfer the Software or any Derivative Works to any third party
+   - Publish, disclose, or make the source code publicly available
+   - Sell, lease, license, or sublicense the Software to others
+   - Use the Software to create a competing product or service
+   - Remove or alter any proprietary notices, labels, or marks
+   - Reverse engineer, decompile, or attempt to derive the source code
+   - Use the Software for any unlawful purpose
+
+---
+
+## 3. INTELLECTUAL PROPERTY RIGHTS
+
+3.1 OWNERSHIP: All Intellectual Property Rights in the Software remain the exclusive property of the Licensor. Licensee acquires no ownership rights to the Software.
+
+3.2 DERIVATIVE WORKS: Any Derivative Works created by Licensee remain subject to this License. Licensee grants Licensor a non-exclusive, royalty-free license to any improvements or modifications suggested by Licensee.
+
+3.3 CLIENT SOLUTIONS: Licensee retains ownership of custom solutions developed for Clients, provided such solutions do not include the unmodified or substantially unmodified Software source code.
+
+---
+
+## 4. CONFIDENTIALITY
+
+4.1 CONFIDENTIAL INFORMATION: Licensee acknowledges that the Software contains confidential and proprietary information of the Licensor.
+
+4.2 PROTECTION: Licensee agrees to:
+   - Maintain the confidentiality of the Software
+   - Limit access to authorized personnel only
+   - Use reasonable security measures to protect the Software
+   - Not disclose the Software to unauthorized parties
+
+4.3 CLIENT AGREEMENTS: Licensee shall require Clients to agree to similar confidentiality obligations before providing access to the Software.
+
+---
+
+## 5. RESTRICTIONS ON DISTRIBUTION
+
+5.1 NO REDISTRIBUTION: Licensee shall not distribute, sell, rent, lease, transfer, or otherwise provide the Software or any Derivative Works to any third party without prior written consent from the Licensor.
+
+5.2 NO OPEN SOURCE: Licensee shall not publish the Software or any Derivative Works under any open-source license, including but not limited to MIT, Apache, GPL, or similar licenses.
+
+5.3 NO MARKETPLACE: Licensee shall not list, sell, or offer the Software on any marketplace, platform, or storefront.
+
+5.4 NO TEMPLATE RESALE: Licensee shall not resell this Software as a template, theme, or product to other developers or agencies.
+
+---
+
+## 6. PERMITTED CLIENT DEPLOYMENT
+
+6.1 CLIENT USE: Licensee may deploy the Software for Clients under the following conditions:
+   - The Client is a separate legal entity
+   - The Client uses the Software solely for their own business purposes
+   - The Client does not redistribute or resell the Software
+   - The Client agrees to the terms of this License
+
+6.2 CLIENT RESTRICTIONS: Licensee shall ensure that Clients:
+   - Do not have access to the unmodified source code
+   - Do not redistribute the Software to other parties
+   - Do not use the Software to create competing products
+   - Acknowledge Licensor's ownership of the Software
+
+6.3 HOSTED SOLUTIONS: Licensee may provide hosted/SaaS solutions to Clients using the Software, provided:
+   - The source code remains confidential
+   - Clients cannot access or download the source code
+   - Clients cannot modify or redistribute the Software
+
+---
+
+## 7. TERM AND TERMINATION
+
+7.1 TERM: This License is effective until terminated.
+
+7.2 TERMINATION: Licensor may terminate this License immediately upon written notice if Licensee:
+   - Violates any material term of this License
+   - Redistributes or resells the Software
+   - Publishes the source code
+   - Uses the Software for unlawful purposes
+
+7.3 EFFECT OF TERMINATION: Upon termination:
+   - Licensee must cease all use of the Software
+   - Licensee must delete all copies of the Software
+   - Licensee must certify compliance in writing
+   - Sections 3, 4, 5, and 8 survive termination
+
+---
+
+## 8. DISCLAIMER OF WARRANTIES
+
+8.1 "AS IS": The Software is provided "AS IS" without warranty of any kind.
+
+8.2 NO WARRANTIES: Licensor disclaims all warranties, express or implied, including:
+   - Merchantability
+   - Fitness for a particular purpose
+   - Non-infringement
+   - Title
+   - Accuracy or completeness
+
+8.3 NO SUPPORT: Licensor is not obligated to provide technical support, updates, or maintenance.
+
+---
+
+## 9. LIMITATION OF LIABILITY
+
+9.1 NO LIABILITY: In no event shall Licensor be liable for:
+   - Direct, indirect, incidental, special, or consequential damages
+   - Loss of profits, revenue, data, or business opportunity
+   - Damages arising from use or inability to use the Software
+
+9.2 LIABILITY CAP: Licensor's total liability shall not exceed the amount paid for the Software.
+
+9.3 ESSENTIAL TERM: Licensee acknowledges this limitation is essential to the License.
+
+---
+
+## 10. INDEMNIFICATION
+
+10.1 INDEMNIFY: Licensee shall indemnify and hold harmless Licensor from any claims, damages, or costs arising from:
+   - Licensee's use or misuse of the Software
+   - Licensee's violation of this License
+   - Licensee's violation of applicable laws
+   - Claims by third parties related to Licensee's use
+
+---
+
+## 11. COMPLIANCE AND AUDIT
+
+11.1 COMPLIANCE: Licensee shall comply with all applicable laws and regulations.
+
+11.2 AUDIT RIGHTS: Licensor reserves the right to audit Licensee's use of the Software upon reasonable notice.
+
+11.3 RECORDS: Licensee shall maintain records of all uses and deployments of the Software.
+
+---
+
+## 12. GOVERNING LAW
+
+12.1 JURISDICTION: This License shall be governed by and construed in accordance with the laws of [Your Jurisdiction], without regard to conflicts of law principles.
+
+12.2 DISPUTE RESOLUTION: Any disputes shall be resolved through binding arbitration or litigation in the courts of [Your Jurisdiction].
+
+---
+
+## 13. ENTIRE AGREEMENT
+
+13.1 ENTIRE AGREEMENT: This License constitutes the entire agreement between Licensor and Licensee regarding the Software.
+
+13.2 AMENDMENTS: No amendments or modifications are valid unless in writing and signed by both parties.
+
+13.3 SEVERABILITY: If any provision is found invalid, the remaining provisions shall continue in effect.
+
+---
+
+## 14. ADDITIONAL TERMS
+
+14.1 FEEDBACK: Licensor may use any feedback or suggestions from Licensee without obligation or compensation.
+
+14.2 EXPORT: Licensee shall comply with all export and import regulations regarding the Software.
+
+14.3 THIRD-PARTY COMPONENTS: The Software may include third-party components subject to separate licenses. See included THIRD-PARTY-LICENSES file.
+
+---
+
+## ACCEPTANCE
+
+By using this Software, you acknowledge that you have read, understood, and agree to be bound by all terms and conditions of this License.
+
+If you do not agree to these terms, you must immediately cease use of the Software and delete all copies.
+
+---
+
+**For inquiries regarding licensing:**
+Contact the Licensor at the email address provided in the project documentation.
+
+**Last Updated:** May 2026
+**License Version:** 1.0

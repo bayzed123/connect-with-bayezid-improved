@@ -1,1 +1,0 @@
-A modern, responsive website for 'Connect With Bayezid' featuring a header navigation, footer, privacy policy, terms & conditions, Google Ads policy, and a blog section. Built with React, TypeScript, and Tailwind CSS. · Built with Manus
