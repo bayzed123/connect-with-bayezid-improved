@@ -24,6 +24,8 @@ import ContactForm from "./pages/ContactForm";
 import ClientReviews from "./pages/ClientReviews";
 import AdminPanel from "./pages/AdminPanel";
 import AnalyticsDashboard from "./pages/AnalyticsDashboard";
+import Checkout from "./pages/Checkout";
+import OrderConfirmation from "./pages/OrderConfirmation";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 
@@ -34,6 +36,8 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/about"} component={About} />
+      <Route path="/checkout/:productId" component={Checkout} />
+      <Route path="/order-confirmation/:orderId" component={OrderConfirmation} />
       <Route path={"/contact"} component={Contact} />
       <Route path={"/privacy-policy"} component={PrivacyPolicy} />
       <Route path={"/terms-conditions"} component={TermsConditions} />
