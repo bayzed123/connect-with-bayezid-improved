@@ -558,6 +558,8 @@ export const appRouter = router({
           status: z.string().optional(),
           paymentMethod: z.string().optional(),
           notes: z.string().optional(),
+          transactionId: z.string().optional(),
+          paymentProofUrl: z.string().optional(),
         })
       )
       .mutation(async ({ input }) => {

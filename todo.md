@@ -90,3 +90,24 @@
   - Auto-popup feature tests
   - Admin dashboard tests
   - All tests passing
+
+
+## Payment Methods Integration (In Progress)
+- [ ] Store payment credentials securely (Payoneer, PayPal, Bkash, Nagad, Rocket, Binance)
+- [ ] Add payment method selection to checkout page
+- [ ] Display payment instructions based on selected method
+- [ ] Add transaction ID/payment proof upload field
+
+## Digital Product Checkout & Invoice System (In Progress)
+- [ ] Dynamic invoice generation with PENDING status watermark
+- [ ] User can view/download PENDING invoice immediately after submission
+- [ ] Admin approval workflow in dashboard
+- [ ] Automatic invoice status update to SUCCESSFUL on approval
+- [ ] Professional invoice template with Connect With Bayezid branding
+- [ ] Display payment method used on invoice
+- [ ] Admin dashboard shows buyer email in easy-to-copy format
+- [ ] Order details clearly visible for manual email sending
+- [ ] Digital product ZIP file delivery for approved orders
+- [ ] Invoice download functionality for both PENDING and SUCCESSFUL statuses
+- [ ] Email notification to buyer on order approval
+- [ ] Order history tracking in user dashboard
