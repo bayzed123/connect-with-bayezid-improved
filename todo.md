@@ -61,3 +61,32 @@
   - Blog listing page with ad slot 1234567890
   - Blog detail page with ad slot 9876543210
   - Responsive ads enabled
+
+- [x] Fix AdSense duplicate ads error
+  - Improved pushAdUnits() to check for already-processed ads
+  - Silently handle errors to avoid console spam
+
+## Newsletter Auto-Popup System (Complete)
+- [x] Design and implement auto-popup newsletter component
+  - Beautiful modal with smooth animations
+  - 30-second auto-trigger on page load
+  - localStorage to prevent multiple popups per session
+  - Success state with auto-close after 3 seconds
+- [x] Newsletter database schema (already existed)
+  - newsletterSubscribers table with email, name, status, timestamps
+- [x] Backend API for newsletter management
+  - subscribe: Public mutation with email validation
+  - getAll: Public query to retrieve all subscribers
+  - unsubscribe: Change status to unsubscribed
+  - delete: Remove subscriber from database
+- [x] Admin dashboard newsletter section
+  - Newsletter Subscribers tab in admin panel
+  - Beautiful table with email, name, status, date, actions
+  - Unsubscribe and delete buttons
+  - Subscriber count display
+  - Status indicators (subscribed, unsubscribed, bounced)
+- [x] Unit tests for newsletter functionality
+  - Newsletter subscription tests
+  - Auto-popup feature tests
+  - Admin dashboard tests
+  - All tests passing

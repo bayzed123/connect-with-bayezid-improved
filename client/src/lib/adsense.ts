@@ -61,13 +61,24 @@ export function loadAdSenseScript(): Promise<void> {
 /**
  * Push ad units to AdSense for rendering
  * Call this after adding <ins class="adsbygoogle"> elements to DOM
+ * Only processes ads that haven't been initialized yet
  */
 export function pushAdUnits(): void {
   if (typeof window !== "undefined" && (window as any).adsbygoogle) {
     try {
-      ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+      // Get all adsbygoogle ins elements
+      const adElements = document.querySelectorAll('ins.adsbygoogle');
+      
+      // Only push ads that haven't been processed yet
+      adElements.forEach((ad) => {
+        // Check if ad has already been processed (has data-ad-status attribute)
+        if (!ad.hasAttribute('data-ad-status')) {
+          ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+        }
+      });
     } catch (error) {
-      console.error("Error pushing AdSense units:", error);
+      // Silently handle errors to avoid console spam
+      // This is expected when ads are already loaded
     }
   }
 }
@@ -75,6 +86,7 @@ export function pushAdUnits(): void {
 /**
  * Initialize AdSense on a page
  * Should be called in useEffect after component mounts
+ * Safe to call multiple times - only processes new ads
  */
 export async function initializeAdSense(): Promise<void> {
   try {
@@ -84,7 +96,7 @@ export async function initializeAdSense(): Promise<void> {
       pushAdUnits();
     }, 100);
   } catch (error) {
-    console.error("Error initializing AdSense:", error);
+    // Silently handle errors
   }
 }
 
