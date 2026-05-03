@@ -573,6 +573,12 @@ export const appRouter = router({
       .query(async ({ input }) => {
         return await getOrderById(input.id);
       }),
+    getByStatus: publicProcedure
+      .input(z.object({ status: z.string() }))
+      .query(async ({ input }) => {
+        const orders = await getOrders();
+        return orders.filter(o => o.status === input.status || o.invoiceStatus === input.status);
+      }),
     update: publicProcedure
       .input(
         z.object({

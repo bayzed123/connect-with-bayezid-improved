@@ -156,10 +156,14 @@ export default function Products() {
                         </div>
 
                         {/* View Button */}
-                        <Button className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:shadow-lg hover:shadow-indigo-500/50 flex items-center justify-center gap-2">
-                          <ShoppingCart className="w-4 h-4" />
-                          View & Purchase
-                        </Button>
+                        <Link href={`/checkout/${product.id}`}>
+                          <a>
+                            <Button className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:shadow-lg hover:shadow-indigo-500/50 flex items-center justify-center gap-2">
+                              <ShoppingCart className="w-4 h-4" />
+                              Buy Now
+                            </Button>
+                          </a>
+                        </Link>
                       </CardContent>
                     </Card>
                   </a>

@@ -11,6 +11,7 @@ export default function Header() {
     { label: "Portfolio", href: "/portfolio" },
     { label: "Certificates", href: "/certificates" },
     { label: "Products", href: "/products" },
+    { label: "Checkout", href: "/checkout" },
     { label: "Blog", href: "/blog" },
     { label: "News", href: "/news" },
     { label: "Write", href: "/write-blog" },
