@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { useRoute } from "wouter";
+import { useRoute, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
-import { AlertCircle, CheckCircle2, Upload } from "lucide-react";
+import { AlertCircle, CheckCircle2, Upload, ArrowLeft } from "lucide-react";
 
 const PAYMENT_METHODS = [
   {
@@ -49,8 +49,10 @@ const PAYMENT_METHODS = [
 
 export default function Checkout() {
   const [, params] = useRoute("/checkout/:productId");
-  const productId = params?.productId ? parseInt(params.productId) : null;
+  const [, setLocation] = useLocation();
+  const routeProductId = params?.productId ? parseInt(params.productId) : null;
 
+  const [selectedProductId, setSelectedProductId] = useState<number | null>(routeProductId);
   const [selectedPayment, setSelectedPayment] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     customerName: "",
@@ -64,10 +66,16 @@ export default function Checkout() {
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
   const { user } = useAuth();
+  
+  // Fetch all products for selection
+  const { data: allProducts = [] } = trpc.products.getActive.useQuery();
+  
+  // Fetch selected product details
   const productQuery = trpc.products.getById.useQuery(
-    { id: productId || 0 },
-    { enabled: !!productId }
+    { id: selectedProductId || 0 },
+    { enabled: !!selectedProductId }
   );
+  
   const createOrderMutation = trpc.orders.create.useMutation();
 
   const product = productQuery.data;
@@ -132,7 +140,7 @@ export default function Checkout() {
       setSubmitSuccess(true);
       setTimeout(() => {
         if (order && order.id) {
-          window.location.href = `/order-confirmation/${order.id}`;
+          setLocation(`/order-confirmation/${order.id}`);
         }
       }, 2000);
     } catch (error) {
@@ -143,52 +151,121 @@ export default function Checkout() {
     }
   };
 
-  if (!product) {
+  // Show product selection if no product is selected
+  if (!selectedProductId) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 flex items-center justify-center">
-        <div className="text-center text-white">
-          <p>Loading product...</p>
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 py-12 px-4">
+        <div className="max-w-6xl mx-auto">
+          <h1 className="text-4xl font-bold text-white mb-12 text-center">
+            Select a Product to Purchase
+          </h1>
+
+          {allProducts.length === 0 ? (
+            <div className="text-center py-12">
+              <AlertCircle className="w-12 h-12 text-amber-400 mx-auto mb-4" />
+              <p className="text-white/60 text-lg">No products available</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {allProducts.map((prod: any) => (
+                <Card
+                  key={prod.id}
+                  className="bg-white/10 border border-white/20 hover:border-indigo-500/50 transition overflow-hidden group cursor-pointer"
+                  onClick={() => setSelectedProductId(prod.id)}
+                >
+                  <div className="p-6">
+                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition">
+                      {prod.name}
+                    </h3>
+                    <p className="text-white/70 text-sm mb-4 line-clamp-2">
+                      {prod.description}
+                    </p>
+                    <div className="flex justify-between items-center">
+                      <span className="text-2xl font-bold text-indigo-400">
+                        ${typeof prod.price === "string" ? prod.price : (prod.price as number)?.toFixed(2)}
+                      </span>
+                      <Button className="bg-indigo-600 hover:bg-indigo-700 text-white">
+                        Select
+                      </Button>
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     );
   }
 
+  // Show loading state while fetching product
+  if (productQuery.isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-indigo-500/30 border-t-indigo-500 rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-white/60">Loading product...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error if product not found
+  if (!product) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 flex items-center justify-center px-4">
+        <Card className="bg-white/10 border border-white/20 max-w-md w-full p-8">
+          <div className="text-center">
+            <AlertCircle className="w-12 h-12 text-red-400 mx-auto mb-4" />
+            <h2 className="text-2xl font-bold text-white mb-2">Product Not Found</h2>
+            <p className="text-white/60 mb-6">The product you're looking for doesn't exist.</p>
+            <Button
+              onClick={() => setSelectedProductId(null)}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white w-full flex items-center justify-center gap-2"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Products
+            </Button>
+          </div>
+        </Card>
+      </div>
+    );
+  }
+
+  // Show checkout form
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 py-12 px-4">
       <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-bold text-white mb-12 text-center">
-          Checkout
-        </h1>
+        {/* Back Button */}
+        <button
+          onClick={() => setSelectedProductId(null)}
+          className="flex items-center gap-2 text-indigo-400 hover:text-indigo-300 mb-8 transition"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to Products
+        </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Order Summary */}
+          {/* Product Summary */}
           <div className="lg:col-span-1">
-            <Card className="bg-white/10 backdrop-blur-lg border border-white/20 p-6 sticky top-4">
-              <h2 className="text-xl font-bold text-white mb-4">
-                Order Summary
-              </h2>
+            <Card className="bg-white/10 border border-white/20 p-6 sticky top-4">
+              <h3 className="text-lg font-bold text-white mb-4">Order Summary</h3>
               <div className="space-y-4">
                 <div>
-                  <p className="text-white/70 text-sm">Product</p>
+                  <p className="text-white/60 text-sm mb-1">Product</p>
                   <p className="text-white font-semibold">{product.name}</p>
                 </div>
-                <div className="border-t border-white/20 pt-4">
-                  <div className="flex justify-between mb-2">
-                    <span className="text-white/70">Price:</span>
-                    <span className="text-white font-semibold">
-                      ${product.price}
-                    </span>
-                  </div>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-white/70">Quantity:</span>
-                    <span className="text-white font-semibold">1</span>
-                  </div>
-                  <div className="border-t border-white/20 pt-4 flex justify-between">
-                    <span className="text-white font-bold">Total:</span>
-                    <span className="text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                      ${product.price}
-                    </span>
-                  </div>
+                <div>
+                  <p className="text-white/60 text-sm mb-1">Price</p>
+                  <p className="text-2xl font-bold text-indigo-400">
+                    ${typeof product.price === "string" ? product.price : (product.price as any)?.toFixed(2)}
+                  </p>
+                </div>
+                <div className="border-t border-white/10 pt-4">
+                  <p className="text-white/60 text-sm mb-1">Total</p>
+                  <p className="text-3xl font-bold text-indigo-400">
+                    ${typeof product.price === "string" ? product.price : (product.price as any)?.toFixed(2)}
+                  </p>
                 </div>
               </div>
             </Card>
@@ -196,129 +273,91 @@ export default function Checkout() {
 
           {/* Checkout Form */}
           <div className="lg:col-span-2">
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-8">
+              {/* Success Message */}
+              {submitSuccess && (
+                <Card className="bg-green-500/10 border border-green-500/50 p-6">
+                  <div className="flex items-center gap-3">
+                    <CheckCircle2 className="w-6 h-6 text-green-400" />
+                    <div>
+                      <p className="text-green-400 font-semibold">Order Submitted!</p>
+                      <p className="text-green-400/70 text-sm">Redirecting to confirmation...</p>
+                    </div>
+                  </div>
+                </Card>
+              )}
+
               {/* Customer Information */}
-              <Card className="bg-white/10 backdrop-blur-lg border border-white/20 p-6">
-                <h2 className="text-xl font-bold text-white mb-4">
-                  Customer Information
-                </h2>
+              <Card className="bg-white/10 border border-white/20 p-6">
+                <h3 className="text-lg font-bold text-white mb-4">Customer Information</h3>
                 <div className="space-y-4">
-                  <div>
-                    <label className="block text-white/70 text-sm mb-2">
-                      Full Name
-                    </label>
-                    <Input
-                      type="text"
-                      name="customerName"
-                      value={formData.customerName}
-                      onChange={handleInputChange}
-                      placeholder="Your full name"
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-white/70 text-sm mb-2">
-                      Email Address
-                    </label>
-                    <Input
-                      type="email"
-                      name="customerEmail"
-                      value={formData.customerEmail}
-                      onChange={handleInputChange}
-                      placeholder="your@email.com"
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-white/70 text-sm mb-2">
-                      Phone Number (Optional)
-                    </label>
-                    <Input
-                      type="tel"
-                      name="customerPhone"
-                      value={formData.customerPhone}
-                      onChange={handleInputChange}
-                      placeholder="+880..."
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                    />
-                  </div>
+                  <Input
+                    name="customerName"
+                    placeholder="Full Name"
+                    value={formData.customerName}
+                    onChange={handleInputChange}
+                    className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
+                    required
+                  />
+                  <Input
+                    name="customerEmail"
+                    type="email"
+                    placeholder="Email Address"
+                    value={formData.customerEmail}
+                    onChange={handleInputChange}
+                    className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
+                    required
+                  />
+                  <Input
+                    name="customerPhone"
+                    placeholder="Phone Number (Optional)"
+                    value={formData.customerPhone}
+                    onChange={handleInputChange}
+                    className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
+                  />
                 </div>
               </Card>
 
               {/* Payment Method Selection */}
-              <Card className="bg-white/10 backdrop-blur-lg border border-white/20 p-6">
-                <h2 className="text-xl font-bold text-white mb-4">
-                  Select Payment Method
-                </h2>
+              <Card className="bg-white/10 border border-white/20 p-6">
+                <h3 className="text-lg font-bold text-white mb-4">Select Payment Method</h3>
                 <div className="grid grid-cols-2 gap-3">
                   {PAYMENT_METHODS.map((method) => (
                     <button
                       key={method.id}
                       type="button"
                       onClick={() => setSelectedPayment(method.id)}
-                      className={`p-4 rounded-lg border-2 transition-all ${
+                      className={`p-4 rounded-lg border-2 transition text-left ${
                         selectedPayment === method.id
                           ? "border-indigo-500 bg-indigo-500/20"
                           : "border-white/20 bg-white/5 hover:border-white/40"
                       }`}
                     >
-                      <div className="text-2xl mb-2">{method.icon}</div>
-                      <p className="text-white font-semibold text-sm">
-                        {method.name}
-                      </p>
-                      <p className="text-white/50 text-xs mt-1">
-                        {method.description}
-                      </p>
+                      <span className="text-2xl mb-2 block">{method.icon}</span>
+                      <p className="text-white font-semibold text-sm">{method.name}</p>
+                      <p className="text-white/60 text-xs">{method.description}</p>
                     </button>
                   ))}
                 </div>
               </Card>
 
               {/* Payment Details */}
-              {selectedPayment && (
-                <Card className="bg-white/10 backdrop-blur-lg border border-white/20 p-6">
-                  <h2 className="text-xl font-bold text-white mb-4">
-                    Payment Details
-                  </h2>
-                  <div className="bg-blue-500/20 border border-blue-500/50 rounded-lg p-4 mb-4">
-                    <div className="flex gap-2">
-                      <AlertCircle className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-                      <div className="text-sm text-blue-100">
-                        <p className="font-semibold mb-1">
-                          Payment Instructions:
-                        </p>
-                        <p>
-                          Send ${product.price} to the {selectedPayment} account
-                          provided below. Then enter your transaction ID and
-                          upload proof of payment.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-
+              <Card className="bg-white/10 border border-white/20 p-6">
+                <h3 className="text-lg font-bold text-white mb-4">Payment Details</h3>
+                <div className="space-y-4">
+                  <Input
+                    name="transactionId"
+                    placeholder="Transaction ID / Reference Number"
+                    value={formData.transactionId}
+                    onChange={handleInputChange}
+                    className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
+                    required
+                  />
                   <div>
-                    <label className="block text-white/70 text-sm mb-2">
-                      Transaction ID / Reference Number
+                    <label className="block text-white/60 text-sm mb-2">
+                      Upload Payment Proof (Screenshot/Receipt)
                     </label>
-                    <Input
-                      type="text"
-                      name="transactionId"
-                      value={formData.transactionId}
-                      onChange={handleInputChange}
-                      placeholder="Enter your transaction ID"
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50"
-                      required
-                    />
-                  </div>
-
-                  <div className="mt-4">
-                    <label className="block text-white/70 text-sm mb-2">
-                      Upload Payment Proof
-                    </label>
-                    <div className="border-2 border-dashed border-white/30 rounded-lg p-6 text-center hover:border-white/50 transition-colors">
-                      <Upload className="w-8 h-8 text-white/50 mx-auto mb-2" />
+                    <div className="border-2 border-dashed border-white/20 rounded-lg p-6 text-center hover:border-indigo-500/50 transition cursor-pointer">
                       <input
                         type="file"
                         onChange={handleFileChange}
@@ -327,59 +366,38 @@ export default function Checkout() {
                         id="payment-proof"
                         required
                       />
-                      <label
-                        htmlFor="payment-proof"
-                        className="cursor-pointer block"
-                      >
-                        <p className="text-white/70 text-sm">
-                          {paymentProof
-                            ? `Selected: ${paymentProof.name}`
-                            : "Click to upload or drag and drop"}
+                      <label htmlFor="payment-proof" className="cursor-pointer">
+                        <Upload className="w-8 h-8 text-indigo-400 mx-auto mb-2" />
+                        <p className="text-white font-semibold">
+                          {paymentProof ? paymentProof.name : "Click to upload or drag and drop"}
                         </p>
-                        <p className="text-white/50 text-xs mt-1">
-                          PNG, JPG, PDF up to 10MB
-                        </p>
+                        <p className="text-white/60 text-sm">PNG, JPG, PDF (Max 5MB)</p>
                       </label>
                     </div>
                   </div>
-
-                  <div className="mt-4">
-                    <label className="block text-white/70 text-sm mb-2">
-                      Additional Notes (Optional)
-                    </label>
-                    <Textarea
-                      name="notes"
-                      value={formData.notes}
-                      onChange={handleInputChange}
-                      placeholder="Any additional information..."
-                      className="bg-white/10 border-white/20 text-white placeholder:text-white/50 min-h-24"
-                    />
-                  </div>
-                </Card>
-              )}
+                  <Textarea
+                    name="notes"
+                    placeholder="Additional notes (Optional)"
+                    value={formData.notes}
+                    onChange={handleInputChange}
+                    className="bg-white/5 border-white/20 text-white placeholder:text-white/40"
+                    rows={3}
+                  />
+                </div>
+              </Card>
 
               {/* Submit Button */}
-              {submitSuccess ? (
-                <div className="bg-green-500/20 border border-green-500/50 rounded-lg p-4 flex items-center gap-3">
-                  <CheckCircle2 className="w-6 h-6 text-green-400" />
-                  <div>
-                    <p className="text-green-100 font-semibold">
-                      Order submitted successfully!
-                    </p>
-                    <p className="text-green-100/70 text-sm">
-                      Redirecting to confirmation page...
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <Button
-                  type="submit"
-                  disabled={isSubmitting || !selectedPayment}
-                  className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:shadow-2xl hover:shadow-indigo-500/50 text-white font-bold py-3 rounded-lg disabled:opacity-50"
-                >
-                  {isSubmitting ? "Processing..." : "Submit Order"}
-                </Button>
-              )}
+              <Button
+                type="submit"
+                disabled={isSubmitting || !selectedPayment}
+                className="w-full bg-indigo-600 hover:bg-indigo-700 disabled:bg-indigo-600/50 text-white font-bold py-3 text-lg"
+              >
+                {isSubmitting ? "Processing..." : "Submit Order"}
+              </Button>
+
+              <p className="text-white/60 text-sm text-center">
+                By submitting, you agree to our payment terms and conditions.
+              </p>
             </form>
           </div>
         </div>
