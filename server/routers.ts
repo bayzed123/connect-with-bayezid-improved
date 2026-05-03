@@ -578,6 +578,7 @@ export const appRouter = router({
         z.object({
           id: z.number(),
           status: z.string().optional(),
+          invoiceStatus: z.string().optional(),
           paymentMethod: z.string().optional(),
           notes: z.string().optional(),
         })

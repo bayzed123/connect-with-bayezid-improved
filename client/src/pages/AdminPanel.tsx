@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import BlogManagement from "@/components/BlogManagement";
 import ProductsManagement from "@/components/ProductsManagement";
 import OrdersManagement from "@/components/OrdersManagement";
+import AdminOrdersSection from "@/components/AdminOrdersSection";
 import WriteBlog from "./WriteBlog";
 
 /**
@@ -281,6 +282,16 @@ export default function AdminPanel() {
           >
             Newsletter Subscribers
           </button>
+          <button
+            onClick={() => setActiveTab("orders")}
+            className={`px-6 py-3 rounded-lg font-semibold transition ${
+              activeTab === "orders"
+                ? "bg-indigo-600 text-white"
+                : "bg-white/10 text-white/70 hover:bg-white/20"
+            }`}
+          >
+            Orders Management
+          </button>
         </div>
 
         {/* Reviews Tab */}
@@ -408,6 +419,9 @@ export default function AdminPanel() {
         {/* Newsletter Tab */}
         {activeTab === "newsletter" && (
           <NewsletterSection />
+        )}
+        {activeTab === "orders" && (
+          <AdminOrdersSection />
         )}
       </div>
     </div>
