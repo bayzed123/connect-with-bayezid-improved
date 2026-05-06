@@ -403,6 +403,57 @@ export default function Checkout() {
                 </div>
               </Card>
 
+              {/* Payment Instructions */}
+              {selectedPayment && (
+                <Card className="bg-blue-500/10 border border-blue-500/30 p-6">
+                  <h3 className="text-lg font-bold text-blue-300 mb-4">Payment Instructions</h3>
+                  <div className="space-y-3 text-white/80">
+                    {selectedPayment === "payoneer" && (
+                      <>
+                        <p>Send payment to: <span className="font-bold text-white">cwb.agency@payoneer.com</span></p>
+                        <p>Amount: <span className="font-bold text-indigo-400">${typeof product.price === "string" ? product.price : (product.price as any)?.toFixed(2)}</span></p>
+                        <p className="text-sm text-white/60">After payment, upload the transaction receipt as proof</p>
+                      </>
+                    )}
+                    {selectedPayment === "paypal" && (
+                      <>
+                        <p>Send payment to: <span className="font-bold text-white">cwb.agency@paypal.com</span></p>
+                        <p>Amount: <span className="font-bold text-indigo-400">${typeof product.price === "string" ? product.price : (product.price as any)?.toFixed(2)}</span></p>
+                        <p className="text-sm text-white/60">Include transaction ID in the payment details field</p>
+                      </>
+                    )}
+                    {selectedPayment === "bkash" && (
+                      <>
+                        <p>Send to: <span className="font-bold text-white">01519601517</span></p>
+                        <p>Amount: <span className="font-bold text-indigo-400">${typeof product.price === "string" ? product.price : (product.price as any)?.toFixed(2)}</span></p>
+                        <p className="text-sm text-white/60">Use reference: CWB-{Date.now().toString().slice(-6)}</p>
+                      </>
+                    )}
+                    {selectedPayment === "nagad" && (
+                      <>
+                        <p>Send to: <span className="font-bold text-white">01519601517</span></p>
+                        <p>Amount: <span className="font-bold text-indigo-400">${typeof product.price === "string" ? product.price : (product.price as any)?.toFixed(2)}</span></p>
+                        <p className="text-sm text-white/60">Merchant ID: CWB Agency</p>
+                      </>
+                    )}
+                    {selectedPayment === "rocket" && (
+                      <>
+                        <p>Send to: <span className="font-bold text-white">01519601517</span></p>
+                        <p>Amount: <span className="font-bold text-indigo-400">${typeof product.price === "string" ? product.price : (product.price as any)?.toFixed(2)}</span></p>
+                        <p className="text-sm text-white/60">Account holder: Bayezid</p>
+                      </>
+                    )}
+                    {selectedPayment === "binance" && (
+                      <>
+                        <p>Send to wallet: <span className="font-bold text-white">0x...</span></p>
+                        <p>Amount: <span className="font-bold text-indigo-400">${typeof product.price === "string" ? product.price : (product.price as any)?.toFixed(2)}</span> (in USD equivalent)</p>
+                        <p className="text-sm text-white/60">Contact us for current wallet address</p>
+                      </>
+                    )}
+                  </div>
+                </Card>
+              )}
+
               {/* Payment Details */}
               <Card className="bg-white/10 border border-white/20 p-6">
                 <h3 className="text-lg font-bold text-white mb-4">Payment Details</h3>

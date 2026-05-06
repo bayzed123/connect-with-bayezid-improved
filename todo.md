@@ -157,3 +157,13 @@
 - [x] Newsletter subscription already integrated in admin dashboard
 - [x] Email notification system ready (uses tRPC newsletter.subscribe)
 - [x] Test newsletter subscription and email workflow
+
+
+## Payment Workflow & Order Tracking (Complete)
+- [x] Add payment method selection to checkout page
+- [x] Display payment instructions for each payment method (Payoneer, PayPal, Bkash, Nagad, Rocket, Binance)
+- [x] Create client-side order tracking page with localStorage persistence
+- [x] Add order tracking link to navigation header
+- [x] Implement order details modal with invoice download
+- [x] Email search functionality for order lookup
+- [x] Order status display (Pending/Successful/Failed)

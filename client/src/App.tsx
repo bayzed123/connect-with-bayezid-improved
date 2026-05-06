@@ -29,6 +29,7 @@ import OrderConfirmation from "./pages/OrderConfirmation";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
 import Newsletter from "./pages/Newsletter";
+import OrderTracking from "./pages/OrderTracking";
 
 
 function Router() {
@@ -51,6 +52,7 @@ function Router() {
       <Route path={"latest-news"} component={LatestNews} />
       <Route path="/news" component={News} />
       <Route path="/newsletter" component={Newsletter} />
+      <Route path="/order-tracking" component={OrderTracking} />
       <Route path={"/customer-agreement"} component={CustomerAgreement} />
       <Route path={"/portfolio"} component={Portfolio} />
       <Route path={"/certificates"} component={Certificates} />
