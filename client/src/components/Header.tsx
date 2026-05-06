@@ -14,6 +14,7 @@ export default function Header() {
     { label: "Checkout", href: "/checkout" },
     { label: "Blog", href: "/blog" },
     { label: "News", href: "/news" },
+    { label: "Newsletter", href: "/newsletter" },
     { label: "Write", href: "/write-blog" },
     { label: "Reviews", href: "/client-reviews" },
     { label: "Agreement", href: "/customer-agreement" },

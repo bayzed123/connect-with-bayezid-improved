@@ -28,6 +28,7 @@ import Checkout from "./pages/Checkout";
 import OrderConfirmation from "./pages/OrderConfirmation";
 import Products from "./pages/Products";
 import ProductDetail from "./pages/ProductDetail";
+import Newsletter from "./pages/Newsletter";
 
 
 function Router() {
@@ -49,6 +50,7 @@ function Router() {
       <Route path={"/write-blog"} component={WriteBlog} />
       <Route path={"latest-news"} component={LatestNews} />
       <Route path="/news" component={News} />
+      <Route path="/newsletter" component={Newsletter} />
       <Route path={"/customer-agreement"} component={CustomerAgreement} />
       <Route path={"/portfolio"} component={Portfolio} />
       <Route path={"/certificates"} component={Certificates} />
