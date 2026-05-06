@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { trpc } from "@/lib/trpc";
 import { InvoiceTemplate, InvoiceData } from "@/components/InvoiceTemplate";
 import { Download, Home, Mail } from "lucide-react";
+import { downloadInvoicePDF } from "@/utils/invoiceGenerator";
 
 export default function OrderConfirmation() {
   const [, params] = useRoute("/order-confirmation/:orderId");
@@ -25,6 +26,28 @@ export default function OrderConfirmation() {
   const product = productQuery.data;
 
   const handleDownloadInvoice = () => {
+    if (!order || !product) return;
+
+    const invoiceData = {
+      invoiceNumber: order.invoiceNumber || `INV-${order.id}`,
+      invoiceDate: new Date(order.createdAt),
+      orderDate: new Date(order.createdAt),
+      customerName: order.customerName,
+      customerEmail: order.customerEmail,
+      customerPhone: order.customerPhone || undefined,
+      productName: product.name,
+      quantity: order.quantity || 1,
+      unitPrice: parseFloat((product.price || "0").toString()),
+      totalPrice: parseFloat(order.totalPrice.toString()),
+      paymentMethod: order.paymentMethod || "Unknown",
+      transactionId: order.transactionId || undefined,
+      invoiceStatus: (order.invoiceStatus as "pending" | "successful" | "failed") || "pending",
+    };
+
+    downloadInvoicePDF(invoiceData);
+  };
+
+  const handleDownloadInvoiceOld = () => {
     if (!order || !product) return;
 
     const invoiceData: InvoiceData = {

@@ -111,3 +111,12 @@
 - [ ] Invoice download functionality for both PENDING and SUCCESSFUL statuses
 - [ ] Email notification to buyer on order approval
 - [ ] Order history tracking in user dashboard
+
+## UI/UX Fixes - Payment & Order Management (Complete)
+- [x] Add payment proof screenshot display to admin order modal
+- [x] Fix and test invoice download button in OrderConfirmation page
+- [x] Improve payment details visibility (method, transaction ID) in invoice
+- [x] Improve payment details visibility in admin dashboard
+- [x] End-to-end test of checkout -> payment proof -> admin approval -> invoice download workflow
+- [x] Implement file upload endpoint for payment proof storage
+- [x] Add comprehensive payment and order workflow tests

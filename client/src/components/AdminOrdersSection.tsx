@@ -23,6 +23,7 @@ interface Order {
   status: string;
   paymentMethod: string | null;
   transactionId?: string | null;
+  paymentProofUrl?: string | null;
   invoiceStatus: string | null;
   invoiceNumber?: string | null;
   createdAt: Date;
@@ -259,12 +260,6 @@ cwb.agency@outlook.com
                     </p>
                   </div>
                   <div>
-                    <p className="text-white/60 text-sm mb-1">Payment Method</p>
-                    <p className="text-white font-semibold capitalize">
-                      {selectedOrder.paymentMethod}
-                    </p>
-                  </div>
-                  <div>
                     <p className="text-white/60 text-sm mb-1">Status</p>
                     <span
                       className={`px-3 py-1 rounded-full text-sm border inline-block ${getStatusColor(
@@ -280,19 +275,71 @@ cwb.agency@outlook.com
                       {new Date(selectedOrder.createdAt).toLocaleDateString()}
                     </p>
                   </div>
+                  <div>
+                    <p className="text-white/60 text-sm mb-1">Invoice Number</p>
+                    <p className="text-white font-mono">
+                      {selectedOrder.invoiceNumber || `INV-${selectedOrder.id}`}
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              {/* Transaction Details */}
-              {selectedOrder.transactionId && (
-                <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-6 mb-6">
-                  <h4 className="text-lg font-semibold text-blue-100 mb-4">
-                    Transaction Information
+              {/* Payment Details */}
+              <div className="bg-indigo-500/10 border border-indigo-500/30 rounded-lg p-6 mb-6">
+                <h4 className="text-lg font-semibold text-indigo-100 mb-4">
+                  Payment Details
+                </h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-indigo-100/70 text-sm mb-1">Payment Method</p>
+                    <p className="text-white font-semibold capitalize text-lg">
+                      {selectedOrder.paymentMethod}
+                    </p>
+                  </div>
+                  {selectedOrder.transactionId && (
+                    <div>
+                      <p className="text-indigo-100/70 text-sm mb-1">Transaction ID</p>
+                      <p className="text-white font-mono break-all">
+                        {selectedOrder.transactionId}
+                      </p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+
+
+              {/* Payment Proof Screenshot */}
+              {selectedOrder.paymentProofUrl && (
+                <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-6 mb-6">
+                  <h4 className="text-lg font-semibold text-purple-100 mb-4">
+                    Payment Proof Screenshot
                   </h4>
-                  <p className="text-blue-100/70 text-sm mb-2">Transaction ID:</p>
-                  <p className="text-white font-mono break-all">
-                    {selectedOrder.transactionId}
-                  </p>
+                  <div className="bg-black/30 rounded-lg p-4 border border-purple-500/20">
+                    <img
+                      src={selectedOrder.paymentProofUrl}
+                      alt="Payment proof"
+                      className="w-full h-auto max-h-96 object-contain rounded"
+                    />
+                  </div>
+                  <div className="mt-4 flex gap-2">
+                    <a
+                      href={selectedOrder.paymentProofUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded text-sm font-semibold text-center transition-colors"
+                    >
+                      View Full Size
+                    </a>
+                    <a
+                      href={selectedOrder.paymentProofUrl}
+                      download
+                      className="flex-1 px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded text-sm font-semibold text-center transition-colors flex items-center justify-center gap-2"
+                    >
+                      <Download className="w-4 h-4" />
+                      Download
+                    </a>
+                  </div>
                 </div>
               )}
 

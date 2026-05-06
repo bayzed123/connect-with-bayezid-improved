@@ -1,0 +1,24 @@
+
+              {/* Payment Proof Screenshot */}
+              {selectedOrder.paymentProofUrl && (
+                <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-6 mb-6">
+                  <h4 className="text-lg font-semibold text-purple-100 mb-4">
+                    Payment Proof Screenshot
+                  </h4>
+                  <div className="bg-black/30 rounded-lg p-4 max-h-96 overflow-y-auto">
+                    <img
+                      src={selectedOrder.paymentProofUrl}
+                      alt="Payment proof"
+                      className="w-full rounded-lg border border-purple-500/50"
+                    />
+                  </div>
+                  <a
+                    href={selectedOrder.paymentProofUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-purple-400 hover:text-purple-300 text-sm mt-4 inline-block"
+                  >
+                    Open in new tab
+                  </a>
+                </div>
+              )}

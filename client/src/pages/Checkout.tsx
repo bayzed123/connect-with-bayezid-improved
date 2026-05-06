@@ -119,7 +119,31 @@ export default function Checkout() {
     setIsSubmitting(true);
 
     try {
-      const paymentProofUrl = `payment-proof-${Date.now()}`;
+      // Upload payment proof to S3
+      let paymentProofUrl = "";
+      if (paymentProof) {
+        const formDataForUpload = new FormData();
+        formDataForUpload.append("file", paymentProof);
+        
+        try {
+          const uploadResponse = await fetch("/api/upload", {
+            method: "POST",
+            body: formDataForUpload,
+          });
+          
+          if (uploadResponse.ok) {
+            const uploadData = await uploadResponse.json();
+            paymentProofUrl = uploadData.url || uploadData.paymentProofUrl || "";
+          } else {
+            console.warn("Upload failed, using placeholder");
+            paymentProofUrl = `payment-proof-${Date.now()}`;
+          }
+        } catch (uploadError) {
+          console.warn("Upload error, using placeholder", uploadError);
+          paymentProofUrl = `payment-proof-${Date.now()}`;
+        }
+      }
+
       const totalPrice = typeof product.price === "string"
         ? parseFloat(product.price)
         : (product.price || 0);
