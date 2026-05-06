@@ -7,8 +7,7 @@ import { registerOAuthRoutes } from "./oauth";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
-import multer from "multer";
-import { storagePut } from "../storage";
+// File upload will be handled through tRPC procedures
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -38,35 +37,6 @@ async function startServer() {
   // OAuth callback under /api/oauth/callback
   registerOAuthRoutes(app);
   
-  // File upload endpoint for payment proofs
-  const upload = multer({ storage: multer.memoryStorage(), limits: { fileSize: 10 * 1024 * 1024 } });
-  app.post("/api/upload", upload.single("file"), async (req: Request, res: Response) => {
-    try {
-      const file = (req as any).file;
-      if (!file) {
-        console.warn("[Upload] No file provided in request");
-        return res.status(400).json({ error: "No file provided" });
-      }
-      
-      console.log(`[Upload] Processing file: ${file.originalname} (${file.size} bytes, ${file.mimetype})`);
-      
-      const fileName = `payment-proofs/${Date.now()}-${file.originalname}`;
-      console.log(`[Upload] Uploading to S3 as: ${fileName}`);
-      
-      const { url } = await storagePut(
-        fileName,
-        file.buffer,
-        file.mimetype
-      );
-      
-      console.log(`[Upload] Success! URL: ${url}`);
-      res.json({ url, paymentProofUrl: url, success: true });
-    } catch (error) {
-      console.error("[Upload] File upload error:", error);
-      const errorMessage = error instanceof Error ? error.message : "Upload failed";
-      res.status(500).json({ error: errorMessage, success: false });
-    }
-  });
   
   // tRPC API
   app.use(

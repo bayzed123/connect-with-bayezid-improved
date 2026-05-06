@@ -174,14 +174,162 @@ export default function Products() {
         </div>
       </div>
 
+      {/* Terms & Conditions Section */}
+      <div className="w-full px-4 py-16 bg-white/5 border-t border-indigo-500/20">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-white mb-8">Terms & Conditions</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-slate-300">
+            <div>
+              <h3 className="text-lg font-bold text-indigo-300 mb-4">Service Agreement</h3>
+              <p className="mb-4">
+                By purchasing our services, you agree to these terms. All services are provided on a project basis with agreed-upon deliverables and timelines. Payment must be completed before work begins.
+              </p>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-indigo-300 mb-4">Payment Terms</h3>
+              <ul className="space-y-2">
+                <li className="flex gap-2">
+                  <span className="text-indigo-400">•</span>
+                  <span>Full payment required before project starts</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-indigo-400">•</span>
+                  <span>Accepted: bKash, Nagad, Rocket, Bank, PayPal, Payoneer</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-indigo-400">•</span>
+                  <span>Invoice provided upon payment confirmation</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-indigo-300 mb-4">Project Scope</h3>
+              <ul className="space-y-2">
+                <li className="flex gap-2">
+                  <span className="text-indigo-400">•</span>
+                  <span>Scope must be clearly defined before work begins</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-indigo-400">•</span>
+                  <span>Changes after initiation may incur additional charges</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-indigo-400">•</span>
+                  <span>Revisions included within project scope</span>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="text-lg font-bold text-indigo-300 mb-4">Intellectual Property</h3>
+              <ul className="space-y-2">
+                <li className="flex gap-2">
+                  <span className="text-indigo-400">•</span>
+                  <span>All rights transfer to client upon full payment</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-indigo-400">•</span>
+                  <span>CWB may display work in portfolio (with permission)</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-indigo-400">•</span>
+                  <span>Client content remains client's exclusive property</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Refund Policy Section */}
+      <div className="w-full px-4 py-16 bg-white/5 border-t border-indigo-500/20">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-white mb-8">Refund Policy</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-white/5 rounded-lg p-6 border border-white/10">
+              <h3 className="text-lg font-bold text-indigo-300 mb-4">Refund Eligibility</h3>
+              <ul className="space-y-3 text-slate-300">
+                <li className="flex gap-3">
+                  <span className="text-green-400 font-bold">✓</span>
+                  <span>Refunds available within 7 days if no work started</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-green-400 font-bold">✓</span>
+                  <span>Once work begins, no refunds available</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="text-green-400 font-bold">✓</span>
+                  <span>Partial refunds for incomplete deliverables with justification</span>
+                </li>
+              </ul>
+            </div>
+            <div className="bg-white/5 rounded-lg p-6 border border-white/10">
+              <h3 className="text-lg font-bold text-indigo-300 mb-4">Refund Process</h3>
+              <ol className="space-y-3 text-slate-300">
+                <li className="flex gap-3">
+                  <span className="bg-indigo-600 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm font-bold">1</span>
+                  <span>Submit request within 7 days with reason</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="bg-indigo-600 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm font-bold">2</span>
+                  <span>We review and respond in 3-5 business days</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="bg-indigo-600 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm font-bold">3</span>
+                  <span>Approved refunds processed in 5-7 business days</span>
+                </li>
+                <li className="flex gap-3">
+                  <span className="bg-indigo-600 text-white rounded-full w-6 h-6 flex items-center justify-center flex-shrink-0 text-sm font-bold">4</span>
+                  <span>Mobile payments refunded in 24-48 hours</span>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Payment Details Section */}
+      <div className="w-full px-4 py-16 bg-white/5 border-t border-indigo-500/20">
+        <div className="max-w-6xl mx-auto">
+          <h2 className="text-3xl font-bold text-white mb-8">Payment Methods & Details</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div className="bg-gradient-to-br from-pink-500 to-rose-600 rounded-lg p-6 text-white">
+              <h3 className="text-xl font-bold mb-4">📱 bKash</h3>
+              <p className="text-sm mb-2">Phone Number:</p>
+              <p className="font-mono font-bold text-lg">01791527854</p>
+            </div>
+            <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-lg p-6 text-white">
+              <h3 className="text-xl font-bold mb-4">📱 Nagad / Rocket</h3>
+              <p className="text-sm mb-2">Phone Number:</p>
+              <p className="font-mono font-bold text-lg">01519601517</p>
+            </div>
+            <div className="bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg p-6 text-white">
+              <h3 className="text-xl font-bold mb-4">🏦 Eastern Bank</h3>
+              <p className="text-sm mb-1">Account: 1651440006284</p>
+              <p className="text-sm mb-1">Branch: Tangail</p>
+              <p className="text-xs text-blue-100">Bangladesh</p>
+            </div>
+            <div className="bg-gradient-to-br from-blue-600 to-blue-700 rounded-lg p-6 text-white">
+              <h3 className="text-xl font-bold mb-4">💳 PayPal</h3>
+              <p className="text-sm mb-2">Email:</p>
+              <p className="font-mono font-bold text-sm">bayxed4@gmail.com</p>
+            </div>
+          </div>
+          <div className="bg-white/5 rounded-lg p-6 border border-white/10">
+            <p className="text-slate-300">
+              <strong className="text-indigo-300">Note:</strong> All prices are in BDT unless otherwise specified. International payments available via PayPal and Payoneer. Contact us for other payment options.
+            </p>
+          </div>
+        </div>
+      </div>
+
       {/* CTA Section */}
       <div className="w-full px-4 py-16 bg-gradient-to-t from-indigo-600/10 to-transparent border-t border-indigo-500/20">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl font-bold text-white mb-4">
-            Can't find what you're looking for?
+            Ready to Get Started?
           </h2>
           <p className="text-slate-300 mb-8">
-            Contact us for custom services or to discuss your specific needs
+            Choose a service above or contact us for custom solutions
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/contact">

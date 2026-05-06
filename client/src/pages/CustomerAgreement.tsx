@@ -60,7 +60,7 @@ export default function CustomerAgreement() {
     setTimeout(() => setCopiedText(null), 2000);
   };
 
-  const allChecked = checkedItems.length === 4;
+  const allChecked = checkedItems.length === 4; // terms, privacy, refund, payment
 
   const handleAdminLogin = () => {
     if (adminPassword === "smbsmb64") {
@@ -590,7 +590,7 @@ Please review and confirm payment in the admin panel.
                 {
                   id: "terms",
                   label: "I have read and agree to the Terms & Conditions",
-                  link: "/terms-conditions",
+                  link: "#terms-conditions",
                 },
                 {
                   id: "privacy",
