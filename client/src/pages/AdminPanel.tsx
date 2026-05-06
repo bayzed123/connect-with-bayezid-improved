@@ -4,6 +4,7 @@ import { Lock, LogOut, CheckCircle, XCircle, Trash2, Eye, EyeOff, Loader } from 
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import BlogManagement from "@/components/BlogManagement";
+import BlogSubmissionApproval from "@/components/BlogSubmissionApproval";
 import ProductsManagement from "@/components/ProductsManagement";
 import OrdersManagement from "@/components/OrdersManagement";
 import AdminOrdersSection from "@/components/AdminOrdersSection";
@@ -43,7 +44,7 @@ export default function AdminPanel() {
   const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [activeTab, setActiveTab] = useState<"reviews" | "news" | "comments" | "blogs" | "write" | "products" | "orders" | "newsletter">("reviews");
+  const [activeTab, setActiveTab] = useState<"reviews" | "news" | "comments" | "blogs" | "submissions" | "write" | "products" | "orders" | "newsletter">("reviews");
   const [pendingComments, setPendingComments] = useState<any[]>([]);
   const [commentsLoading, setCommentsLoading] = useState(true);
   const [pendingReviews, setPendingReviews] = useState<PendingReview[]>([]);
@@ -243,6 +244,16 @@ export default function AdminPanel() {
             Manage Blogs
           </button>
           <button
+            onClick={() => setActiveTab("submissions")}
+            className={`px-6 py-3 font-bold rounded-lg transition-all ${
+              activeTab === "submissions"
+                ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg shadow-indigo-500/50"
+                : "bg-white/10 border border-white/20 text-slate-300 hover:bg-white/20"
+            }`}
+          >
+            Blog Submissions
+          </button>
+          <button
             onClick={() => setActiveTab("write")}
             className={`px-6 py-3 font-bold rounded-lg transition-all ${
               activeTab === "write"
@@ -389,6 +400,11 @@ export default function AdminPanel() {
         {/* Blogs Tab */}
         {activeTab === "blogs" && (
           <BlogManagement />
+        )}
+
+        {/* Blog Submissions Tab */}
+        {activeTab === "submissions" && (
+          <BlogSubmissionApproval />
         )}
 
         {/* Write Blog Tab */}

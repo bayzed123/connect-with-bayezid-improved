@@ -139,3 +139,12 @@
 - [x] Add Payment Details section with all payment methods
 - [x] Improve layout and styling for easy client reading
 - [x] Test page compilation and fix TypeScript errors
+
+
+## Blog Admin Dashboard Fixes (Complete)
+- [x] Fix blog title truncation - display full title on one line at top
+- [x] Add blog status filtering (All/Published/Drafts)
+- [x] Implement blog submission approval workflow with approve/reject buttons
+- [x] Add Blog Submissions tab to admin dashboard
+- [x] Implement auto-publish feature for admin-authored blogs
+- [x] Add updateSubmissionStatus mutation to blog router

@@ -121,6 +121,7 @@ export default function WriteBlog() {
         slug: slug,
         featuredImage: imagePreview || undefined,
         isPublished: isDraft ? 0 : 1, // 0 for draft, 1 for published
+        submissionStatus: "admin", // Auto-publish admin-authored blogs
       });
 
       setIsSaved(true);

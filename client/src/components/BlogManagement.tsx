@@ -9,6 +9,7 @@ interface BlogPost {
   category?: string;
   author?: string;
   isPublished: number;
+  submissionStatus: "admin" | "pending" | "approved" | "rejected";
   createdAt: Date;
 }
 
@@ -17,6 +18,7 @@ export default function BlogManagement() {
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState<number | null>(null);
   const [toggling, setToggling] = useState<number | null>(null);
+  const [statusFilter, setStatusFilter] = useState<'all' | 'pending' | 'published' | 'private'>('all');
 
   // Fetch all blogs (admin view)
   const { data: allBlogs = [] } = trpc.blog.getAllAdmin.useQuery();
@@ -96,6 +98,19 @@ export default function BlogManagement() {
     );
   }
 
+  // Filter blogs based on status
+  const filteredBlogs = blogs.filter((blog) => {
+    if (statusFilter === 'pending') return blog.submissionStatus === 'pending';
+    if (statusFilter === 'published') return blog.isPublished === 1;
+    if (statusFilter === 'private') return blog.isPublished === 0;
+    return true;
+  });
+
+  // Calculate counts
+  const pendingCount = blogs.filter(b => b.submissionStatus === 'pending').length;
+  const publishedCount = blogs.filter(b => b.isPublished === 1).length;
+  const privateCount = blogs.filter(b => b.isPublished === 0).length;
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -110,33 +125,99 @@ export default function BlogManagement() {
         </button>
       </div>
 
+      {/* Status Filter */}
+      <div className="flex items-center gap-3 flex-wrap">
+        <span className="text-slate-300 font-medium">Filter:</span>
+        <button
+          onClick={() => setStatusFilter('all')}
+          className={`px-4 py-2 rounded-lg font-bold transition-all ${
+            statusFilter === 'all'
+              ? 'bg-indigo-500/30 border border-indigo-500/50 text-indigo-300'
+              : 'bg-white/10 border border-white/20 text-white hover:bg-white/20'
+          }`}
+        >
+          All ({blogs.length})
+        </button>
+        {pendingCount > 0 && (
+          <button
+            onClick={() => setStatusFilter('pending')}
+            className={`px-4 py-2 rounded-lg font-bold transition-all ${
+              statusFilter === 'pending'
+                ? 'bg-orange-500/30 border border-orange-500/50 text-orange-300'
+                : 'bg-white/10 border border-white/20 text-white hover:bg-white/20'
+            }`}
+          >
+            Pending ({pendingCount})
+          </button>
+        )}
+        <button
+          onClick={() => setStatusFilter('published')}
+          className={`px-4 py-2 rounded-lg font-bold transition-all ${
+            statusFilter === 'published'
+              ? 'bg-green-500/30 border border-green-500/50 text-green-300'
+              : 'bg-white/10 border border-white/20 text-white hover:bg-white/20'
+          }`}
+        >
+          Published ({publishedCount})
+        </button>
+        <button
+          onClick={() => setStatusFilter('private')}
+          className={`px-4 py-2 rounded-lg font-bold transition-all ${
+            statusFilter === 'private'
+              ? 'bg-yellow-500/30 border border-yellow-500/50 text-yellow-300'
+              : 'bg-white/10 border border-white/20 text-white hover:bg-white/20'
+          }`}
+        >
+          Private ({privateCount})
+        </button>
+      </div>
+
       {/* Blog List */}
-      <div className="space-y-3">
-        {blogs.map((blog) => (
+      <div className="space-y-4">
+        {filteredBlogs.map((blog) => (
           <div
             key={blog.id}
             className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-all"
           >
+            {/* Full Title Display - Always on top */}
+            <div className="w-full mb-4 p-3 bg-white/5 border border-white/10 rounded-lg">
+              <div className="flex items-start justify-between gap-3">
+                <h4 className="text-white font-bold text-lg break-words flex-1">{blog.title}</h4>
+              </div>
+            </div>
+
             <div className="flex items-center justify-between gap-4">
               {/* Blog Info */}
               <div className="flex-1 min-w-0">
-                <h4 className="text-white font-bold truncate">{blog.title}</h4>
-                <div className="flex items-center gap-3 mt-2 text-sm text-slate-400">
+                <div className="flex items-center gap-3 text-sm text-slate-400">
                   <span className="truncate">Category: {blog.category || "Uncategorized"}</span>
                   <span>•</span>
                   <span className="truncate">Author: {blog.author || "Unknown"}</span>
                 </div>
               </div>
 
-              {/* Status Badge */}
+              {/* Status Badges */}
               <div className="flex items-center gap-2">
+                {/* Submission Status Badge */}
+                {blog.submissionStatus === 'pending' && (
+                  <span className="px-3 py-1 bg-orange-500/20 border border-orange-500/50 text-orange-300 text-xs font-bold rounded-full">
+                    PENDING
+                  </span>
+                )}
+                {blog.submissionStatus === 'rejected' && (
+                  <span className="px-3 py-1 bg-red-500/20 border border-red-500/50 text-red-300 text-xs font-bold rounded-full">
+                    REJECTED
+                  </span>
+                )}
+
+                {/* Published Status Badge */}
                 {blog.isPublished === 1 ? (
                   <span className="px-3 py-1 bg-green-500/20 border border-green-500/50 text-green-300 text-xs font-bold rounded-full">
                     PUBLIC
                   </span>
                 ) : (
                   <span className="px-3 py-1 bg-yellow-500/20 border border-yellow-500/50 text-yellow-300 text-xs font-bold rounded-full">
-                    DRAFT
+                    PRIVATE
                   </span>
                 )}
               </div>
@@ -190,8 +271,9 @@ export default function BlogManagement() {
       <div className="bg-white/5 border border-white/10 rounded-lg p-4 text-center">
         <p className="text-slate-300">
           Total Blogs: <span className="font-bold text-white">{blogs.length}</span> •
-          Published: <span className="font-bold text-green-400">{blogs.filter((b) => b.isPublished === 1).length}</span> •
-          Drafts: <span className="font-bold text-yellow-400">{blogs.filter((b) => b.isPublished === 0).length}</span>
+          Published: <span className="font-bold text-green-400">{publishedCount}</span> •
+          Private: <span className="font-bold text-yellow-400">{privateCount}</span> •
+          Pending: <span className="font-bold text-orange-400">{pendingCount}</span>
         </p>
       </div>
     </div>

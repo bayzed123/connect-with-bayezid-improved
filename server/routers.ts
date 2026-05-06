@@ -169,6 +169,7 @@ export const appRouter = router({
           excerpt: z.string().optional(),
           featuredImage: z.string().optional(),
           isPublished: z.number().optional(),
+          submissionStatus: z.enum(["admin", "pending", "approved", "rejected"]).optional(),
         })
       )
       .mutation(async ({ input }) => {
@@ -265,6 +266,23 @@ export const appRouter = router({
       .input(z.object({ commentId: z.number() }))
       .mutation(async ({ input }) => {
         return await deleteBlogComment(input.commentId);
+      }),
+    updateSubmissionStatus: publicProcedure
+      .input(
+        z.object({
+          id: z.number(),
+          submissionStatus: z.enum(["admin", "pending", "approved", "rejected"]),
+          isPublished: z.number().optional(),
+        })
+      )
+      .mutation(async ({ input }) => {
+        const updateData: any = {
+          submissionStatus: input.submissionStatus,
+        };
+        if (input.isPublished !== undefined) {
+          updateData.isPublished = input.isPublished;
+        }
+        return await updateBlogPost(input.id, updateData);
       }),
   }),
 
