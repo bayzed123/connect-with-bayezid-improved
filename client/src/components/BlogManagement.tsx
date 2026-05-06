@@ -179,11 +179,9 @@ export default function BlogManagement() {
             key={blog.id}
             className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-xl p-4 hover:bg-white/10 transition-all"
           >
-            {/* Full Title Display - Always on top */}
+            {/* Full Title Display - Single line with truncate */}
             <div className="w-full mb-4 p-3 bg-white/5 border border-white/10 rounded-lg">
-              <div className="flex items-start justify-between gap-3">
-                <h4 className="text-white font-bold text-lg break-words flex-1">{blog.title}</h4>
-              </div>
+              <h4 className="text-white font-bold text-lg truncate" title={blog.title}>{blog.title}</h4>
             </div>
 
             <div className="flex items-center justify-between gap-4">

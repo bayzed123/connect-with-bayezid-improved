@@ -169,7 +169,6 @@ export const appRouter = router({
           excerpt: z.string().optional(),
           featuredImage: z.string().optional(),
           isPublished: z.number().optional(),
-          submissionStatus: z.enum(["admin", "pending", "approved", "rejected"]).optional(),
         })
       )
       .mutation(async ({ input }) => {

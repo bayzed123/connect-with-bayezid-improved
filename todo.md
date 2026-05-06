@@ -26,14 +26,14 @@
 - [x] Backend API endpoints for all operations
 - [x] Unit tests for products and orders
 
-## In Progress - Blog Moderation & Visitor Submissions
+## In Progress - Blog Moderation & Visitor Submissions (Complete)
 - [x] Blog comment moderation UI in admin dashboard
 - [x] Visitor blog submission page
 - [x] Blog status indicators (Published/Private/Pending)
-- [ ] Blog submission approval workflow
-- [ ] Admin dashboard blog status filtering
-- [ ] Admin auto-publish feature for admin-authored blogs
-- [ ] Fix blog title truncation in admin dashboard
+- [x] Blog submission approval workflow
+- [x] Admin dashboard blog status filtering (All/Pending/Published/Private)
+- [x] Admin auto-publish feature for admin-authored blogs
+- [x] Fix blog title truncation in admin dashboard
 - [x] Add AdSense monetization code to blog pages (ca-pub-9789336661158068)
   - Proper ad unit configuration with unique slots
   - Shared AdSense loader utility to prevent duplicate scripts
