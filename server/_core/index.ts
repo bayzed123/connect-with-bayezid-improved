@@ -44,20 +44,27 @@ async function startServer() {
     try {
       const file = (req as any).file;
       if (!file) {
+        console.warn("[Upload] No file provided in request");
         return res.status(400).json({ error: "No file provided" });
       }
       
+      console.log(`[Upload] Processing file: ${file.originalname} (${file.size} bytes, ${file.mimetype})`);
+      
       const fileName = `payment-proofs/${Date.now()}-${file.originalname}`;
+      console.log(`[Upload] Uploading to S3 as: ${fileName}`);
+      
       const { url } = await storagePut(
         fileName,
         file.buffer,
         file.mimetype
       );
       
-      res.json({ url, paymentProofUrl: url });
+      console.log(`[Upload] Success! URL: ${url}`);
+      res.json({ url, paymentProofUrl: url, success: true });
     } catch (error) {
-      console.error("File upload error:", error);
-      res.status(500).json({ error: "Upload failed" });
+      console.error("[Upload] File upload error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Upload failed";
+      res.status(500).json({ error: errorMessage, success: false });
     }
   });
   

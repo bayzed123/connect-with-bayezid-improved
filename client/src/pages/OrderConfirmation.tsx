@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRoute } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -6,11 +6,13 @@ import { trpc } from "@/lib/trpc";
 import { InvoiceTemplate, InvoiceData } from "@/components/InvoiceTemplate";
 import { Download, Home, Mail } from "lucide-react";
 import { downloadInvoicePDF } from "@/utils/invoiceGenerator";
+import { saveOrderToStorage, getOrderFromStorage } from "@/utils/orderStorage";
 
 export default function OrderConfirmation() {
   const [, params] = useRoute("/order-confirmation/:orderId");
   const orderId = params?.orderId ? parseInt(params.orderId) : null;
   const [showInvoice, setShowInvoice] = useState(false);
+  const [storedOrder, setStoredOrder] = useState<any>(null);
 
   const orderQuery = trpc.orders.getById.useQuery(
     { id: orderId || 0 },
@@ -24,6 +26,39 @@ export default function OrderConfirmation() {
   );
 
   const product = productQuery.data;
+
+  // Save order to localStorage when it loads
+  useEffect(() => {
+    if (order && product) {
+      const orderData = {
+        id: order.id,
+        invoiceNumber: order.invoiceNumber || `INV-${order.id}`,
+        customerName: order.customerName,
+        customerEmail: order.customerEmail,
+        productName: product.name,
+        totalPrice: order.totalPrice.toString(),
+        paymentMethod: order.paymentMethod || "Unknown",
+        transactionId: order.transactionId || "",
+        invoiceStatus: (order.invoiceStatus as "pending" | "successful" | "failed") || "pending",
+        createdAt: order.createdAt.toString(),
+        paymentProofUrl: order.paymentProofUrl || undefined,
+      };
+      saveOrderToStorage(orderData);
+      setStoredOrder(orderData);
+      console.log("[OrderConfirmation] Order saved to localStorage");
+    }
+  }, [order, product]);
+
+  // Try to load from localStorage if API fails
+  useEffect(() => {
+    if (!order && orderId) {
+      const cached = getOrderFromStorage(orderId);
+      if (cached) {
+        setStoredOrder(cached);
+        console.log("[OrderConfirmation] Loaded order from localStorage");
+      }
+    }
+  }, [orderId, order]);
 
   const handleDownloadInvoice = () => {
     if (!order || !product) return;
@@ -161,11 +196,15 @@ export default function OrderConfirmation() {
     }
   };
 
-  if (!order) {
+  // Use stored order as fallback if API data is not available
+  const displayOrder = order || storedOrder;
+
+  if (!displayOrder) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-slate-900 flex items-center justify-center px-4">
         <Card className="bg-white/10 backdrop-blur-lg border border-white/20 p-8 text-center">
           <p className="text-white text-lg">Loading order details...</p>
+          <p className="text-white/50 text-sm mt-2">If this takes too long, your order details may have been saved locally.</p>
         </Card>
       </div>
     );
@@ -194,26 +233,26 @@ export default function OrderConfirmation() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
               <p className="text-white/70 text-sm mb-1">Order Number</p>
-              <p className="text-white text-lg font-semibold">#{order.id}</p>
+              <p className="text-white text-lg font-semibold">#{displayOrder.id}</p>
             </div>
             <div>
               <p className="text-white/70 text-sm mb-1">Invoice Number</p>
               <p className="text-white text-lg font-semibold">
-                {order.invoiceNumber || `INV-${order.id}`}
+                {displayOrder.invoiceNumber || `INV-${displayOrder.id}`}
               </p>
             </div>
             <div>
               <p className="text-white/70 text-sm mb-1">Customer Name</p>
-              <p className="text-white text-lg font-semibold">{order.customerName}</p>
+              <p className="text-white text-lg font-semibold">{displayOrder.customerName}</p>
             </div>
             <div>
               <p className="text-white/70 text-sm mb-1">Customer Email</p>
-              <p className="text-white text-lg font-semibold">{order.customerEmail}</p>
+              <p className="text-white text-lg font-semibold">{displayOrder.customerEmail}</p>
             </div>
             <div>
               <p className="text-white/70 text-sm mb-1">Payment Method</p>
               <p className="text-white text-lg font-semibold capitalize">
-                {order.paymentMethod}
+                {displayOrder.paymentMethod}
               </p>
             </div>
             <div>
@@ -221,14 +260,14 @@ export default function OrderConfirmation() {
               <p className="text-white text-lg font-semibold capitalize">
                 <span
                   className={`px-3 py-1 rounded-full text-sm ${
-                    order.invoiceStatus === "pending"
+                    displayOrder.invoiceStatus === "pending"
                       ? "bg-amber-500/30 text-amber-100"
-                      : order.invoiceStatus === "successful"
+                      : displayOrder.invoiceStatus === "successful"
                       ? "bg-green-500/30 text-green-100"
                       : "bg-red-500/30 text-red-100"
                   }`}
                 >
-                  {order.invoiceStatus}
+                  {displayOrder.invoiceStatus}
                 </span>
               </p>
             </div>
@@ -241,11 +280,11 @@ export default function OrderConfirmation() {
               <div className="flex justify-between items-center">
                 <div>
                   <p className="text-white">{product.name}</p>
-                  <p className="text-white/70 text-sm">Quantity: {order.quantity || 1}</p>
+                  <p className="text-white/70 text-sm">Quantity: {displayOrder.quantity || 1}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-white text-lg font-bold">
-                    ${order.totalPrice}
+                    ${displayOrder.totalPrice}
                   </p>
                 </div>
               </div>
@@ -253,17 +292,17 @@ export default function OrderConfirmation() {
           )}
 
           {/* Transaction ID */}
-          {order.transactionId && (
+          {displayOrder.transactionId && (
             <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4 mb-8">
               <p className="text-blue-100 text-sm mb-1">Transaction ID</p>
               <p className="text-white font-mono text-lg break-all">
-                {order.transactionId}
+                {displayOrder.transactionId}
               </p>
             </div>
           )}
 
           {/* Status Message */}
-          {order.invoiceStatus === "pending" && (
+          {displayOrder.invoiceStatus === "pending" && (
             <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 mb-8">
               <p className="text-amber-100 font-semibold mb-2">⏳ Payment Verification in Progress</p>
               <p className="text-amber-100/70 text-sm">
@@ -272,7 +311,7 @@ export default function OrderConfirmation() {
             </div>
           )}
 
-          {order.invoiceStatus === "successful" && (
+          {displayOrder.invoiceStatus === "successful" && (
             <div className="bg-green-500/10 border border-green-500/30 rounded-lg p-4 mb-8">
               <p className="text-green-100 font-semibold mb-2">✅ Payment Confirmed!</p>
               <p className="text-green-100/70 text-sm">
@@ -292,7 +331,7 @@ export default function OrderConfirmation() {
             Download Invoice
           </Button>
 
-          {order.invoiceStatus === "successful" && (
+          {displayOrder.invoiceStatus === "successful" && (
             <Button className="bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2">
               <Download className="w-5 h-5" />
               Download Product

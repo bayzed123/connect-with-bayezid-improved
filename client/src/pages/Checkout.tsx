@@ -7,6 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { trpc } from "@/lib/trpc";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { AlertCircle, CheckCircle2, Upload, ArrowLeft } from "lucide-react";
+import { saveOrderToStorage } from "@/utils/orderStorage";
 
 const PAYMENT_METHODS = [
   {
@@ -64,6 +65,7 @@ export default function Checkout() {
   const [paymentProof, setPaymentProof] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const { user } = useAuth();
   
@@ -126,21 +128,36 @@ export default function Checkout() {
         formDataForUpload.append("file", paymentProof);
         
         try {
+          console.log("[Checkout] Uploading file:", paymentProof.name);
           const uploadResponse = await fetch("/api/upload", {
             method: "POST",
             body: formDataForUpload,
           });
           
+          console.log("[Checkout] Upload response:", uploadResponse.status);
+          
           if (uploadResponse.ok) {
             const uploadData = await uploadResponse.json();
+            console.log("[Checkout] Upload data:", uploadData);
             paymentProofUrl = uploadData.url || uploadData.paymentProofUrl || "";
+            if (!paymentProofUrl) {
+              const errorMsg = "File upload failed: No URL returned from server";
+              console.error("[Checkout]", errorMsg);
+              setError(errorMsg);
+              throw new Error(errorMsg);
+            }
           } else {
-            console.warn("Upload failed, using placeholder");
-            paymentProofUrl = `payment-proof-${Date.now()}`;
+            const errorText = await uploadResponse.text();
+            const errorMsg = `File upload failed (${uploadResponse.status}): ${errorText}`;
+            console.error("[Checkout] Upload failed:", errorMsg);
+            setError(errorMsg);
+            throw new Error(errorMsg);
           }
         } catch (uploadError) {
-          console.warn("Upload error, using placeholder", uploadError);
-          paymentProofUrl = `payment-proof-${Date.now()}`;
+          const errorMsg = uploadError instanceof Error ? uploadError.message : "File upload failed";
+          console.error("[Checkout] Upload error:", errorMsg);
+          setError(errorMsg);
+          throw new Error(errorMsg);
         }
       }
 
@@ -161,6 +178,25 @@ export default function Checkout() {
         notes: formData.notes,
       });
 
+      // Save order to localStorage
+      if (order && order.id) {
+        const orderData = {
+          id: order.id,
+          invoiceNumber: order.invoiceNumber || `INV-${order.id}`,
+          customerName: order.customerName,
+          customerEmail: order.customerEmail,
+          productName: product.name,
+          totalPrice: order.totalPrice.toString(),
+          paymentMethod: order.paymentMethod || "Unknown",
+          transactionId: order.transactionId || "",
+          invoiceStatus: (order.invoiceStatus as "pending" | "successful" | "failed") || "pending",
+          createdAt: order.createdAt.toString(),
+          paymentProofUrl: order.paymentProofUrl || undefined,
+        };
+        saveOrderToStorage(orderData);
+        console.log("[Checkout] Order saved to localStorage");
+      }
+
       setSubmitSuccess(true);
       setTimeout(() => {
         if (order && order.id) {
@@ -169,7 +205,9 @@ export default function Checkout() {
       }, 2000);
     } catch (error) {
       console.error("Order creation failed:", error);
-      alert("Failed to create order. Please try again.");
+      const errorMessage = error instanceof Error ? error.message : String(error);
+      console.error("Error details:", errorMessage);
+      alert(`Failed to create order: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
     }
