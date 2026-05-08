@@ -7,4 +7,11 @@ export const ENV = {
   isProduction: process.env.NODE_ENV === "production",
   forgeApiUrl: process.env.BUILT_IN_FORGE_API_URL ?? "",
   forgeApiKey: process.env.BUILT_IN_FORGE_API_KEY ?? "",
+  payoneerEmail: process.env.PAYONEER_EMAIL ?? "",
+  paypalEmail: process.env.PAYPAL_EMAIL ?? "",
+  paypalMerchantId: process.env.PAYPAL_MERCHANT_ID ?? "",
+  bkashNumber: process.env.BKASH_NUMBER ?? "",
+  nagadNumber: process.env.NAGAD_NUMBER ?? "",
+  rocketNumber: process.env.ROCKET_NUMBER ?? "",
+  binanceId: process.env.BINANCE_ID ?? "",
 };
