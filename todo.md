@@ -98,19 +98,19 @@
 - [ ] Display payment instructions based on selected method
 - [ ] Add transaction ID/payment proof upload field
 
-## Digital Product Checkout & Invoice System (In Progress)
-- [ ] Dynamic invoice generation with PENDING status watermark
-- [ ] User can view/download PENDING invoice immediately after submission
-- [ ] Admin approval workflow in dashboard
-- [ ] Automatic invoice status update to SUCCESSFUL on approval
-- [ ] Professional invoice template with Connect With Bayezid branding
-- [ ] Display payment method used on invoice
-- [ ] Admin dashboard shows buyer email in easy-to-copy format
-- [ ] Order details clearly visible for manual email sending
-- [ ] Digital product ZIP file delivery for approved orders
-- [ ] Invoice download functionality for both PENDING and SUCCESSFUL statuses
-- [ ] Email notification to buyer on order approval
-- [ ] Order history tracking in user dashboard
+## Digital Product Checkout & Invoice System (Complete)
+- [x] Dynamic invoice generation with PENDING status watermark
+- [x] User can view/download PENDING invoice immediately after submission
+- [x] Admin approval workflow in dashboard - UPDATE INVOICE STATUS
+- [x] Automatic invoice status update to SUCCESSFUL on approval
+- [x] Professional invoice template with Connect With Bayezid branding
+- [x] Display payment method used on invoice
+- [x] Admin dashboard shows buyer email in easy-to-copy format
+- [x] Order details clearly visible for manual email sending
+- [x] Digital product ZIP file delivery for approved orders
+- [x] Invoice download functionality for both PENDING and SUCCESSFUL statuses
+- [x] Email notification to buyer on order approval
+- [x] Order history tracking in user dashboard (Order Tracking page)
 
 ## UI/UX Fixes - Payment & Order Management (Complete)
 - [x] Add payment proof screenshot display to admin order modal

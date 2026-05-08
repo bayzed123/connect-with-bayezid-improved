@@ -43,6 +43,21 @@ export const generateInvoiceHTML = (data: InvoiceGeneratorData): string => {
   };
 
   const statusStyle = statusStyles[data.invoiceStatus];
+  
+  const watermarkStyle = data.invoiceStatus === 'pending' ? `
+    .watermark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-45deg);
+      font-size: 120px;
+      font-weight: bold;
+      color: rgba(245, 158, 11, 0.1);
+      white-space: nowrap;
+      pointer-events: none;
+      z-index: 0;
+    }
+  ` : '';
 
   return `
     <!DOCTYPE html>
@@ -64,7 +79,10 @@ export const generateInvoiceHTML = (data: InvoiceGeneratorData): string => {
             padding: 40px;
             border-radius: 8px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
           }
+          ${watermarkStyle}
           
           .header {
             display: flex;
@@ -285,6 +303,7 @@ export const generateInvoiceHTML = (data: InvoiceGeneratorData): string => {
       </head>
       <body>
         <div class="invoice-container">
+          ${data.invoiceStatus === 'pending' ? '<div class="watermark">PENDING</div>' : ''}
           <div class="header">
             <div class="company-info">
               <h1>Connect With Bayezid</h1>
