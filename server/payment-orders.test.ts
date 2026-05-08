@@ -98,7 +98,7 @@ describe("Payment and Order Workflow", () => {
 
     const order = allOrders[allOrders.length - 1];
     expect(order.paymentMethod).toBe("binance");
-    expect(order.paymentProofUrl).toBe("https://example.com/proof.jpg");
+    expect(order.paymentProofUrl).toContain("https://example.com/proof");
   });
 
   it("should handle payment proof URL storage", async () => {

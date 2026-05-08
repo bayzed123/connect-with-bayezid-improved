@@ -45,7 +45,6 @@ export default function OrderConfirmation() {
       };
       saveOrderToStorage(orderData);
       setStoredOrder(orderData);
-      console.log("[OrderConfirmation] Order saved to localStorage");
     }
   }, [order, product]);
 
@@ -55,145 +54,36 @@ export default function OrderConfirmation() {
       const cached = getOrderFromStorage(orderId);
       if (cached) {
         setStoredOrder(cached);
-        console.log("[OrderConfirmation] Loaded order from localStorage");
       }
     }
   }, [orderId, order]);
 
   const handleDownloadInvoice = () => {
-    if (!order || !product) return;
+    const dataSource = order || storedOrder;
+    
+    if (!dataSource) {
+      console.error("[OrderConfirmation] No order data available for invoice download");
+      alert("Order data not found. Please refresh the page or contact support.");
+      return;
+    }
 
     const invoiceData = {
-      invoiceNumber: order.invoiceNumber || `INV-${order.id}`,
-      invoiceDate: new Date(order.createdAt),
-      orderDate: new Date(order.createdAt),
-      customerName: order.customerName,
-      customerEmail: order.customerEmail,
-      customerPhone: order.customerPhone || undefined,
-      productName: product.name,
-      quantity: order.quantity || 1,
-      unitPrice: parseFloat((product.price || "0").toString()),
-      totalPrice: parseFloat(order.totalPrice.toString()),
-      paymentMethod: order.paymentMethod || "Unknown",
-      transactionId: order.transactionId || undefined,
-      invoiceStatus: (order.invoiceStatus as "pending" | "successful" | "failed") || "pending",
+      invoiceNumber: dataSource.invoiceNumber || `INV-${dataSource.id}`,
+      invoiceDate: new Date(dataSource.createdAt || new Date()),
+      orderDate: new Date(dataSource.createdAt || new Date()),
+      customerName: dataSource.customerName,
+      customerEmail: dataSource.customerEmail,
+      customerPhone: dataSource.customerPhone || undefined,
+      productName: dataSource.productName || product?.name || "Digital Product",
+      quantity: 1,
+      unitPrice: parseFloat(dataSource.totalPrice),
+      totalPrice: parseFloat(dataSource.totalPrice),
+      paymentMethod: dataSource.paymentMethod || "Unknown",
+      transactionId: dataSource.transactionId || undefined,
+      invoiceStatus: (dataSource.invoiceStatus as "pending" | "successful" | "failed") || "pending",
     };
 
     downloadInvoicePDF(invoiceData);
-  };
-
-  const handleDownloadInvoiceOld = () => {
-    if (!order || !product) return;
-
-    const invoiceData: InvoiceData = {
-      invoiceNumber: order.invoiceNumber || `INV-${order.id}`,
-      invoiceDate: new Date(order.createdAt),
-      orderDate: new Date(order.createdAt),
-      customerName: order.customerName,
-      customerEmail: order.customerEmail,
-      customerPhone: order.customerPhone || undefined,
-      productName: product.name,
-      quantity: order.quantity || 1,
-      unitPrice: parseFloat((product.price || "0").toString()),
-      totalPrice: parseFloat(order.totalPrice.toString()),
-      paymentMethod: order.paymentMethod || "Unknown",
-      transactionId: order.transactionId || undefined,
-      invoiceStatus: (order.invoiceStatus as "pending" | "successful" | "failed") || "pending",
-    };
-
-    // Create a printable version
-    const printWindow = window.open("", "", "height=600,width=800");
-    if (printWindow) {
-      printWindow.document.write(`
-        <html>
-          <head>
-            <title>Invoice ${invoiceData.invoiceNumber}</title>
-            <style>
-              body { font-family: Arial, sans-serif; margin: 20px; }
-              .invoice { max-width: 800px; margin: 0 auto; }
-              .header { border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 20px; }
-              .company-name { font-size: 28px; font-weight: bold; color: #4f46e5; }
-              .status { padding: 10px; margin: 20px 0; border-radius: 8px; font-weight: bold; }
-              .status.pending { background: #fef3c7; color: #92400e; }
-              .status.successful { background: #dcfce7; color: #166534; }
-              table { width: 100%; border-collapse: collapse; margin: 20px 0; }
-              th, td { padding: 10px; text-align: left; border-bottom: 1px solid #ddd; }
-              th { background: #f3f4f6; font-weight: bold; }
-              .total { font-size: 18px; font-weight: bold; }
-              .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; text-align: center; color: #666; }
-            </style>
-          </head>
-          <body>
-            <div class="invoice">
-              <div class="header">
-                <div class="company-name">Connect With Bayezid</div>
-                <p>Digital Products & Services</p>
-              </div>
-              
-              <div class="status ${invoiceData.invoiceStatus}">
-                Invoice Status: ${invoiceData.invoiceStatus.toUpperCase()}
-              </div>
-
-              <h2>Invoice #${invoiceData.invoiceNumber}</h2>
-              
-              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0;">
-                <div>
-                  <h4>Bill To</h4>
-                  <p><strong>${invoiceData.customerName}</strong></p>
-                  <p>${invoiceData.customerEmail}</p>
-                  ${invoiceData.customerPhone ? `<p>${invoiceData.customerPhone}</p>` : ""}
-                </div>
-                <div>
-                  <h4>Invoice Information</h4>
-                  <p>Invoice Date: ${invoiceData.invoiceDate.toLocaleDateString()}</p>
-                  <p>Order Date: ${invoiceData.orderDate.toLocaleDateString()}</p>
-                </div>
-              </div>
-
-              <table>
-                <thead>
-                  <tr>
-                    <th>Description</th>
-                    <th>Qty</th>
-                    <th>Unit Price</th>
-                    <th>Amount</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>${invoiceData.productName}</td>
-                    <td>${invoiceData.quantity}</td>
-                    <td>$${invoiceData.unitPrice.toFixed(2)}</td>
-                    <td class="total">$${(invoiceData.unitPrice * invoiceData.quantity).toFixed(2)}</td>
-                  </tr>
-                </tbody>
-              </table>
-
-              <div style="text-align: right; margin: 20px 0;">
-                <div style="display: inline-block; background: #f3f4f6; padding: 20px; border-radius: 8px;">
-                  <div style="margin-bottom: 10px;">Subtotal: $${invoiceData.totalPrice.toFixed(2)}</div>
-                  <div style="margin-bottom: 10px;">Tax: $0.00</div>
-                  <div class="total" style="font-size: 20px;">Total: $${invoiceData.totalPrice.toFixed(2)}</div>
-                </div>
-              </div>
-
-              <div style="background: #eef2ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
-                <h4>Payment Details</h4>
-                <p>Payment Method: ${invoiceData.paymentMethod.toUpperCase()}</p>
-                ${invoiceData.transactionId ? `<p>Transaction ID: ${invoiceData.transactionId}</p>` : ""}
-              </div>
-
-              <div class="footer">
-                <p>Thank you for your business!</p>
-                <p>For support, contact us at cwb.agency@outlook.com</p>
-              </div>
-            </div>
-          </body>
-        </html>
-      `);
-      printWindow.document.close();
-      printWindow.print();
-    }
   };
 
   // Use stored order as fallback if API data is not available

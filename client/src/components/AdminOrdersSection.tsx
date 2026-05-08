@@ -37,8 +37,13 @@ export default function AdminOrdersSection() {
   const ordersQuery = trpc.orders.getAll.useQuery();
   const updateOrderMutation = trpc.orders.update.useMutation({
     onSuccess: () => {
-      ordersQuery.refetch();
+      // Use invalidate instead of refetch to avoid unnecessary re-renders
+      const utils = trpc.useUtils();
+      utils.orders.getAll.invalidate();
       setSelectedOrder(null);
+    },
+    onError: (error) => {
+      console.error("[AdminOrdersSection] Update failed:", error);
     },
   });
 
@@ -51,19 +56,29 @@ export default function AdminOrdersSection() {
   };
 
   const handleApproveOrder = async (orderId: number) => {
-    await updateOrderMutation.mutateAsync({
-      id: orderId,
-      status: "completed",
-      invoiceStatus: "successful",
-    });
+    try {
+      await updateOrderMutation.mutateAsync({
+        id: orderId,
+        status: "completed",
+        invoiceStatus: "successful",
+      });
+
+    } catch (error) {
+      console.error("[AdminOrdersSection] Approve failed:", error);
+    }
   };
 
   const handleRejectOrder = async (orderId: number) => {
-    await updateOrderMutation.mutateAsync({
-      id: orderId,
-      status: "failed",
-      invoiceStatus: "failed",
-    });
+    try {
+      await updateOrderMutation.mutateAsync({
+        id: orderId,
+        status: "failed",
+        invoiceStatus: "failed",
+      });
+
+    } catch (error) {
+      console.error("[AdminOrdersSection] Reject failed:", error);
+    }
   };
 
   const handleSendEmail = (email: string, orderDetails: Order) => {

@@ -404,13 +404,10 @@ export const downloadInvoicePDF = (data: InvoiceGeneratorData) => {
       printWindow.document.write(html);
       printWindow.document.close();
       printWindow.print();
-      console.log("[Invoice] PDF download initiated for:", data.invoiceNumber);
     } else {
-      console.error("[Invoice] Failed to open print window - popup may be blocked");
       alert("Could not open print window. Please check if popups are blocked in your browser.");
     }
   } catch (error) {
-    console.error("[Invoice] Error generating PDF:", error);
     alert("Failed to generate invoice. Please try again.");
   }
 };

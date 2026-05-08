@@ -128,17 +128,13 @@ export default function Checkout() {
         formDataForUpload.append("file", paymentProof);
         
         try {
-          console.log("[Checkout] Uploading file:", paymentProof.name);
           const uploadResponse = await fetch("/api/upload", {
             method: "POST",
             body: formDataForUpload,
           });
           
-          console.log("[Checkout] Upload response:", uploadResponse.status);
-          
           if (uploadResponse.ok) {
             const uploadData = await uploadResponse.json();
-            console.log("[Checkout] Upload data:", uploadData);
             paymentProofUrl = uploadData.url || uploadData.paymentProofUrl || "";
             if (!paymentProofUrl) {
               const errorMsg = "File upload failed: No URL returned from server";
@@ -194,19 +190,24 @@ export default function Checkout() {
           paymentProofUrl: order.paymentProofUrl || undefined,
         };
         saveOrderToStorage(orderData);
-        console.log("[Checkout] Order saved to localStorage");
       }
 
       setSubmitSuccess(true);
+      
+      // Ensure we have a valid order ID before redirecting
+      if (!order || !order.id) {
+        console.error("[Checkout] Order created but no ID returned");
+        setError("Order created but confirmation failed. Please check your email or contact support.");
+        setIsSubmitting(false);
+        return;
+      }
+      
+      // Redirect after brief delay to show success message
       setTimeout(() => {
-        if (order && order.id) {
-          setLocation(`/order-confirmation/${order.id}`);
-        }
-      }, 2000);
+        setLocation(`/order-confirmation/${order.id}`);
+      }, 1500);
     } catch (error) {
-      console.error("Order creation failed:", error);
       const errorMessage = error instanceof Error ? error.message : String(error);
-      console.error("Error details:", errorMessage);
       alert(`Failed to create order: ${errorMessage}`);
     } finally {
       setIsSubmitting(false);
