@@ -327,7 +327,187 @@ This project is licensed under a Proprietary Commercial License. See [LICENSE](.
 Built with modern web technologies and best practices for professional development.
 
 ---
+<div class="gravatar-hovercard"><style></style>
+			<div class="gravatar-hovercard__inner">
+				<div class="gravatar-hovercard__header-image" style="background: url(&quot;https://1.gravatar.com/userimage/282426431/b6da5f2ff34fca7891128d9f99ca712d?size=1024&quot;) 41% 34% / 39% auto repeat;"></div>
+				<div class="gravatar-hovercard__header">
+					<a class="gravatar-hovercard__avatar-link" href="https://gravatar.com/sayadbayezid?utm_source=hovercard" target="_blank">
+						<img class="gravatar-hovercard__avatar" src="https://1.gravatar.com/avatar/c61a5642ead98ede5c16888f625d9884982e7a0ee8b9aa81a351e0294ab2664d?s=256&amp;d=initials" width="104" height="104" alt="Sayad Md Bayezid Hosan">
+					</a>
+					<a class="gravatar-hovercard__personal-info-link" href="https://gravatar.com/sayadbayezid?utm_source=hovercard" target="_blank">
+						<h4 class="gravatar-hovercard__name">Sayad Md Bayezid Hosan</h4>
+						<p class="gravatar-hovercard__job">Developer, ConnectwithBayezid</p>
+						<p class="gravatar-hovercard__location">Bangladesh</p>
+					</a>
+				</div>
+				<div class="gravatar-hovercard__body">
+								<p class="gravatar-hovercard__description">Full-stack Web Developer, Digital Marketer, and Web Designer based in Bangladesh,  innovative digital ecosystem solutions and AI integration.
+As a Full-stack Web Developer, Digital Marketer, and Web Designer, I have built a reputation for delivering innovative digital solutions with 5+ years of experience. My expertise spans the entire digital ecosystem, from web development and AI integration to strategic digital marketing and tech entrepreneurship.
 
+As a leading Tech Provider, I specialize in permission-based technical solutions and managing digital business assets. I am dedicated to helping my audience navigate digital platforms safely and efficiently by combining academic knowledge with practical technical innovation</p>
+							</div>
+				<div class="gravatar-hovercard__social-links">
+					<a class="gravatar-hovercard__social-link" href="https://gravatar.com/sayadbayezid?utm_source=hovercard" target="_blank" data-service-name="gravatar">
+						<img class="gravatar-hovercard__social-icon" src="https://s.gravatar.com/icons/gravatar.svg" width="32" height="32" alt="Gravatar">
+					</a>
+					
+					<a class="gravatar-hovercard__social-link" href="https://www.linkedin.com/in/sayadbayezid" target="_blank" data-service-name="linkedin">
+						<img class="gravatar-hovercard__social-icon" src="https://s.gravatar.com/icons/linkedin.svg" width="32" height="32" alt="LinkedIn">
+					</a>
+				
+					<a class="gravatar-hovercard__social-link" href="https://github.com/Sayadbayezid" target="_blank" data-service-name="github">
+						<img class="gravatar-hovercard__social-icon" src="https://s.gravatar.com/icons/github.svg" width="32" height="32" alt="GitHub">
+					</a>
+				
+					<a class="gravatar-hovercard__social-link" href="https://gitlab.com/Sayadbayezid" target="_blank" data-service-name="gitlab">
+						<img class="gravatar-hovercard__social-icon" src="https://s.gravatar.com/icons/gitlab.svg" width="32" height="32" alt="GitLab">
+					</a>
+				
+				</div>
+				
+				<div class="gravatar-hovercard__buttons">
+					<button class="gravatar-hovercard__button" data-target-drawer="contact">Contact</button>
+				
+					<button class="gravatar-hovercard__button" data-target-drawer="send-money">Send money</button>
+				</div>
+			
+				<div class="gravatar-hovercard__footer">
+					<a class="gravatar-hovercard__profile-url" title="https://gravatar.com/sayadbayezid" href="https://gravatar.com/sayadbayezid?utm_source=profile-card" target="_blank">
+						gravatar.com/sayadbayezid
+					</a>
+					<a class="gravatar-hovercard__profile-link" href="https://gravatar.com/sayadbayezid?utm_source=profile-card" target="_blank">
+						View profile →
+					</a>
+				</div>
+				
+			<div class="gravatar-hovercard__drawer" data-drawer-name="contact">
+				<div class="gravatar-hovercard__drawer-backdrop" data-target-drawer="contact"></div>
+				<div class="gravatar-hovercard__drawer-card">
+					<div class="gravatar-hovercard__drawer-header">
+						<h2 class="gravatar-hovercard__drawer-title">Contact</h2>
+						<button class="gravatar-hovercard__drawer-close" data-target-drawer="contact">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M12 13.0607L15.7123 16.773L16.773 15.7123L13.0607 12L16.773 8.28772L15.7123 7.22706L12 10.9394L8.28771 7.22705L7.22705 8.28771L10.9394 12L7.22706 15.7123L8.28772 16.773L12 13.0607Z" fill="#101517"></path>
+							</svg>
+						</button>
+					</div>
+					<ul class="gravatar-hovercard__drawer-items">
+						
+				<li class="gravatar-hovercard__drawer-item">
+					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/mail.svg" alt="">
+					<div class="gravatar-hovercard__drawer-item-info">
+						<span class="gravatar-hovercard__drawer-item-label">Email</span>
+						<span class="gravatar-hovercard__drawer-item-text"><a class="gravatar-hovercard__drawer-item-link" href="mailto:Info@sayadbayad.com" target="_blank">Info@sayadbayad.com</a></span>
+					</div>
+				</li>
+			
+				<li class="gravatar-hovercard__drawer-item">
+					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/envelope.svg" alt="">
+					<div class="gravatar-hovercard__drawer-item-info">
+						<span class="gravatar-hovercard__drawer-item-label">Contact Form</span>
+						<span class="gravatar-hovercard__drawer-item-text"><a class="gravatar-hovercard__drawer-item-link" href="https://connectwithbayezid.it.com/contact" target="_blank">connectwithbayezid.it.com/contact</a></span>
+					</div>
+				</li>
+			
+				<li class="gravatar-hovercard__drawer-item">
+					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/mobile-phone.svg" alt="">
+					<div class="gravatar-hovercard__drawer-item-info">
+						<span class="gravatar-hovercard__drawer-item-label">Cell Phone</span>
+						<span class="gravatar-hovercard__drawer-item-text">01519601517</span>
+					</div>
+				</li>
+			
+					</ul>
+				</div>
+			</div>
+		
+				
+			<div class="gravatar-hovercard__drawer" data-drawer-name="send-money">
+				<div class="gravatar-hovercard__drawer-backdrop" data-target-drawer="send-money"></div>
+				<div class="gravatar-hovercard__drawer-card">
+					<div class="gravatar-hovercard__drawer-header">
+						<h2 class="gravatar-hovercard__drawer-title">Send money</h2>
+						<button class="gravatar-hovercard__drawer-close" data-target-drawer="send-money">
+							<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+								<path d="M12 13.0607L15.7123 16.773L16.773 15.7123L13.0607 12L16.773 8.28772L15.7123 7.22706L12 10.9394L8.28771 7.22705L7.22705 8.28771L10.9394 12L7.22706 15.7123L8.28772 16.773L12 13.0607Z" fill="#101517"></path>
+							</svg>
+						</button>
+					</div>
+					<ul class="gravatar-hovercard__drawer-items">
+						
+				<li class="gravatar-hovercard__drawer-item">
+					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/link.svg" alt="">
+					<div class="gravatar-hovercard__drawer-item-info">
+						<span class="gravatar-hovercard__drawer-item-label">PayPal.me</span>
+						<span class="gravatar-hovercard__drawer-item-text">
+							<a class="gravatar-hovercard__drawer-item-link" href="https://www.paypal.me/Connectwithbayezid" target="_blank">
+								www.paypal.me/Connectwithbayezid
+							</a>
+						</span>
+					</div>
+				</li>
+			
+				<li class="gravatar-hovercard__drawer-item">
+					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/link.svg" alt="">
+					<div class="gravatar-hovercard__drawer-item-info">
+						<span class="gravatar-hovercard__drawer-item-label">bitcoin</span>
+						<span class="gravatar-hovercard__drawer-item-text">13NvP9k8aSCim5uXwwmwaHJLAtwYAgyo39</span>
+					</div>
+				</li>
+			
+				<li class="gravatar-hovercard__drawer-item">
+					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/link.svg" alt="">
+					<div class="gravatar-hovercard__drawer-item-info">
+						<span class="gravatar-hovercard__drawer-item-label">eth</span>
+						<span class="gravatar-hovercard__drawer-item-text">0xd2776bf161ef367f785e3c35c3053d0a5a514220</span>
+					</div>
+				</li>
+			
+				<li class="gravatar-hovercard__drawer-item">
+					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/link.svg" alt="">
+					<div class="gravatar-hovercard__drawer-item-info">
+						<span class="gravatar-hovercard__drawer-item-label">BEP20</span>
+						<span class="gravatar-hovercard__drawer-item-text">0xd2776bf161ef367f785e3c35c3053d0a5a514220</span>
+					</div>
+				</li>
+			
+					</ul>
+				</div>
+			</div>
+		
+				
+			</div>
+		<script>
+		const hovercardInner = document.querySelector('.gravatar-hovercard__inner');
+
+		function openDrawer( target, container ) {
+			const selector = '.gravatar-hovercard__drawer[data-drawer-name="' + target.dataset.targetDrawer + '"]';
+			const drawer = container.querySelector( selector );
+			drawer?.classList.add( 'gravatar-hovercard__drawer--open' );
+		}
+
+		function closeDrawer( target, container ) {
+			const selector = '.gravatar-hovercard__drawer[data-drawer-name="' + target.dataset.targetDrawer + '"]';
+			const drawer = container.querySelector( selector );
+			drawer?.classList.add( 'gravatar-hovercard__drawer--closing' );
+			drawer?.classList.remove( 'gravatar-hovercard__drawer--open' );
+
+			setTimeout( () => {
+				drawer?.classList.remove( 'gravatar-hovercard__drawer--closing' );
+			}, 300 );
+		}
+
+		hovercardInner.querySelectorAll( '.gravatar-hovercard__button' ).forEach( ( el ) => {
+			el.addEventListener( 'click', () => openDrawer( el, hovercardInner ) );
+		} );
+		hovercardInner.querySelectorAll( '.gravatar-hovercard__drawer-close' ).forEach( ( el ) => {
+			el.addEventListener( 'click', () => closeDrawer( el, hovercardInner ) );
+		} );
+		hovercardInner.querySelectorAll( '.gravatar-hovercard__drawer-backdrop' ).forEach( ( el ) => {
+			el.addEventListener( 'click', () => closeDrawer( el, hovercardInner ) );
+		} );
+	</script></div>
+---
 **Last Updated:** May 2026  
 **Version:** 1.0.0  
 **Status:** Production Ready ✅
