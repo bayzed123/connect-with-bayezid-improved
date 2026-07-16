@@ -327,6 +327,7 @@ This project is licensed under a Proprietary Commercial License. See [LICENSE](.
 Built with modern web technologies and best practices for professional development.
 
 ---
+
 <div class="gravatar-hovercard"><style></style>
 			<div class="gravatar-hovercard__inner">
 				<div class="gravatar-hovercard__header-image" style="background: url(&quot;https://1.gravatar.com/userimage/282426431/b6da5f2ff34fca7891128d9f99ca712d?size=1024&quot;) 41% 34% / 39% auto repeat;"></div>
@@ -345,33 +346,34 @@ Built with modern web technologies and best practices for professional developme
 As a Full-stack Web Developer, Digital Marketer, and Web Designer, I have built a reputation for delivering innovative digital solutions with 5+ years of experience. My expertise spans the entire digital ecosystem, from web development and AI integration to strategic digital marketing and tech entrepreneurship.
 
 As a leading Tech Provider, I specialize in permission-based technical solutions and managing digital business assets. I am dedicated to helping my audience navigate digital platforms safely and efficiently by combining academic knowledge with practical technical innovation</p>
-							</div>
+
+</div>
 				<div class="gravatar-hovercard__social-links">
 					<a class="gravatar-hovercard__social-link" href="https://gravatar.com/sayadbayezid?utm_source=hovercard" target="_blank" data-service-name="gravatar">
 						<img class="gravatar-hovercard__social-icon" src="https://s.gravatar.com/icons/gravatar.svg" width="32" height="32" alt="Gravatar">
 					</a>
 					
-					<a class="gravatar-hovercard__social-link" href="https://www.linkedin.com/in/sayadbayezid" target="_blank" data-service-name="linkedin">
+<a class="gravatar-hovercard__social-link" href="https://www.linkedin.com/in/sayadbayezid" target="_blank" data-service-name="linkedin">
 						<img class="gravatar-hovercard__social-icon" src="https://s.gravatar.com/icons/linkedin.svg" width="32" height="32" alt="LinkedIn">
 					</a>
 				
-					<a class="gravatar-hovercard__social-link" href="https://github.com/Sayadbayezid" target="_blank" data-service-name="github">
+<a class="gravatar-hovercard__social-link" href="https://github.com/Sayadbayezid" target="_blank" data-service-name="github">
 						<img class="gravatar-hovercard__social-icon" src="https://s.gravatar.com/icons/github.svg" width="32" height="32" alt="GitHub">
 					</a>
 				
-					<a class="gravatar-hovercard__social-link" href="https://gitlab.com/Sayadbayezid" target="_blank" data-service-name="gitlab">
+<a class="gravatar-hovercard__social-link" href="https://gitlab.com/Sayadbayezid" target="_blank" data-service-name="gitlab">
 						<img class="gravatar-hovercard__social-icon" src="https://s.gravatar.com/icons/gitlab.svg" width="32" height="32" alt="GitLab">
 					</a>
 				
-				</div>
+</div>
 				
-				<div class="gravatar-hovercard__buttons">
+<div class="gravatar-hovercard__buttons">
 					<button class="gravatar-hovercard__button" data-target-drawer="contact">Contact</button>
 				
-					<button class="gravatar-hovercard__button" data-target-drawer="send-money">Send money</button>
-				</div>
+<button class="gravatar-hovercard__button" data-target-drawer="send-money">Send money</button>
+</div>
 			
-				<div class="gravatar-hovercard__footer">
+<div class="gravatar-hovercard__footer">
 					<a class="gravatar-hovercard__profile-url" title="https://gravatar.com/sayadbayezid" href="https://gravatar.com/sayadbayezid?utm_source=profile-card" target="_blank">
 						gravatar.com/sayadbayezid
 					</a>
@@ -379,8 +381,7 @@ As a leading Tech Provider, I specialize in permission-based technical solutions
 						View profile →
 					</a>
 				</div>
-				
-			<div class="gravatar-hovercard__drawer" data-drawer-name="contact">
+					<div class="gravatar-hovercard__drawer" data-drawer-name="contact">
 				<div class="gravatar-hovercard__drawer-backdrop" data-target-drawer="contact"></div>
 				<div class="gravatar-hovercard__drawer-card">
 					<div class="gravatar-hovercard__drawer-header">
@@ -393,7 +394,7 @@ As a leading Tech Provider, I specialize in permission-based technical solutions
 					</div>
 					<ul class="gravatar-hovercard__drawer-items">
 						
-				<li class="gravatar-hovercard__drawer-item">
+<li class="gravatar-hovercard__drawer-item">
 					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/mail.svg" alt="">
 					<div class="gravatar-hovercard__drawer-item-info">
 						<span class="gravatar-hovercard__drawer-item-label">Email</span>
@@ -401,14 +402,13 @@ As a leading Tech Provider, I specialize in permission-based technical solutions
 					</div>
 				</li>
 			
-				<li class="gravatar-hovercard__drawer-item">
+<li class="gravatar-hovercard__drawer-item">
 					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/envelope.svg" alt="">
 					<div class="gravatar-hovercard__drawer-item-info">
 						<span class="gravatar-hovercard__drawer-item-label">Contact Form</span>
 						<span class="gravatar-hovercard__drawer-item-text"><a class="gravatar-hovercard__drawer-item-link" href="https://connectwithbayezid.it.com/contact" target="_blank">connectwithbayezid.it.com/contact</a></span>
 					</div>
 				</li>
-			
 				<li class="gravatar-hovercard__drawer-item">
 					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/mobile-phone.svg" alt="">
 					<div class="gravatar-hovercard__drawer-item-info">
@@ -417,11 +417,9 @@ As a leading Tech Provider, I specialize in permission-based technical solutions
 					</div>
 				</li>
 			
-					</ul>
+</ul>
 				</div>
 			</div>
-		
-				
 			<div class="gravatar-hovercard__drawer" data-drawer-name="send-money">
 				<div class="gravatar-hovercard__drawer-backdrop" data-target-drawer="send-money"></div>
 				<div class="gravatar-hovercard__drawer-card">
@@ -435,7 +433,7 @@ As a leading Tech Provider, I specialize in permission-based technical solutions
 					</div>
 					<ul class="gravatar-hovercard__drawer-items">
 						
-				<li class="gravatar-hovercard__drawer-item">
+<li class="gravatar-hovercard__drawer-item">
 					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/link.svg" alt="">
 					<div class="gravatar-hovercard__drawer-item-info">
 						<span class="gravatar-hovercard__drawer-item-label">PayPal.me</span>
@@ -447,7 +445,7 @@ As a leading Tech Provider, I specialize in permission-based technical solutions
 					</div>
 				</li>
 			
-				<li class="gravatar-hovercard__drawer-item">
+<li class="gravatar-hovercard__drawer-item">
 					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/link.svg" alt="">
 					<div class="gravatar-hovercard__drawer-item-info">
 						<span class="gravatar-hovercard__drawer-item-label">bitcoin</span>
@@ -455,7 +453,7 @@ As a leading Tech Provider, I specialize in permission-based technical solutions
 					</div>
 				</li>
 			
-				<li class="gravatar-hovercard__drawer-item">
+<li class="gravatar-hovercard__drawer-item">
 					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/link.svg" alt="">
 					<div class="gravatar-hovercard__drawer-item-info">
 						<span class="gravatar-hovercard__drawer-item-label">eth</span>
@@ -463,7 +461,7 @@ As a leading Tech Provider, I specialize in permission-based technical solutions
 					</div>
 				</li>
 			
-				<li class="gravatar-hovercard__drawer-item">
+<li class="gravatar-hovercard__drawer-item">
 					<img class="gravatar-hovercard__drawer-item-icon" width="24" height="24" src="https://s.gravatar.com/icons/link.svg" alt="">
 					<div class="gravatar-hovercard__drawer-item-info">
 						<span class="gravatar-hovercard__drawer-item-label">BEP20</span>
@@ -471,33 +469,33 @@ As a leading Tech Provider, I specialize in permission-based technical solutions
 					</div>
 				</li>
 			
-					</ul>
+</ul>
 				</div>
 			</div>
 		
 				
-			</div>
+</div>
 		<script>
 		const hovercardInner = document.querySelector('.gravatar-hovercard__inner');
 
-		function openDrawer( target, container ) {
+function openDrawer( target, container ) {
 			const selector = '.gravatar-hovercard__drawer[data-drawer-name="' + target.dataset.targetDrawer + '"]';
 			const drawer = container.querySelector( selector );
 			drawer?.classList.add( 'gravatar-hovercard__drawer--open' );
 		}
 
-		function closeDrawer( target, container ) {
+function closeDrawer( target, container ) {
 			const selector = '.gravatar-hovercard__drawer[data-drawer-name="' + target.dataset.targetDrawer + '"]';
 			const drawer = container.querySelector( selector );
 			drawer?.classList.add( 'gravatar-hovercard__drawer--closing' );
 			drawer?.classList.remove( 'gravatar-hovercard__drawer--open' );
 
-			setTimeout( () => {
+setTimeout( () => {
 				drawer?.classList.remove( 'gravatar-hovercard__drawer--closing' );
 			}, 300 );
 		}
 
-		hovercardInner.querySelectorAll( '.gravatar-hovercard__button' ).forEach( ( el ) => {
+hovercardInner.querySelectorAll( '.gravatar-hovercard__button' ).forEach( ( el ) => {
 			el.addEventListener( 'click', () => openDrawer( el, hovercardInner ) );
 		} );
 		hovercardInner.querySelectorAll( '.gravatar-hovercard__drawer-close' ).forEach( ( el ) => {
